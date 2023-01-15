@@ -1,0 +1,27 @@
+.login {
+  width: 95%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.signup_link {
+  color: #93b800 ;
+  padding: 0 5px;
+}
+
+.signup_link:hover {
+  color: black;
+  background-color: rgba(206, 255, 0, 0.5);
+  border-radius: 10px;
+  transition: 0.2s;
+}
+
+@media ( min-width: 450px ) {
+  .login {
+    width: 350px;
+    margin: 50px auto;
+    padding: 30px 40px 40px 40px;
+    border: solid 1px rgb(220, 220, 220);
+    border-radius: 20px;
+  }
+}

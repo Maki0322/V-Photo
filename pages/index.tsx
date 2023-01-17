@@ -1,11 +1,15 @@
 import Head from 'next/head'
 
-import { Select } from '@chakra-ui/react'
+import { FormControl, Select } from '@chakra-ui/react'
 import { styled } from '@mui/system';
+
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import styles from '../styles/Home.module.css'
 import Header from '../components/Header'
+import { useRef, useState } from 'react';
+import { useEffect } from 'react';
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 
 
 // FavoriteBorderIconのcss
@@ -24,8 +28,89 @@ const MyFavoriteBorderIcon = styled(FavoriteBorderIcon)({
   }
 })
 
-export default function Home() {
+// type Team =
+//   | "すべてのチーム"
+//   | "ZETA DIVISION"
+//   | "Crazy Raccoon"
+//   | "Northeption"
 
+export default function Home() {
+  // プルダウンの内容
+  const teamsValue = [
+    // "すべてのチーム",
+    "ZETA DIVISION", 
+    "Crazy Raccoon", 
+    "Northeption"
+  ]
+  // プルダウンの値をuseStateで管理
+  const [teams, setTeams] = useState("ZETA DIVISION")
+  // プルダウンを動かすための関数
+  const handleChangeTeam = (e:React.ChangeEvent<HTMLSelectElement>) => {
+    setTeams(e.target.value);
+  }
+
+  const fetchData:any = [];
+  const [pages, setPages] = useState();
+  const pageURLsArr:any = [];
+  
+  const [allPhotos, setAllPhotos] = useState([]);
+  let newFetchData:any;
+
+  const ref:any = useRef();
+  
+  useEffect(()=> {
+    setTeams(teams)
+  },[])
+
+  useEffect(() => {
+    const getFlickrApi = async()=> {
+      // APIURL
+      const endpointURL =
+      // すべての写真(1ページ目)
+      // "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=943b55067047b1a156e92ca1cc6fbe93&user_id=192820496@N05&format=json&nojsoncallback=?&per_page=500%20division&extras=url_m,url_l " 
+      // ZETAの写真(1ページ目)
+      "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=943b55067047b1a156e92ca1cc6fbe93&user_id=192820496@N05&format=json&nojsoncallback=?&per_page=500&tags=zeta%20division&extras=url_m,url_l " 
+      
+      // APIを叩く（データフェッチング）
+      await fetch(endpointURL)
+        .then(res => {
+          return res.json()
+        })
+        .then((data) => {
+          // ページ数を取得
+          setPages(data.photos.pages)
+          return data.photos.pages
+        })
+        .then((pages) => {
+          const allPageJson = ()=> {
+            // ページによってURLが違う(1ページ500件しかjsonに入っていない)ので、すべてのページのjsonを取得する
+            for(let i=0; i<pages;i++){
+              pageURLsArr.push(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=943b55067047b1a156e92ca1cc6fbe93&user_id=192820496@N05&format=json&nojsoncallback=?&per_page=500&page=${i+1}&tags=fnatic&extras=url_m,url_l`)
+              fetch(pageURLsArr[i])
+              .then(res => {
+                return res.json()
+              })
+              .then((da) => {
+                // 写真データを取得し、fetchData配列に追加する
+                return fetchData.push(...da.photos.photo)
+              })
+            }
+          }
+          return allPageJson()
+        })
+        // fetchDataをnewFetchDataに格納
+        newFetchData = fetchData
+
+        console.log("fetch(endpointURL)の中",newFetchData)
+      }
+    getFlickrApi()
+
+    console.log("useEffectの中",newFetchData)
+    
+  },[])
+
+  console.log("外",newFetchData)
+  
   return (
     <>
       <Head>
@@ -35,13 +120,27 @@ export default function Home() {
         <link rel="icon" href="/VPhotoIcon2.ico" />
       </Head>
       <Header />
+
       <div className={styles.sort_area}>
+
         <div className={styles.select_box}>
-          <Select placeholder='すべてのチーム' borderRadius="30px" size='sm' w="200px" _focus={{ boxShadow: "none", borderColor:"rgb(230, 235, 242)"}}>
-            <option value='ZETA DIVISION'>ZETA DIVISION</option>
-            <option value='Crazy Raccoon'>Crazy Raccoon</option>
-            <option value='Northeption'>Northeption</option>
-          </Select>
+          <FormControl >
+            <Select 
+              value={teams}
+              onChange={(e) => handleChangeTeam(e)}
+              ref={ref}
+              borderRadius="30px" 
+              size='sm' 
+              w="200px" 
+              _focus={{ boxShadow: "none", borderColor:"rgb(230, 235, 242)"}}
+            >
+              {teamsValue.map((team) => (
+                <option key={team} value={team}>
+                  {team}
+                </option>
+              ))}
+            </Select>
+          </FormControl>
           
         </div>
         <div className={styles.select_box}>
@@ -65,7 +164,19 @@ export default function Home() {
         </div>
       </div>
       <div className={styles.container}>
-        <div className={styles.photos}>
+       
+        {/* {newFetchData.map((data:any) => (
+          <div className={styles.photos} key={data.id}>
+            <img 
+              className={styles.img} 
+              src={data.url_m} 
+              alt="#"
+            />
+            <MyFavoriteBorderIcon />
+          </div>
+        ))} */}
+
+        {/* <div className={styles.photos}>
           <img className={styles.img} src="https://live.staticflickr.com/65535/52013417313_52e9b5a229.jpg" alt="#"/>
           <MyFavoriteBorderIcon />
         </div>
@@ -152,7 +263,7 @@ export default function Home() {
         <div className={styles.photos}>
           <img className={styles.img} src="https://live.staticflickr.com/65535/52014095388_ffb8e8b6f5.jpg" alt="#"/>
           <MyFavoriteBorderIcon />
-        </div>
+        </div> */}
 
 
       </div>

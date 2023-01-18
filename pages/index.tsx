@@ -11,6 +11,11 @@ import { useRef, useState } from 'react';
 import { useEffect } from 'react';
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 
+import {FlickrApiType} from '../types/FlickrApi'
+import Image from 'next/image';
+
+type JsonType = FlickrApiType;
+
 
 // FavoriteBorderIconのcss
 const MyFavoriteBorderIcon = styled(FavoriteBorderIcon)({
@@ -53,7 +58,7 @@ export default function Home() {
   const [pages, setPages] = useState();
   const pageURLsArr:any = [];
   
-  const [allPhotos, setAllPhotos] = useState([]);
+  const [allPhotos, setAllPhotos] = useState<JsonType[]>([]);
   let newFetchData:any;
 
   const ref:any = useRef();
@@ -92,25 +97,24 @@ export default function Home() {
               })
               .then((da) => {
                 // 写真データを取得し、fetchData配列に追加する
-                return fetchData.push(...da.photos.photo)
+                return fetchData.push(...da.photos.photo)                
               })
             }
           }
-          return allPageJson()
+          allPageJson()
+          return setAllPhotos(fetchData)
         })
-        // fetchDataをnewFetchDataに格納
-        newFetchData = fetchData
-
-        console.log("fetch(endpointURL)の中",newFetchData)
+        newFetchData=fetchData
       }
     getFlickrApi()
-
-    console.log("useEffectの中",newFetchData)
     
   },[])
-
-  console.log("外",newFetchData)
   
+  console.log(allPhotos[0])
+  console.log(allPhotos)
+  
+
+
   return (
     <>
       <Head>
@@ -164,8 +168,8 @@ export default function Home() {
         </div>
       </div>
       <div className={styles.container}>
-       
-        {/* {newFetchData.map((data:any) => (
+
+        {/* {allPhotos.map((data:any) => (
           <div className={styles.photos} key={data.id}>
             <img 
               className={styles.img} 

@@ -8,6 +8,7 @@
 .photo {
   /* margin: 0 auto; */
   border-radius: 30px;
+  width: 100%;
 }
 .pc_back_icon {
   display: none;
@@ -35,7 +36,7 @@
 }
 .icon_area {
   display: flex;
-  /* justify-content: flex-end; */
+  /* justify-content: center; */
 }
 .photo_like_icon {
   padding-left: 16px;
@@ -51,10 +52,12 @@
   border-radius: 20px;
 }
 
-/* .poster_area {
-  display: flex;
-  align-items: flex-end;
-} */
+.poster_area {
+padding-top: 0;
+padding-bottom: 0;
+margin-top: 0;
+margin-bottom: 0;
+}
 .poster_name_index {
   font-size: 12px;
   padding-right: 10px;
@@ -66,7 +69,7 @@
 }
 /* .shooting_date_area {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
 } */
 .shooting_date_index {
   font-size: 12px;
@@ -97,45 +100,74 @@
 @media ( min-width: 450px ) {
   .poster_area {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
   }
   .poster_name_index {
-    font-size: 18px;
+    margin-left: 20px;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 20px;
     padding-right: 10px;
+    width: 70px;
   }
   .poster_name {
-    font-size: 24px;
+    margin-left: 10px;
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 30px;
+    font-size: 20px;
     font-weight: 700;
   }
   .shooting_date_area {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
   }
   .shooting_date_index {
-    font-size: 18px;
+    margin-left: 20px;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 20px;
     padding-right: 10px;
+    width: 70px;
+
   }
   .shooting_date {
-    font-size: 24px;
+    margin-left: 10px;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 20px;
     font-weight: 700;
   }
   .flickr_detailpage_link_area {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
   }
   .flickr_detailpage_link_index {
-    font-size: 18px;
-    padding-right: 10px;
+    margin-left: 20px;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 20px;
+    width: 70px;
+
   }
   .flickr_detailpage_link {
-    font-size: 24px;
+    margin-left: 10px;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 20px;
     font-weight: 700;
+  }
+  .flickr_detailpage_link_a_tag {
+    color: rgb(12, 101, 143) ;
   }
 }
 
 @media ( min-width: 600px ) {
-  .photo_area {
+  .content_area {
     background-color: rgb(60, 60, 60);
+
+  }
+  .photo_area {
     padding: 55px;
   }
   .pc_back_icon {

@@ -1,10 +1,35 @@
 import React from 'react'
 import Link from 'next/link'
+import { Button,TextField, FormLabel, Divider } from '@mui/material';
+import { styled } from '@mui/system';
 
-import { Box, Button, Center, FormLabel, Input, Text, Grid, GridItem } from '@chakra-ui/react'
 import styles from '../styles/login.module.css'
 import FormHeader from '../components/FormHeader'
 import Head from 'next/head'
+
+const MyFormLabel = styled(FormLabel)({
+  display:"block",
+  fontWeight:"bold",
+  paddingBottom:"4px",
+})
+const MyTextField = styled(TextField)({
+  borderRadius:"30px",
+  width:"100%",
+})
+const MyButton = styled(Button)({
+  marginBottom:"10px",
+  // borderColor:"RGB(237, 242, 247)",
+  color:"black",
+  fontWeight:"bold",
+  backgroundColor:"RGB(210, 210, 210)",
+  "&:hover": {
+    backgroundColor:"RGB(62, 140, 236)",
+    color:"white",
+  }
+})
+const MyDivider = styled(Divider)({
+  marginBottom:"10px",
+})
 
 
 const login = () => {
@@ -18,78 +43,40 @@ const login = () => {
       </Head>
       <FormHeader />
       <div className={styles.login}>
-        <Text 
-          pb="20px" 
-          fontSize='2xl' 
-          fontWeight="700"
-        >
-          ログイン
-        </Text>
-        <form>
-          {/* {error && <p style={{color: 'red'}}>{error}</p>} */}
-          <Box>
-            <FormLabel>Email address</FormLabel>
-            <Input 
-                id="email"
-                name="email"
-                type="email"
-                placeholder="email"
-              />
-          </Box>
-          <Box mt="10px">
-            <FormLabel>password</FormLabel>
-            <Input 
-                id="password"
-                name="password"
-                type="password"
-                placeholder="password"
-              />
-          </Box>
-          <Button 
-            type='submit' 
-            _hover={{backgroundColor:"rgba(206, 255, 0, 0.5)"}}
-            mt="20px"
-            w="100%"
-          >
+        <div className={styles.title_text_area}>
+          <text className={styles.title_text}>
             ログイン
-          </Button>
+          </text>
+        </div>
+        <form>
+          <div className={styles.email_area}>
+            <MyFormLabel>Email address</MyFormLabel>
+            <MyTextField placeholder='Email address' variant="outlined" size='small' />
+          </div>
+          <div className={styles.password_area}>
+            <MyFormLabel>Password</MyFormLabel>
+            <MyTextField placeholder="Password" variant="outlined" size='small'/>
+          </div>
+ 
+          <MyButton variant="contained" fullWidth={true} >
+            ログイン
+          </MyButton>
+
         </form>
-        <Center mt="10px">
-            ユーザー登録は
+        <div  className={styles.signup_link_area}>
+          ユーザー登録は
+            <Link href={"/signup1"} style={{textDecoration:"none"}}>
               <span className={styles.signup_link}>
-                <Link href={"/signup"}>
-                  こちら
-                </Link>
+                こちら
               </span>
-            から
-        </Center>
-        <Grid 
-          templateColumns='repeat(3, 1fr)' 
-          gap={1} 
-          placeItems="center" 
-          m="20px 0 10px 0"
-        >
-          <GridItem 
-            colSpan={1} 
-            w='100%' 
-            h='1px' 
-            bg='rgb(220, 220, 220)' 
-          />
-          <Center>または</Center>
-          <GridItem 
-            colStart={3} 
-            w='100%' 
-            h='1px' 
-            bg='rgb(220, 220, 220)' 
-          />
-        </Grid>
-        <Button 
-          type='submit' 
-          _hover={{backgroundColor:"rgba(206, 255, 0, 0.5)"}}
-          w="100%"
-        >
+            </Link>
+          から
+        </div>
+        <MyDivider>または</MyDivider>
+        <MyButton variant="contained" fullWidth={true}>
           Googleでログイン
-        </Button>
+        </MyButton>
+
       </div>
     </>
   )

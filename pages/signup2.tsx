@@ -1,12 +1,49 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
-
-import {  FormLabel, Input, Button, Text, Box, Center } from '@chakra-ui/react'
-
+import { styled } from '@mui/system';
+import { Button,TextField, FormLabel, Divider } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import Stack from '@mui/material/Stack';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import styles from '../styles/signup.module.css'
 import FormHeader from '../components/FormHeader'
 import Head from 'next/head'
+import dayjs, { Dayjs } from 'dayjs';
+
+
+
+const MyFormLabel = styled(FormLabel)({
+  display:"block",
+  fontWeight:"bold",
+  paddingBottom:"4px",
+})
+const MyTextField = styled(TextField)({
+  borderRadius:"30px",
+  width:"100%",
+})
+const MyButton = styled(Button)({
+  marginBottom:"10px",
+  // borderColor:"RGB(237, 242, 247)",
+  color:"black",
+  fontWeight:"bold",
+  backgroundColor:"RGB(210, 210, 210)",
+  "&:hover": {
+    backgroundColor:"RGB(62, 140, 236)",
+    color:"white",
+  }
+})
+const MyDivider = styled(Divider)({
+  marginBottom:"10px",
+})
+
+
+
 const signup2 = () => {
+  const [value, setValue] = useState<Dayjs | null>();
+  const handleChange = (newValue: Dayjs | null) => {
+    setValue(newValue);
+  };
   return (
     <>
       <Head>
@@ -26,40 +63,29 @@ const signup2 = () => {
           </text>
         </div>
           <form>
-          <Box>
-            <FormLabel>ユーザー名</FormLabel>
-            <Input 
-              name="username"
-              type="text"
-              placeholder="ユーザー名"
-            />
-          </Box>
-          <Box mt="10px">
-            <FormLabel>生年月日</FormLabel>
-            <Input 
-              name="date"
-              type="date"
-            />
-          </Box>
-          <Box>
-          <Button 
-            type='submit' 
-            _hover={{backgroundColor:"rgba(206, 255, 0, 0.5)"}}
-            mt="30px"
-            w="100%"
-          >
+          <div className={styles.user_name_area}>
+            <MyFormLabel>ユーザー名</MyFormLabel>
+            <MyTextField placeholder='ユーザー名' variant="outlined" size='small' />
+          </div>
+          <div className={styles.date_of_birth_area}>
+            <MyFormLabel>生年月日</MyFormLabel>
+            <LocalizationProvider dateAdapter={AdapterDayjs} >
+              <DesktopDatePicker
+                inputFormat="YYYY/MM/DD"
+                value={value}
+                onChange={handleChange}
+                renderInput={(params) => <TextField size="small" {...params} />}
+                className={styles.date_select}
+              />
+            </LocalizationProvider>
+          </div>
+          <div>
+          <MyButton variant="contained" fullWidth={true} >
             登録
-          </Button>
-          </Box>
+          </MyButton>
+          </div>
         </form>
-        <Center mt="10px">
-          登録済みの方は
-            <span className={styles.login_link}>
-              <Link href={"/login"}>
-                こちら
-              </Link>
-            </span>
-        </Center>
+        
       </div>
     </>
   )

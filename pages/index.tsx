@@ -40,6 +40,9 @@ type Team =
   | "ZETA DIVISION"
   | "Crazy Raccoon"
   | "Northeption"
+  | "DRX"
+  | "PRX"
+  | "FNATIC"
 
 export default function Home() {
 
@@ -50,6 +53,9 @@ export default function Home() {
     "ZETA DIVISION",
     "Crazy Raccoon",
     "Northeption",
+    "DRX",
+    "PRX",
+    "FNATIC",
   ]
   // プルダウンの値を管理
   const [teamFilter, setTeamFilter] = useState<Team>("すべて");

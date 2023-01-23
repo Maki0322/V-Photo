@@ -1,0 +1,17 @@
+export type FlickrApiType = {
+  farm: number,
+  height_l: number,
+  height_m: number,
+  id: string,
+  isfamily: number,
+  isfriend: number,
+  ispublic: number,
+  owner: string,
+  secret: string,
+  server: string,
+  title: string,
+  url_l: string,
+  url_m: string,
+  width_l: number,
+  width_m: number,
+}

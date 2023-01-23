@@ -1,10 +1,18 @@
 import Head from 'next/head'
 
 import { styled } from '@mui/system';
+
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import styles from '../styles/Home.module.css'
 import Header from '../components/Header'
+import { useRef, useState } from 'react';
+import { useEffect } from 'react';
+
+import {FlickrApiType} from '../types/FlickrApi'
+
+type JsonType = FlickrApiType;
+
 import { Select, FormControl, InputLabel, MenuItem } from '@mui/material';
 
 // FavoriteBorderIconのcss
@@ -39,7 +47,80 @@ const MytournamentSelect = styled(Select)({
   borderRadius: "40px",
 })
 
+// type Team =
+//   | "すべてのチーム"
+//   | "ZETA DIVISION"
+//   | "Crazy Raccoon"
+//   | "Northeption"
+
 export default function Home() {
+  // プルダウンの内容
+  const teamsValue = [
+    // "すべてのチーム",
+    "ZETA DIVISION", 
+    "Crazy Raccoon", 
+    "Northeption"
+  ]
+  // プルダウンの値をuseStateで管理
+  const [teams, setTeams] = useState("ZETA DIVISION")
+  // プルダウンを動かすための関数
+  const handleChangeTeam = (e:React.ChangeEvent<HTMLSelectElement>) => {
+    setTeams(e.target.value);
+  }
+
+  const fetchData:any = [];
+  const [pages, setPages] = useState();
+  const pageURLsArr:any = [];
+  
+  const [allPhotos, setAllPhotos] = useState<JsonType[]>([]);
+  // const [allPhotos, setAllPhotos] = useState<number[]>([]);
+
+  const ref:any = useRef();
+  
+  useEffect(()=> {
+    setTeams(teams)
+  },[])
+
+  useEffect(() => {
+    const getFlickrApi = async()=> {
+      // APIURL
+      const endpointURL =
+      // すべての写真(1ページ目)
+      // "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=943b55067047b1a156e92ca1cc6fbe93&user_id=192820496@N05&format=json&nojsoncallback=?&per_page=500&extras=url_m,url_l " 
+      // ZETAの写真(1ページ目)
+      "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=943b55067047b1a156e92ca1cc6fbe93&user_id=192820496@N05&format=json&nojsoncallback=?&per_page=500&tags=zeta%20division&extras=url_m,url_l " 
+      
+      // APIを叩く（データフェッチング）
+      await fetch(endpointURL)
+        .then(res => {
+          return res.json()
+        })
+        .then((data) => {
+          // ページ数を取得
+          setPages(data.photos.pages)
+          return data.photos.pages
+        })
+        .then((pages) => {
+          async function getPhotos(){
+            for(let i=0; i<pages;i++){
+              await pageURLsArr.push(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=943b55067047b1a156e92ca1cc6fbe93&user_id=192820496@N05&format=json&nojsoncallback=?&per_page=500&page=${i+1}&tags=zeta%20division&extras=url_m,url_l`)
+              // await pageURLsArr.push(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=943b55067047b1a156e92ca1cc6fbe93&user_id=192820496@N05&format=json&nojsoncallback=?&per_page=500&page=${i+1}&extras=url_m,url_l`)
+              await fetch(pageURLsArr[i])
+                .then(res => {
+                  return res.json()
+                })
+                .then((da) => {
+                  return fetchData.push(...da.photos.photo.flat())
+                })
+            }
+            await setAllPhotos(fetchData)
+          }
+          getPhotos()
+        })
+      }
+      getFlickrApi()
+    },[])
+
 
   return (
     <>
@@ -50,7 +131,9 @@ export default function Home() {
         <link rel="icon" href="/VPhotoIcon2.ico" />
       </Head>
       <Header />
+
       <div className={styles.sort_area}>
+
         <div className={styles.select_box}>
           
           <FormControl>
@@ -63,6 +146,23 @@ export default function Home() {
               <MenuItem value={'Crazy Raccoon'}>Crazy Raccoon</MenuItem>
               <MenuItem value={'Northeption'}>Northeption</MenuItem>
             </MyTeamSelect>
+          </FormControl>
+          <FormControl >
+            <Select 
+              value={teams}
+              onChange={(e) => handleChangeTeam(e)}
+              ref={ref}
+              borderRadius="30px" 
+              size='sm' 
+              w="200px" 
+              _focus={{ boxShadow: "none", borderColor:"rgb(230, 235, 242)"}}
+            >
+              {teamsValue.map((team) => (
+                <option key={team} value={team}>
+                  {team}
+                </option>
+              ))}
+            </Select>
           </FormControl>
         </div>
         <div className={styles.select_box}>
@@ -93,95 +193,17 @@ export default function Home() {
         </div>
       </div>
       <div className={styles.container}>
-        <div className={styles.photos}>
-          <img className={styles.img} src="https://live.staticflickr.com/65535/52013417313_52e9b5a229.jpg" alt="#"/>
-          <MyFavoriteBorderIcon />
-        </div>
-        <div className={styles.photos}>
-          <img className={styles.img} src="https://live.staticflickr.com/65535/52021609622_24cc88d004.jpg" alt="#"/>
-          <MyFavoriteBorderIcon />
-        </div>
-        <div className={styles.photos}>
-          <img className={styles.img} src="https://live.staticflickr.com/65535/52012675257_fdb265586c.jpg" alt="#"/>
-          <MyFavoriteBorderIcon />
-        </div>
-        <div className={styles.photos}>
-          <img className={styles.img} src="https://live.staticflickr.com/65535/52333694255_5da8f3f17e.jpg" alt="#"/>
-          <MyFavoriteBorderIcon />
-        </div>
-        <div className={styles.photos}>
-          <img className={styles.img} src="https://live.staticflickr.com/65535/52001611205_231ec5f3a1.jpg" alt="#"/>
-          <MyFavoriteBorderIcon />
-        </div>
-        <div className={styles.photos}>
-          <img className={styles.img} src="https://live.staticflickr.com/65535/52021486217_94d629e0cf.jpg" alt="#"/>
-          <MyFavoriteBorderIcon />
-        </div>
-        <div className={styles.photos}>
-          <img className={styles.img} src="https://live.staticflickr.com/65535/52327095496_babc0c0317.jpg" alt="#"/>
-          <MyFavoriteBorderIcon />
-        </div>
-        <div className={styles.photos}>
-          <img className={styles.img} src="https://live.staticflickr.com/65535/52328011386_2e96355530.jpg" alt="#"/>
-          <MyFavoriteBorderIcon />
-        </div>
-        <div className={styles.photos}>
-          <img className={styles.img} src="https://live.staticflickr.com/65535/52332801412_eb1450cee3.jpg" alt="#"/>
-          <MyFavoriteBorderIcon />
-        </div>
-        <div className={styles.photos}>
-          <img className={styles.img} src="https://live.staticflickr.com/65535/52327056698_9892a1ef62.jpg" alt="#"/>
-          <MyFavoriteBorderIcon />
-        </div>
-        <div className={styles.photos}>
-          <img className={styles.img} src="https://live.staticflickr.com/65535/52003656630_b1e6e85e39.jpg" alt="#"/>
-          <MyFavoriteBorderIcon />
-        </div>
-        <div className={styles.photos}>
-          <img className={styles.img} src="https://live.staticflickr.com/65535/52000090692_bef6cff39c.jpg" alt="#"/>
-          <MyFavoriteBorderIcon />
-        </div>
-        <div className={styles.photos}>
-          <img className={styles.img} src="https://live.staticflickr.com/65535/52023298640_17aab70e86.jpg" alt="#"/>
-          <MyFavoriteBorderIcon />
-        </div>
-        <div className={styles.photos}>
-          <img className={styles.img} src="https://live.staticflickr.com/65535/52022563133_907468f995.jpg" alt="#"/>
-          <MyFavoriteBorderIcon />
-        </div>
-        <div className={styles.photos}>
-          <img className={styles.img} src="https://live.staticflickr.com/65535/52003656430_b11563845b.jpg" alt="#"/>
-          <MyFavoriteBorderIcon />
-        </div>
-        <div className={styles.photos}>
-          <img className={styles.img} src="https://live.staticflickr.com/65535/52014095708_0466bf8a03.jpg" alt="#"/>
-          <MyFavoriteBorderIcon />
-        </div>
-        <div className={styles.photos}>
-          <img className={styles.img} src="https://live.staticflickr.com/65535/52012675232_c3eef3075f.jpg" alt="#"/>
-          <MyFavoriteBorderIcon />
-        </div>
-        <div className={styles.photos}>
-          <img className={styles.img} src="https://live.staticflickr.com/65535/52023791002_55e7666b38.jpg" alt="#"/>
-          <MyFavoriteBorderIcon />
-        </div>
-        <div className={styles.photos}>
-          <img className={styles.img} src="https://live.staticflickr.com/65535/52012891377_21c1386e34.jpg" alt="#"/>
-          <MyFavoriteBorderIcon />
-        </div>
-        <div className={styles.photos}>
-          <img className={styles.img} src="https://live.staticflickr.com/65535/52003133091_972d7945db.jpg" alt="#"/>
-          <MyFavoriteBorderIcon />
-        </div>
-        <div className={styles.photos}>
-          <img className={styles.img} src="https://live.staticflickr.com/65535/52014095683_b239ae06ff.jpg" alt="#"/>
-          <MyFavoriteBorderIcon />
-        </div>
-        <div className={styles.photos}>
-          <img className={styles.img} src="https://live.staticflickr.com/65535/52014095388_ffb8e8b6f5.jpg" alt="#"/>
-          <MyFavoriteBorderIcon />
-        </div>
 
+        {allPhotos.map((data:any) => (
+          <div className={styles.photos} key={data.id}>
+            <img 
+              className={styles.img} 
+              src={data.url_m} 
+              alt="#"
+            />
+            <MyFavoriteBorderIcon />
+          </div>
+        ))}
 
       </div>
     </>

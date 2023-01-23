@@ -6,14 +6,14 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import styles from '../styles/Home.module.css'
 import Header from '../components/Header'
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useEffect } from 'react';
 
 import {FlickrApiType} from '../types/FlickrApi'
 
 type JsonType = FlickrApiType;
 
-import { Select, FormControl, InputLabel, MenuItem } from '@mui/material';
+import { Select, FormControl, MenuItem } from '@mui/material';
 
 // FavoriteBorderIconのcss
 const MyFavoriteBorderIcon = styled(FavoriteBorderIcon)({
@@ -64,9 +64,9 @@ export default function Home() {
   // プルダウンの値をuseStateで管理
   const [teams, setTeams] = useState("ZETA DIVISION")
   // プルダウンを動かすための関数
-  const handleChangeTeam = (e:React.ChangeEvent<HTMLSelectElement>) => {
-    setTeams(e.target.value);
-  }
+  // const handleChangeTeam = (e:React.ChangeEvent<HTMLSelectElement>) => {
+  //   setTeams(e.target.value);
+  // }
 
   const fetchData:any = [];
   const [pages, setPages] = useState();
@@ -75,7 +75,7 @@ export default function Home() {
   const [allPhotos, setAllPhotos] = useState<JsonType[]>([]);
   // const [allPhotos, setAllPhotos] = useState<number[]>([]);
 
-  const ref:any = useRef();
+  // const ref:any = useRef();
   
   useEffect(()=> {
     setTeams(teams)
@@ -147,7 +147,7 @@ export default function Home() {
               <MenuItem value={'Northeption'}>Northeption</MenuItem>
             </MyTeamSelect>
           </FormControl>
-          <FormControl >
+          {/* <FormControl >
             <Select 
               value={teams}
               onChange={(e) => handleChangeTeam(e)}
@@ -163,7 +163,7 @@ export default function Home() {
                 </option>
               ))}
             </Select>
-          </FormControl>
+          </FormControl> */}
         </div>
         <div className={styles.select_box}>
           <FormControl>

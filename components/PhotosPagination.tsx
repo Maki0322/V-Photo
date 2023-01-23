@@ -5,6 +5,8 @@ import { useRecoilState,useRecoilValue } from 'recoil'
 import { itemsPerPageState } from '../state/itemsPerPageState'
 import { itemsOffsestState } from '../state/itemsOffsestState'
 import { styled } from '@mui/system';
+import { currentPageState } from '../state/currentPageState';
+import { pageCountState } from '../state/pageCountState';
 
 
 const MyPagination = styled(Pagination)({
@@ -13,21 +15,28 @@ const MyPagination = styled(Pagination)({
 
 type Props = {
   allPhotos: FlickrApiType[];
+  currentGetPhotos: FlickrApiType[];
 }
 
-const PhotosPagination = ({ allPhotos }:Props) => {
+const PhotosPagination = ({ allPhotos, currentGetPhotos }:Props) => {
 
-  const itemsPrePage = useRecoilValue(itemsPerPageState);
-  const [itemsOffsest, setItemsOffsest] = useRecoilState(itemsOffsestState);
-  const pageCount = Math.ceil(allPhotos.length / itemsPrePage)
+  // const itemsPrePage = useRecoilValue(itemsPerPageState);
+  // const [itemsOffsest, setItemsOffsest] = useRecoilState(itemsOffsestState);
+  // const pageCount = Math.ceil(allPhotos.length / itemsPrePage)
 
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
+
+  // 全ページ数
+  const pageCount = useRecoilValue(pageCountState);
+  // 現在のページ数
+  const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
 
   const handlePageClick = (e,index) => {
-    setPage(index)
-    const newOffset = ((index - 1) * itemsPrePage ) % allPhotos.length;
-    setItemsOffsest(newOffset);
-    console.log(index - 1)
+    setCurrentPage(index)
+    // setPage(index)
+    // const newOffset = ((index - 1) * itemsPrePage ) % allPhotos.length;
+    // setItemsOffsest(newOffset);
+    // console.log(index - 1)
   }
 
   return (
@@ -36,7 +45,7 @@ const PhotosPagination = ({ allPhotos }:Props) => {
         variant="outlined" 
         count={pageCount}
         onChange={handlePageClick}
-        page={page} 
+        page={currentPage} 
       />
     </>
   )

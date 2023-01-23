@@ -143,8 +143,8 @@ const detail = () => {
         </div>
         <div className={styles.flickr_detailpage_link_area}>
           <p className={styles.flickr_detailpage_link_index}>掲載元</p>
-          <p>
-            <a  className={styles.flickr_detailpage_link} target="_blank"  rel="noopener noreferrer" href='https://www.flickr.com/photos/valorantesports/52333400007/in/album-72177720301833779/'>
+          <p className={styles.flickr_detailpage_link}>
+            <a className={styles.flickr_detailpage_link_a_tag} target="_blank"  rel="noopener noreferrer" href='https://www.flickr.com/photos/valorantesports/52333400007/in/album-72177720301833779/'>
               flickr.com
               <MyLaunchSharpIcon />
             </a>

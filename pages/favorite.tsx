@@ -1,9 +1,9 @@
 import React from 'react'
 import Head from 'next/head'
 
-import { Select } from '@chakra-ui/react'
 import { styled } from '@mui/system';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { Select, FormControl, InputLabel, MenuItem } from '@mui/material';
 
 import styles from '../styles/Home.module.css'
 import Header from '../components/Header'
@@ -24,6 +24,21 @@ const MyFavoriteBorderIcon = styled(FavoriteBorderIcon)({
     color:"red",
   }
 })
+const MyTeamSelect = styled(Select)({
+  width: "200px",
+  height: "40px",
+  borderRadius: "40px",
+})
+const MyDaySelect = styled(Select)({
+  width: "150px",
+  height: "40px",
+  borderRadius: "40px",
+})
+const MytournamentSelect = styled(Select)({
+  width: "350px",
+  height: "40px",
+  borderRadius: "40px",
+})
 
 const favorite = () => {
   return (
@@ -37,31 +52,42 @@ const favorite = () => {
       <FavoriteHeader />
       <div className={styles.sort_area}>
         <div className={styles.select_box}>
-          <Select placeholder='すべてのチーム' borderRadius="30px" size='sm' w="200px" _focus={{ boxShadow: "none", borderColor:"rgb(230, 235, 242)"}}>
-            <option value='ZETA DIVISION'>ZETA DIVISION</option>
-            <option value='Crazy Raccoon'>Crazy Raccoon</option>
-            <option value='Northeption'>Northeption</option>
-          </Select>
-          
+        <FormControl>
+            <MyTeamSelect 
+              defaultValue={'すべてのチーム'}
+              id="team-select"
+            >
+              <MenuItem value={'すべてのチーム'}>すべてのチーム</MenuItem>
+              <MenuItem value={'ZETA DIVISION'}>ZETA DIVISION</MenuItem>
+              <MenuItem value={'Crazy Raccoon'}>Crazy Raccoon</MenuItem>
+              <MenuItem value={'Northeption'}>Northeption</MenuItem>
+            </MyTeamSelect>
+          </FormControl>
         </div>
         <div className={styles.select_box}>
-          <Select placeholder='すべての日程' borderRadius="30px" size='sm' w="200px" _focus={{ boxShadow: "none", borderColor:"rgb(230, 235, 242)"}}>
-            <option value='DAY1'>DAY1</option>
-            <option value='DAY2'>DAY2</option>
-            <option value='DAY3'>DAY3</option>
-          </Select>
+          <FormControl>
+            <MyDaySelect defaultValue={'すべての日程'} id="day-select">
+              <MenuItem value={'すべての日程'}>すべての日程</MenuItem>
+              <MenuItem value={'DAY1'}>DAY1</MenuItem>
+              <MenuItem value={'DAY2'}>DAY2</MenuItem>
+              <MenuItem value={'DAY3'}>DAY3</MenuItem>
+            </MyDaySelect>
+          </FormControl>
 
         </div>
         <div className={styles.select_box}>
-          <Select placeholder='すべての大会' borderRadius="30px" size='sm' w="300px" _focus={{ boxShadow: "none", borderColor:"rgb(230, 235, 242)"}}>
-            <option value='vct2021: Stage 2 Masters - Reykjavík'>vct2021: Stage 2 Masters - Reykjavík</option>
-            <option value='vct2021: Stage 3 Masters - Berlin'>vct2021: Stage 3 Masters - Berlin</option>
-            <option value='VALORANT Champions 2021'>VALORANT Champions 2021</option>
-            <option value='vct2022: Stage 1 Masters - Reykjavík'>vct2022: Stage 1 Masters - Reykjavík</option>
-            <option value='vct2022: Stage 2 Masters - Copenhagen'>vct2022: Stage 2 Masters - Copenhagen</option>
-            <option value='VALORANT Champions 2022'>VALORANT Champions 2022</option>
-          </Select>
+          <FormControl>
+            <MytournamentSelect defaultValue={'すべての大会'} id="tournament-select">
+              <MenuItem value={'すべての大会'}>すべての大会</MenuItem>
+              <MenuItem value={'vct2021: Stage 2 Masters - Reykjavík'}>vct2021: Stage 2 Masters - Reykjavík</MenuItem>
+              <MenuItem value={'vct2021: Stage 3 Masters - Berlin'}>vct2021: Stage 3 Masters - Berlin</MenuItem>
+              <MenuItem value={'VALORANT Champions 2021'}>VALORANT Champions 2021</MenuItem>
+              <MenuItem value={'vct2022: Stage 1 Masters - Reykjavík'}>vct2022: Stage 1 Masters - Reykjavík</MenuItem>
+              <MenuItem value={'vct2022: Stage 2 Masters - Copenhagen'}>vct2022: Stage 2 Masters - Copenhagen</MenuItem>
+              <MenuItem value={'VALORANT Champions 2022'}>VALORANT Champions 2022</MenuItem>
+            </MytournamentSelect>
 
+          </FormControl>
         </div>
       </div>
       <div className={styles.container}>

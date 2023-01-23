@@ -1,25 +1,25 @@
 import Head from 'next/head'
 
-import { FormControl, Select } from '@chakra-ui/react'
 import { styled } from '@mui/system';
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import styles from '../styles/Home.module.css'
 import Header from '../components/Header'
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useEffect } from 'react';
 
 import {FlickrApiType} from '../types/FlickrApi'
 
 type JsonType = FlickrApiType;
 
+import { Select, FormControl, MenuItem } from '@mui/material';
 
 // FavoriteBorderIconのcss
 const MyFavoriteBorderIcon = styled(FavoriteBorderIcon)({
   cursor: "pointer",
   padding: "7px",
-  fontSize: "42px",
+  fontSize: "32px",
   borderRadius: "18px",
   position: "absolute",
   bottom: "20px",
@@ -29,6 +29,22 @@ const MyFavoriteBorderIcon = styled(FavoriteBorderIcon)({
   "&:hover": {
     color:"red",
   }
+})
+
+const MyTeamSelect = styled(Select)({
+  width: "200px",
+  height: "40px",
+  borderRadius: "40px",
+})
+const MyDaySelect = styled(Select)({
+  width: "150px",
+  height: "40px",
+  borderRadius: "40px",
+})
+const MytournamentSelect = styled(Select)({
+  width: "340px",
+  height: "40px",
+  borderRadius: "40px",
 })
 
 // type Team =
@@ -48,9 +64,9 @@ export default function Home() {
   // プルダウンの値をuseStateで管理
   const [teams, setTeams] = useState("ZETA DIVISION")
   // プルダウンを動かすための関数
-  const handleChangeTeam = (e:React.ChangeEvent<HTMLSelectElement>) => {
-    setTeams(e.target.value);
-  }
+  // const handleChangeTeam = (e:React.ChangeEvent<HTMLSelectElement>) => {
+  //   setTeams(e.target.value);
+  // }
 
   const fetchData:any = [];
   const [pages, setPages] = useState();
@@ -59,7 +75,7 @@ export default function Home() {
   const [allPhotos, setAllPhotos] = useState<JsonType[]>([]);
   // const [allPhotos, setAllPhotos] = useState<number[]>([]);
 
-  const ref:any = useRef();
+  // const ref:any = useRef();
   
   useEffect(()=> {
     setTeams(teams)
@@ -119,7 +135,19 @@ export default function Home() {
       <div className={styles.sort_area}>
 
         <div className={styles.select_box}>
-          <FormControl >
+          
+          <FormControl>
+            <MyTeamSelect 
+              defaultValue={'すべてのチーム'}
+              id="team-select"
+            >
+              <MenuItem value={'すべてのチーム'}>すべてのチーム</MenuItem>
+              <MenuItem value={'ZETA DIVISION'}>ZETA DIVISION</MenuItem>
+              <MenuItem value={'Crazy Raccoon'}>Crazy Raccoon</MenuItem>
+              <MenuItem value={'Northeption'}>Northeption</MenuItem>
+            </MyTeamSelect>
+          </FormControl>
+          {/* <FormControl >
             <Select 
               value={teams}
               onChange={(e) => handleChangeTeam(e)}
@@ -135,24 +163,33 @@ export default function Home() {
                 </option>
               ))}
             </Select>
+          </FormControl> */}
+        </div>
+        <div className={styles.select_box}>
+          <FormControl>
+            <MyDaySelect defaultValue={'すべての日程'} id="day-select">
+              <MenuItem value={'すべての日程'}>すべての日程</MenuItem>
+              <MenuItem value={'DAY1'}>DAY1</MenuItem>
+              <MenuItem value={'DAY2'}>DAY2</MenuItem>
+              <MenuItem value={'DAY3'}>DAY3</MenuItem>
+            </MyDaySelect>
           </FormControl>
+
         </div>
         <div className={styles.select_box}>
-          <Select placeholder='すべての日程' borderRadius="30px" size='sm' w="200px" _focus={{ boxShadow: "none", borderColor:"rgb(230, 235, 242)"}}>
-            <option value='DAY1'>DAY1</option>
-            <option value='DAY2'>DAY2</option>
-            <option value='DAY3'>DAY3</option>
-          </Select>
-        </div>
-        <div className={styles.select_box}>
-          <Select placeholder='すべての大会' borderRadius="30px" size='sm' w="300px" _focus={{ boxShadow: "none", borderColor:"rgb(230, 235, 242)"}}>
-            <option value='vct2021: Stage 2 Masters - Reykjavík'>vct2021: Stage 2 Masters - Reykjavík</option>
-            <option value='vct2021: Stage 3 Masters - Berlin'>vct2021: Stage 3 Masters - Berlin</option>
-            <option value='VALORANT Champions 2021'>VALORANT Champions 2021</option>
-            <option value='vct2022: Stage 1 Masters - Reykjavík'>vct2022: Stage 1 Masters - Reykjavík</option>
-            <option value='vct2022: Stage 2 Masters - Copenhagen'>vct2022: Stage 2 Masters - Copenhagen</option>
-            <option value='VALORANT Champions 2022'>VALORANT Champions 2022</option>
-          </Select>
+          <FormControl>
+            <MytournamentSelect defaultValue={'すべての大会'} id="tournament-select">
+              <MenuItem value={'すべての大会'}>すべての大会</MenuItem>
+              <MenuItem value={'vct2021: Stage 2 Masters - Reykjavík'}>vct2021: Stage 2 Masters - Reykjavík</MenuItem>
+              <MenuItem value={'vct2021: Stage 3 Masters - Berlin'}>vct2021: Stage 3 Masters - Berlin</MenuItem>
+              <MenuItem value={'VALORANT Champions 2021'}>VALORANT Champions 2021</MenuItem>
+              <MenuItem value={'vct2022: Stage 1 Masters - Reykjavík'}>vct2022: Stage 1 Masters - Reykjavík</MenuItem>
+              <MenuItem value={'vct2022: Stage 2 Masters - Copenhagen'}>vct2022: Stage 2 Masters - Copenhagen</MenuItem>
+              <MenuItem value={'VALORANT Champions 2022'}>VALORANT Champions 2022</MenuItem>
+            </MytournamentSelect>
+
+          </FormControl>
+
         </div>
       </div>
       <div className={styles.container}>

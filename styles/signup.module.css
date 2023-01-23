@@ -15,21 +15,38 @@
   font-weight: 100;
 }
 
+.email_area {
+  margin-bottom: 10px;
+}
+.password_area {
+  margin-bottom: 30px;
+}
+.user_name_area {
+  margin-bottom: 10px;
+}
+.date_of_birth_area {
+  margin-bottom: 30px;
+}
 .login_link {
-  color: #93b800 ;
+  text-decoration-line: none;
+  color: rgb(36, 103, 190) ;
   padding: 0 5px;
+  border-radius: 10px;
 }
 
 .login_link:hover {
   color: black;
-  background-color: rgba(206, 255, 0, 0.5);
+  background-color: rgba(62, 166, 236, 0.562);
   border-radius: 10px;
   transition: 0.2s;
+}
+.signup_link_area {
+  text-align: center;
 }
 
 @media ( min-width: 450px ) {
   .signup {
-    width: 350px;
+    width: 250px;
     margin: 50px auto;
     padding: 30px 40px 40px 40px;
     border: solid 1px rgb(220, 220, 220);

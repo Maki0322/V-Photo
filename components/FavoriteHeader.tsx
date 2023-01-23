@@ -1,21 +1,19 @@
 import React from 'react'
 
-import { Box, Flex, Spacer } from '@chakra-ui/react';
-
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PersonIcon from '@mui/icons-material/Person';
 import { styled } from '@mui/system';
+import styles from '../styles/header.module.css'
 
 import Vphotologo from '../public/Vphotologo.svg'
 
 // FavoriteBorderIconのcss
 const MyFavoriteBorderIcon = styled(FavoriteBorderIcon)({
-  fontSize:"40px",
-  padding:"5px",
-  marginRight:"10px",
-  marginTop:"12px",
+  fontSize:"35px",
+  marginRight:"8px",
+  marginTop:"10px",
   borderRadius:"16px",
-
+  padding:"4px",
   backgroundColor: "rgba(195,0,0,0.6)",
   color:"white",
 
@@ -29,21 +27,20 @@ const MyPersonIcon = styled(PersonIcon)({
   border:"solid 1px black",
   backgroundColor:"black",
   borderRadius: "30px",
-  margin:"17px 5px 5px 5px",
+  margin:"14px 5px 5px 5px",
 })
 
 const FavoriteHeader = () => {
   return (
     <>
       <header>
-        <Flex p="0 10px 6px 16px">
-          <Box mt="8px">
+        <div  className={styles.header}>
+          <div className={styles.logo}>
             <Vphotologo width="65px" height="auto" cursor="pointer"/>
-          </Box>
-          <Spacer />
+          </div>
           <MyFavoriteBorderIcon />
           <MyPersonIcon />
-        </Flex>
+        </div>
       </header>
     </>
   )

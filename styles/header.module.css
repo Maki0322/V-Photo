@@ -1,0 +1,7 @@
+.header {
+  display: flex;
+}
+.logo {
+  margin-right: auto;
+  margin-left: 12px;
+}

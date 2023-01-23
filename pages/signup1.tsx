@@ -1,12 +1,38 @@
 import React from 'react'
 import Link from 'next/link'
 
-import {  FormLabel, Input, Button, Text, Box, Center } from '@chakra-ui/react'
+import { styled } from '@mui/system';
 
 import styles from '../styles/signup.module.css'
 import Head from 'next/head'
 import Header from '../components/Header'
 import FormHeader from '../components/FormHeader'
+
+import { Button,TextField, FormLabel, Divider } from '@mui/material';
+
+const MyFormLabel = styled(FormLabel)({
+  display:"block",
+  fontWeight:"bold",
+  paddingBottom:"4px",
+})
+const MyTextField = styled(TextField)({
+  borderRadius:"30px",
+  width:"100%",
+})
+const MyButton = styled(Button)({
+  marginBottom:"10px",
+  // borderColor:"RGB(237, 242, 247)",
+  color:"black",
+  fontWeight:"bold",
+  backgroundColor:"RGB(210, 210, 210)",
+  "&:hover": {
+    backgroundColor:"RGB(62, 140, 236)",
+    color:"white",
+  }
+})
+const MyDivider = styled(Divider)({
+  marginBottom:"10px",
+})
 
 
 const signup1 = () => {
@@ -28,42 +54,27 @@ const signup1 = () => {
             (1/2)
           </text>
         </div>
-          <form>
-          <Box>
-            <FormLabel>Email address</FormLabel>
-            <Input 
-              name="email"
-              type="email"
-              placeholder="email"
-            />
-          </Box>
-          <Box mt="10px">
-            <FormLabel>password</FormLabel>
-            <Input 
-              name="password"
-              type="password"
-              placeholder="password"
-            />
-          </Box>
-          <Box>
-          <Button 
-            type='submit' 
-            _hover={{backgroundColor:"rgba(206, 255, 0, 0.5)"}}
-            mt="30px"
-            w="100%"
-          >
-            次へ
-          </Button>
-          </Box>
-        </form>
-        <Center mt="10px">
+        <form>
+        <div className={styles.email_area}>
+          <MyFormLabel>Email address</MyFormLabel>
+          <MyTextField placeholder='Email address' variant="outlined" size='small' />
+        </div>
+        <div className={styles.password_area}>
+          <MyFormLabel>Password</MyFormLabel>
+          <MyTextField placeholder="Password" variant="outlined" size='small'/>
+        </div>
+        <MyButton variant="contained" fullWidth={true} >
+          次へ
+        </MyButton>
+      </form>
+        <div className={styles.signup_link_area}>
           登録済みの方は
-            <span className={styles.login_link}>
-              <Link href={"/login"}>
+            <Link href={"/login"} style={{textDecoration:"none"}}>
+              <span className={styles.login_link}>
                 こちら
-              </Link>
-            </span>
-        </Center>
+              </span>
+            </Link>
+        </div>
       </div>
     </>
   )

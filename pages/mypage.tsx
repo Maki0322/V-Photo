@@ -6,8 +6,8 @@ import { styled } from '@mui/system';
 
 import Header from '../components/Header'
 import styles from '../styles/mypage.module.css'
-import { Button } from '@chakra-ui/react';
-
+// import { Button } from '@chakra-ui/react';
+import { Button,TextField, FormLabel, Divider } from '@mui/material';
 
 
 // PersonIconのcss
@@ -19,6 +19,19 @@ const MyPersonIcon = styled(PersonIcon)({
   backgroundColor:"black",
   borderRadius: "120px",
   margin:"15px 5px 5px 5px",
+})
+
+const MyButton = styled(Button)({
+  marginBottom:"10px",
+  borderRadius: "50px",
+  // borderColor:"RGB(237, 242, 247)",
+  color:"black",
+  fontWeight:"bold",
+  backgroundColor:"RGB(210, 210, 210)",
+  "&:hover": {
+    backgroundColor:"RGB(62, 140, 236)",
+    color:"white",
+  }
 })
 
 const mypage = () => {
@@ -45,10 +58,10 @@ const mypage = () => {
           </div>
           <div className={styles.edit_area}>
             <div className={styles.edit_profile_button}>
-              <Button borderRadius="50px">プロフィールを編集</Button>
+              <MyButton>プロフィールを編集</MyButton>
             </div>
             <div className={styles.edit_pickup_button}>
-              <Button borderRadius="50px">ピックアップを編集</Button>
+              <MyButton>ピックアップを編集</MyButton>
             </div>
           </div>
         </section>

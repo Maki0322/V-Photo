@@ -28,20 +28,26 @@ const MyFavoriteBorderIcon = styled(FavoriteBorderIcon)({
 
 type Props = {
   allPhotos: FlickrApiType[];
+  currentGetPhotos: FlickrApiType[];
   // currentPhotos: FlickrApiType[];
   // pageNumber: number
   // totalCount: number
 }
 
-const PhotoList = ({allPhotos}:Props) => {
+const PhotoList = ({allPhotos, currentGetPhotos}:Props) => {
   const itemsPrePage = useRecoilValue(itemsPerPageState);
   const itemsOffsest = useRecoilValue(itemsOffsestState);
   const endOffset = itemsOffsest + itemsPrePage;
-  const currentPhotos = allPhotos.slice(itemsOffsest, endOffset);
+  const currentPhotos = currentGetPhotos;
+  // const currentPhotos = allPhotos.slice(itemsOffsest, endOffset);
+
+
+
+
   return (
     <>
       {/* {allPhotos.map((data) => ( */}
-      {currentPhotos.map((data) => (
+      {currentGetPhotos.map((data) => (
         <div className={styles.photos} key={data.id}>
           <img 
             className={styles.img} 

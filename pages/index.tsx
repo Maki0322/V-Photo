@@ -14,25 +14,10 @@ import {FlickrApiType} from '../types/FlickrApi'
 import { Select, FormControl, MenuItem } from '@mui/material';
 import PhotosPagination from '../components/PhotosPagination';
 import PhotoList from '../components/PhotoList';
+import { useRecoilState } from 'recoil';
+import { currentPageState } from '../state/currentPageState';
+import { pageCountState } from '../state/pageCountState';
 
-
-type JsonType = FlickrApiType;
-
-// FavoriteBorderIconのcss
-const MyFavoriteBorderIcon = styled(FavoriteBorderIcon)({
-  cursor: "pointer",
-  padding: "7px",
-  fontSize: "32px",
-  borderRadius: "18px",
-  position: "absolute",
-  bottom: "20px",
-  right: "20px",
-  color:"white",
-  zIndex:"10",
-  "&:hover": {
-    color:"red",
-  }
-})
 
 const MyTeamSelect = styled(Select)({
   width: "200px",
@@ -50,80 +35,81 @@ const MytournamentSelect = styled(Select)({
   borderRadius: "40px",
 })
 
-// type Team =
-//   | "すべてのチーム"
-//   | "ZETA DIVISION"
-//   | "Crazy Raccoon"
-//   | "Northeption"
+type Team =
+  | "すべて"
+  | "ZETA DIVISION"
+  | "Crazy Raccoon"
+  | "Northeption"
 
 export default function Home() {
-  // プルダウンの内容
-  const teamsValue = [
-    // "すべてのチーム",
-    "ZETA DIVISION", 
-    "Crazy Raccoon", 
-    "Northeption"
+
+  // 【チームフィルターの実装】
+  // チームフィルターのプルダウンの内容
+  const teamfilterStatus =  [
+    "すべて",
+    "ZETA DIVISION",
+    "Crazy Raccoon",
+    "Northeption",
   ]
-  // プルダウンの値をuseStateで管理
-  const [teams, setTeams] = useState("ZETA DIVISION")
+  // プルダウンの値を管理
+  const [teamFilter, setTeamFilter] = useState<Team>("すべて");
   // プルダウンを動かすための関数
-  // const handleChangeTeam = (e:React.ChangeEvent<HTMLSelectElement>) => {
-  //   setTeams(e.target.value);
-  // }
+  const handleChangeTeamFilter = (e:any) => {
+    setTeamFilter(e.target.value);
+  }
+  // useEffect(()=>{
+  //   console.log(teamFilter)
+  // },[teamFilter]) 
 
   const fetchData:any = [];
-  const [pages, setPages] = useState();
+  const [pageCount, setPageCount] = useRecoilState(pageCountState);
   const pageURLsArr:any = [];
   
   const [allPhotos, setAllPhotos] = useState<FlickrApiType[]>([]);
-  // const [allPhotos, setAllPhotos] = useState<number[]>([]);
-
-  // const ref:any = useRef();
+  const [currentGetPhotos, setCurrentGetPhotos] = useState<FlickrApiType[]>([]);
   
-  useEffect(()=> {
-    setTeams(teams)
-  },[])
 
+  // 現在のページ数
+  const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
+
+  // 1ページ目の写真を取得し、ページ数を取得（1ページあたり100件）
   useEffect(() => {
-    const getFlickrApi = async()=> {
-      // APIURL
-      const endpointURL =
-      // すべての写真(1ページ目)
-      // "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=943b55067047b1a156e92ca1cc6fbe93&user_id=192820496@N05&format=json&nojsoncallback=?&per_page=500&extras=url_m,url_l " 
-      // ZETAの写真(1ページ目)
-      "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=943b55067047b1a156e92ca1cc6fbe93&user_id=192820496@N05&format=json&nojsoncallback=?&per_page=500&tags=zeta%20division&extras=url_m,url_l " 
-      
-      // APIを叩く（データフェッチング）
-      await fetch(endpointURL)
+    if(teamFilter === "すべて"){
+      const allFlickrApi = async()=> {
+        // APIURL
+        const endpointURL = 
+        `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=943b55067047b1a156e92ca1cc6fbe93&user_id=192820496@N05&format=json&nojsoncallback=?&per_page=100&&page=${currentPage}&extras=url_m,url_l` 
+        await fetch(endpointURL)
         .then(res => {
           return res.json()
         })
         .then((data) => {
           // ページ数を取得
-          setPages(data.photos.pages)
-          return data.photos.pages
-        })
-        .then((pages) => {
-          async function getPhotos(){
-            for(let i=0; i<pages;i++){
-              await pageURLsArr.push(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=943b55067047b1a156e92ca1cc6fbe93&user_id=192820496@N05&format=json&nojsoncallback=?&per_page=500&page=${i+1}&tags=zeta%20division&extras=url_m,url_l`)
-              // await pageURLsArr.push(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=943b55067047b1a156e92ca1cc6fbe93&user_id=192820496@N05&format=json&nojsoncallback=?&per_page=500&page=${i+1}&extras=url_m,url_l`)
-              await fetch(pageURLsArr[i])
-                .then(res => {
-                  return res.json()
-                })
-                .then((da) => {
-                  return fetchData.push(...da.photos.photo.flat())
-                })
-            }
-            await setAllPhotos(fetchData)
-          }
-          getPhotos()
+          setPageCount(data.photos.pages)
+          // 写真を取得
+          setCurrentGetPhotos(data.photos.photo)
         })
       }
-      getFlickrApi()
-    },[])
-
+      allFlickrApi()
+    } else {
+      const teamFilterFlickrApi = async()=> {
+        // APIURL
+        const teamFilterEndpointURL = 
+        `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=943b55067047b1a156e92ca1cc6fbe93&user_id=192820496@N05&format=json&nojsoncallback=?&per_page=100&&page=${currentPage}&tags=${teamFilter}&extras=url_m,url_l` 
+        await fetch(teamFilterEndpointURL)
+        .then(res => {
+          return res.json()
+        })
+        .then((data) => {
+          // ページ数を取得
+          setPageCount(data.photos.pages)
+          // 写真を取得
+          setCurrentGetPhotos(data.photos.photo)
+        })
+      }
+      teamFilterFlickrApi()
+    }
+  },[currentPage,teamFilter])
 
   return (
     <>
@@ -134,18 +120,18 @@ export default function Home() {
         <link rel="icon" href="/VPhotoIcon2.ico" />
       </Head>
       <Header />
-
       <div className={styles.sort_area}>
         <div className={styles.select_box}>
           <FormControl>
             <MyTeamSelect 
-              defaultValue={'すべてのチーム'}
+              defaultValue={'すべて'}
               id="team-select"
+              value={teamFilter}
+              onChange={(e)=>handleChangeTeamFilter(e)}
             >
-              <MenuItem value={'すべてのチーム'}>すべてのチーム</MenuItem>
-              <MenuItem value={'ZETA DIVISION'}>ZETA DIVISION</MenuItem>
-              <MenuItem value={'Crazy Raccoon'}>Crazy Raccoon</MenuItem>
-              <MenuItem value={'Northeption'}>Northeption</MenuItem>
+              {teamfilterStatus.map((team) => (
+                <MenuItem key={team} value={team}>{team}</MenuItem>
+              ))}
             </MyTeamSelect>
           </FormControl>
         </div>
@@ -174,20 +160,10 @@ export default function Home() {
         </div>
       </div>
       <div className={styles.container}>
-        <PhotoList allPhotos={allPhotos} />
-        {/* {allPhotos.map((data:any) => (
-          <div className={styles.photos} key={data.id}>
-          <img 
-          className={styles.img} 
-          src={data.url_m} 
-          alt="#"
-            />
-            <MyFavoriteBorderIcon />
-            </div>
-          ))} */}
+        <PhotoList allPhotos={allPhotos} currentGetPhotos={currentGetPhotos}/>
       </div>
       <div className={styles.pagination}>
-        <PhotosPagination allPhotos={allPhotos} />
+        <PhotosPagination allPhotos={allPhotos} currentGetPhotos={currentGetPhotos}/>
       </div>
     </>
   )

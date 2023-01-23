@@ -41,8 +41,10 @@ type Team =
   | "Crazy Raccoon"
   | "Northeption"
   | "DRX"
-  | "PRX"
+  | "Paper Rex"
   | "FNATIC"
+  | "LOUD"
+  | "OpTic Gaming"
 
 export default function Home() {
 
@@ -54,8 +56,10 @@ export default function Home() {
     "Crazy Raccoon",
     "Northeption",
     "DRX",
-    "PRX",
+    "Paper Rex",
     "FNATIC",
+    "LOUD",
+    "OpTic Gaming",
   ]
   // プルダウンの値を管理
   const [teamFilter, setTeamFilter] = useState<Team>("すべて");

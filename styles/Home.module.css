@@ -23,6 +23,10 @@
   width: 100%;
 }
 
+.pagination {
+  text-align:center;
+}
+
 @media ( min-width: 600px ) {
   .sort_area {
     padding-left: 30px;

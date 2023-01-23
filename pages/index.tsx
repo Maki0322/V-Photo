@@ -11,9 +11,12 @@ import { useEffect } from 'react';
 
 import {FlickrApiType} from '../types/FlickrApi'
 
-type JsonType = FlickrApiType;
-
 import { Select, FormControl, MenuItem } from '@mui/material';
+import PhotosPagination from '../components/PhotosPagination';
+import PhotoList from '../components/PhotoList';
+
+
+type JsonType = FlickrApiType;
 
 // FavoriteBorderIconのcss
 const MyFavoriteBorderIcon = styled(FavoriteBorderIcon)({
@@ -72,7 +75,7 @@ export default function Home() {
   const [pages, setPages] = useState();
   const pageURLsArr:any = [];
   
-  const [allPhotos, setAllPhotos] = useState<JsonType[]>([]);
+  const [allPhotos, setAllPhotos] = useState<FlickrApiType[]>([]);
   // const [allPhotos, setAllPhotos] = useState<number[]>([]);
 
   // const ref:any = useRef();
@@ -133,9 +136,7 @@ export default function Home() {
       <Header />
 
       <div className={styles.sort_area}>
-
         <div className={styles.select_box}>
-          
           <FormControl>
             <MyTeamSelect 
               defaultValue={'すべてのチーム'}
@@ -147,23 +148,6 @@ export default function Home() {
               <MenuItem value={'Northeption'}>Northeption</MenuItem>
             </MyTeamSelect>
           </FormControl>
-          {/* <FormControl >
-            <Select 
-              value={teams}
-              onChange={(e) => handleChangeTeam(e)}
-              ref={ref}
-              borderRadius="30px" 
-              size='sm' 
-              w="200px" 
-              _focus={{ boxShadow: "none", borderColor:"rgb(230, 235, 242)"}}
-            >
-              {teamsValue.map((team) => (
-                <option key={team} value={team}>
-                  {team}
-                </option>
-              ))}
-            </Select>
-          </FormControl> */}
         </div>
         <div className={styles.select_box}>
           <FormControl>
@@ -174,7 +158,6 @@ export default function Home() {
               <MenuItem value={'DAY3'}>DAY3</MenuItem>
             </MyDaySelect>
           </FormControl>
-
         </div>
         <div className={styles.select_box}>
           <FormControl>
@@ -187,24 +170,24 @@ export default function Home() {
               <MenuItem value={'vct2022: Stage 2 Masters - Copenhagen'}>vct2022: Stage 2 Masters - Copenhagen</MenuItem>
               <MenuItem value={'VALORANT Champions 2022'}>VALORANT Champions 2022</MenuItem>
             </MytournamentSelect>
-
           </FormControl>
-
         </div>
       </div>
       <div className={styles.container}>
-
-        {allPhotos.map((data:any) => (
+        <PhotoList allPhotos={allPhotos} />
+        {/* {allPhotos.map((data:any) => (
           <div className={styles.photos} key={data.id}>
-            <img 
-              className={styles.img} 
-              src={data.url_m} 
-              alt="#"
+          <img 
+          className={styles.img} 
+          src={data.url_m} 
+          alt="#"
             />
             <MyFavoriteBorderIcon />
-          </div>
-        ))}
-
+            </div>
+          ))} */}
+      </div>
+      <div className={styles.pagination}>
+        <PhotosPagination allPhotos={allPhotos} />
       </div>
     </>
   )

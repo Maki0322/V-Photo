@@ -21,6 +21,7 @@
     "dayjs": "^1.11.7",
     "eslint": "8.30.0",
     "eslint-config-next": "13.0.7",
+    "firebase": "^9.16.0",
     "flickr-sdk": "^6.0.0",
     "next": "13.0.7",
     "react": "18.2.0",

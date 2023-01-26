@@ -14,4 +14,7 @@ export type FlickrApiType = {
   url_m: string,
   width_l: number,
   width_m: number,
+  datetaken: string,
+  datetakengranularity: number,
+  datetakenunknown: string,
 }

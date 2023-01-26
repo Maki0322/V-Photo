@@ -6,8 +6,7 @@ import { styled } from '@mui/system';
 
 import Header from '../components/Header'
 import styles from '../styles/mypage.module.css'
-// import { Button } from '@chakra-ui/react';
-import { Button,TextField, FormLabel, Divider } from '@mui/material';
+import { Button } from '@mui/material';
 
 
 // PersonIconのcss

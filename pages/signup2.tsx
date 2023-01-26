@@ -24,7 +24,6 @@ const MyTextField = styled(TextField)({
 })
 const MyButton = styled(Button)({
   marginBottom:"10px",
-  // borderColor:"RGB(237, 242, 247)",
   color:"black",
   fontWeight:"bold",
   backgroundColor:"RGB(210, 210, 210)",

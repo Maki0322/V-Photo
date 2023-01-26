@@ -1,13 +1,12 @@
-import React, { useState } from 'react'
-import { FlickrApiType } from '../types/FlickrApi'
+import React from 'react'
+import { useRecoilState, useRecoilValue } from 'recoil'
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { styled } from '@mui/system';
-import { useRecoilState,useRecoilValue } from 'recoil'
-import { itemsPerPageState } from '../state/itemsPerPageState'
-import { itemsOffsestState } from '../state/itemsOffsestState'
 
 import styles from '../styles/Home.module.css'
+import { currentGetPhotosState } from '../state/currentGetPhotosState';
+import { filterPhotosState } from '../state/filterPhotosState';
 
 
 // FavoriteBorderIconのcss
@@ -26,27 +25,24 @@ const MyFavoriteBorderIcon = styled(FavoriteBorderIcon)({
   }
 })
 
-type Props = {
-  allPhotos: FlickrApiType[];
-  currentGetPhotos: FlickrApiType[];
-  // currentPhotos: FlickrApiType[];
-  // pageNumber: number
-  // totalCount: number
-}
-
-const PhotoList = ({allPhotos, currentGetPhotos}:Props) => {
-  const itemsPrePage = useRecoilValue(itemsPerPageState);
-  const itemsOffsest = useRecoilValue(itemsOffsestState);
-  const endOffset = itemsOffsest + itemsPrePage;
-  const currentPhotos = currentGetPhotos;
-  // const currentPhotos = allPhotos.slice(itemsOffsest, endOffset);
-
-
-
+const PhotoList = () => {
+  // 表示される写真
+  const currentGetPhotos = useRecoilValue(currentGetPhotosState);
+  // フィルターをかけた写真のstate
+  const [filterPhotos, setFilterPhotos] = useRecoilState(filterPhotosState)
 
   return (
     <>
-      {/* {allPhotos.map((data) => ( */}
+      {/* {filterPhotos.map((data) => (
+        <div className={styles.photos} key={data.id}>
+          <img 
+            className={styles.img} 
+            src={data.url_m} 
+            alt="#"
+          />
+          <MyFavoriteBorderIcon />
+        </div>
+      ))} */}
       {currentGetPhotos.map((data) => (
         <div className={styles.photos} key={data.id}>
           <img 
@@ -57,7 +53,6 @@ const PhotoList = ({allPhotos, currentGetPhotos}:Props) => {
           <MyFavoriteBorderIcon />
         </div>
       ))}
-
     </>
   )
 }

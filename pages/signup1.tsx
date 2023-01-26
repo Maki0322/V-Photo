@@ -5,7 +5,6 @@ import { styled } from '@mui/system';
 
 import styles from '../styles/signup.module.css'
 import Head from 'next/head'
-import Header from '../components/Header'
 import FormHeader from '../components/FormHeader'
 
 import { Button,TextField, FormLabel, Divider } from '@mui/material';

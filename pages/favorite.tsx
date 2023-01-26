@@ -3,10 +3,9 @@ import Head from 'next/head'
 
 import { styled } from '@mui/system';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { Select, FormControl, InputLabel, MenuItem } from '@mui/material';
+import { Select, FormControl, MenuItem } from '@mui/material';
 
 import styles from '../styles/Home.module.css'
-import Header from '../components/Header'
 import FavoriteHeader from '../components/FavoriteHeader';
 
 // FavoriteBorderIconのcss

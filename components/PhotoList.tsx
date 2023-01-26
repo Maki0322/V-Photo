@@ -7,6 +7,7 @@ import { styled } from '@mui/system';
 import styles from '../styles/Home.module.css'
 import { currentGetPhotosState } from '../state/currentGetPhotosState';
 import { filterPhotosState } from '../state/filterPhotosState';
+import Link from 'next/link';
 
 
 // FavoriteBorderIconのcss
@@ -28,29 +29,19 @@ const MyFavoriteBorderIcon = styled(FavoriteBorderIcon)({
 const PhotoList = () => {
   // 表示される写真
   const currentGetPhotos = useRecoilValue(currentGetPhotosState);
-  // フィルターをかけた写真のstate
-  const [filterPhotos, setFilterPhotos] = useRecoilState(filterPhotosState)
 
   return (
     <>
-      {/* {filterPhotos.map((data) => (
-        <div className={styles.photos} key={data.id}>
-          <img 
-            className={styles.img} 
-            src={data.url_m} 
-            alt="#"
-          />
-          <MyFavoriteBorderIcon />
-        </div>
-      ))} */}
       {currentGetPhotos.map((data) => (
         <div className={styles.photos} key={data.id}>
-          <img 
-            className={styles.img} 
-            src={data.url_m} 
-            alt="#"
-          />
-          <MyFavoriteBorderIcon />
+          <Link href={{pathname:"/detail", query:data}}>
+            <img 
+              className={styles.img} 
+              src={data.url_m} 
+              alt="#"
+            />
+            <MyFavoriteBorderIcon />
+          </Link>
         </div>
       ))}
     </>

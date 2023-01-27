@@ -14,7 +14,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import Header from '../components/Header'
 import styles from '../styles/detail.module.css'
-import Link from 'next/link';
 
 
 // // ArrowBackIosNewIconのcss
@@ -97,13 +96,11 @@ const MyArrowBackIcon = styled(ArrowBackIcon)({
   cursor: "pointer",
   color: "rgb(255, 255, 255, 0.8)",
   fontSize: "30px",
-
 })
 
 const detail = () => {
   const router = useRouter();
-  console.log(router.query);
-
+  
   return (
     <>
       <Head>
@@ -115,9 +112,7 @@ const detail = () => {
       <Header />
       <div className={styles.content_area}>
         <div className={styles.back_icon}>
-          {/* <Link href={"/"}> */}
-            <MyArrowBackIcon onClick={() => router.back()}/>
-          {/* </Link> */}
+          <MyArrowBackIcon onClick={() => router.back()}/>
         </div>
         <div className={styles.photo_area}>
           <img className={styles.photo} src={router.query.url_l} alt='#' />
@@ -127,24 +122,35 @@ const detail = () => {
             <MyFavoriteBorderIcon />
           </div>
           <div className={styles.photo_download_icon}>
-            <MyDownloadSharpIcon />
+            <a 
+              className={styles.flickr_detailpage_link_a_tag} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              href={`https://www.flickr.com/photos/valorantesports/${router.query.id}/sizes/l/`}
+            >
+              <MyDownloadSharpIcon />
+            </a>
           </div>
         </div>
       </div>
 
       <div className={styles.description_area}>
-        <div className={styles.poster_area}>
-          <p className={styles.poster_name_index}>投稿者</p>
-          <p className={styles.poster_name}>Valorant Champions Tour Photos</p>
-        </div>
         <div className={styles.shooting_date_area}>
           <p className={styles.shooting_date_index}>撮影日</p>
-          <p className={styles.shooting_date}>2022/9/4</p>
+          <p className={styles.shooting_date}>{router.query.datetaken.slice(0, 10)}</p>
+        </div>
+        <div className={styles.title_area}>
+          <p className={styles.title_index}>タイトル</p>
+          <p className={styles.title}>{router.query.title}</p>
+        </div>
+        <div className={styles.poster_area}>
+          <p className={styles.poster_name_index}>投稿者</p>
+          <p className={styles.poster_name}>{router.query.ownername}</p>
         </div>
         <div className={styles.flickr_detailpage_link_area}>
           <p className={styles.flickr_detailpage_link_index}>掲載元</p>
           <p className={styles.flickr_detailpage_link}>
-            <a className={styles.flickr_detailpage_link_a_tag} target="_blank"  rel="noopener noreferrer" href={`https://www.flickr.com/photos/valorantesports/${router.query.id}/in/album-${router.query.secret}/`}>
+            <a className={styles.flickr_detailpage_link_a_tag} target="_blank" rel="noopener noreferrer" href={`https://www.flickr.com/photos/valorantesports/${router.query.id}/in/album-${router.query.secret}/`}>
               flickr.com
               <MyLaunchSharpIcon />
             </a>

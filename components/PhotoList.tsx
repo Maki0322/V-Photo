@@ -20,7 +20,7 @@ const MyFavoriteBorderIcon = styled(FavoriteBorderIcon)({
   bottom: "20px",
   right: "20px",
   color:"white",
-  zIndex:"10",
+  zIndex:"20",
   "&:hover": {
     color:"red",
   }
@@ -30,17 +30,22 @@ const PhotoList = () => {
   // 表示される写真
   const currentGetPhotos = useRecoilValue(currentGetPhotosState);
 
+  // いいねボタンを押したときに走る関数
+  const handleClickFavoriteIcon = () => {
+    console.log("いいねボタンを押しました")
+  }
+
   return (
     <>
       {currentGetPhotos.map((data) => (
         <div className={styles.photos} key={data.id}>
+          <MyFavoriteBorderIcon onClick={handleClickFavoriteIcon}/>
           <Link href={{pathname:"/detail", query:data}}>
             <img 
               className={styles.img} 
               src={data.url_m} 
               alt="#"
             />
-            <MyFavoriteBorderIcon />
           </Link>
         </div>
       ))}

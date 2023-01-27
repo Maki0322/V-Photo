@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import Head from 'next/head'
 import Link from 'next/link'
+import { useRouter } from 'next/router';
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import { getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+
 import { Button,TextField, FormLabel, Divider } from '@mui/material';
 import { styled } from '@mui/system';
 
 import styles from '../styles/login.module.css'
 import FormHeader from '../components/FormHeader'
-import Head from 'next/head'
+import { userAuthState } from '../state/userAuthState';
+import { firebaseApp } from '../firestore/firebase';
 
 const MyFormLabel = styled(FormLabel)({
   display:"block",
@@ -33,6 +39,77 @@ const MyDivider = styled(Divider)({
 
 
 const login = () => {
+  const router = useRouter();
+  const auth = getAuth(firebaseApp)
+
+  const [error, setError] = useState("")
+  const setUserAuth = useSetRecoilState(userAuthState)
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    if(auth.currentUser){
+      console.log("auth.currentUser",auth.currentUser)
+      router.push("/")
+    } else {
+      console.log("auth.currentUser",auth.currentUser)
+      return
+    }
+  },[]);
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value)
+  }
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value)
+  }
+  // emailでログインするための関数
+  const handleEmailLogin = async(e: any) => {
+    e.preventDefault();
+    console.log(email, password)
+    signInWithEmailAndPassword(auth, email, password)
+    .then((user) => {
+      setUserAuth(user.user.uid !== "")
+      router.push("/")
+      console.log('ログイン成功=', user.user.uid)
+    })
+    .catch((error) => {
+      switch (error.code) {
+        case 'auth/invalid-email':
+          setError('正しいメールアドレスの形式で入力してください。');
+          break;
+        case 'auth/user-not-found':
+          setError('メールアドレスかパスワードに誤りがあります。');
+          break;
+        case 'auth/wrong-password':
+          setError('メールアドレスかパスワードに誤りがあります。');
+          break;
+        default:
+          setError('メールアドレスかパスワードに誤りがあります。');
+          break;
+      }
+    });
+  };
+
+  // googleアカウントでログインするための関数
+  const handleGoogleLogin = async(e: any) => {
+    e.preventDefault();
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+    .then((result) => {
+      setUserAuth(result.user.uid !== "")
+      router.push("/")
+      console.log('ログイン成功=', result.user.uid)
+    }).catch((error) => {
+      switch (error.code) {
+        case 'error.customData.email':
+          setError('そのメールアドレスは既に使用されています。');
+          break;
+      }
+    });
+  };
+
   return (
     <>
       <Head>
@@ -51,21 +128,35 @@ const login = () => {
         <form>
           <div className={styles.email_area}>
             <MyFormLabel>Email address</MyFormLabel>
-            <MyTextField placeholder='Email address' variant="outlined" size='small' />
+            <MyTextField 
+              placeholder='Email address' 
+              variant="outlined" 
+              size='small' 
+              onChange={(e)=> handleEmailChange(e)}
+            />
           </div>
           <div className={styles.password_area}>
             <MyFormLabel>Password</MyFormLabel>
-            <MyTextField placeholder="Password" variant="outlined" size='small'/>
+            <MyTextField 
+              placeholder="Password" 
+              variant="outlined" 
+              size='small' 
+              onChange={(e) => handlePasswordChange(e)}
+            />
           </div>
  
-          <MyButton variant="contained" fullWidth={true} >
+          <MyButton 
+            variant="contained" 
+            fullWidth={true} 
+            onClick={handleEmailLogin}
+          >
             ログイン
           </MyButton>
 
         </form>
         <div  className={styles.signup_link_area}>
           ユーザー登録は
-            <Link href={"/signup1"} style={{textDecoration:"none"}}>
+            <Link href={"/signup_email"} style={{textDecoration:"none"}}>
               <span className={styles.signup_link}>
                 こちら
               </span>
@@ -73,7 +164,11 @@ const login = () => {
           から
         </div>
         <MyDivider>または</MyDivider>
-        <MyButton variant="contained" fullWidth={true}>
+        <MyButton 
+          variant="contained" 
+          onClick={handleGoogleLogin}  
+          fullWidth={true}
+        >
           Googleでログイン
         </MyButton>
 

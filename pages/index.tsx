@@ -70,6 +70,8 @@ export default function Home() {
   const handleChangeTeamFilter = (e:any) => {
     setTeamFilter(e.target.value);
     setTourFilter("すべて");
+    setUrlFilterMinUploadDate("")
+    setUrlFilterMaxUploadDate("")
     if(e.target.value==="すべて"){
       setUrlFilterTeams("");
     } else {

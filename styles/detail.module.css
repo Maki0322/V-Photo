@@ -94,6 +94,15 @@
   font-size: 16px;
   font-weight: 700;
 }
+.title_index {
+  font-size: 12px;
+  padding-right: 10px;
+  color: rgb(110, 110, 110);
+}
+.title {
+  font-size: 16px;
+  font-weight: 700;
+}
 .flickr_detailpage_link {
   font-size: 16px;
   /* line-height: 36px; */
@@ -114,7 +123,8 @@
 @media ( min-width: 450px ) {
   .poster_area {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+
   }
   .poster_name_index {
     margin-left: 20px;
@@ -122,7 +132,7 @@
     margin-bottom: 0;
     font-size: 20px;
     padding-right: 10px;
-    width: 70px;
+    min-width: 80px;
   }
   .poster_name {
     margin-left: 10px;
@@ -134,7 +144,8 @@
   }
   .shooting_date_area {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+
   }
   .shooting_date_index {
     margin-left: 20px;
@@ -142,10 +153,31 @@
     margin-bottom: 0;
     font-size: 20px;
     padding-right: 10px;
-    width: 70px;
+    min-width: 80px;
 
   }
   .shooting_date {
+    margin-left: 10px;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .title_area {
+    display: flex;
+    align-items: center;
+    align-items: flex-start;
+  }
+  .title_index {
+    margin-left: 20px;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 20px;
+    padding-right: 10px;
+    min-width: 80px;
+
+  }
+  .title {
     margin-left: 10px;
     margin-top: 0;
     margin-bottom: 0;
@@ -161,7 +193,7 @@
     margin-top: 0;
     margin-bottom: 0;
     font-size: 20px;
-    width: 70px;
+    min-width: 80px;
 
   }
   .flickr_detailpage_link {

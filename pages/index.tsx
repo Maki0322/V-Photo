@@ -14,6 +14,12 @@ import { pageCountState } from '../state/pageCountState';
 import { currentGetPhotosState } from '../state/currentGetPhotosState';
 import styles from '../styles/Home.module.css'
 import flickrApi from '../apis/flickrApi';
+import { dayFilterState } from '../state/dayFilterState';
+import { tourFilterState } from '../state/tourFilterState';
+import { teamFilterState } from '../state/teamFilterState';
+import { urlFilterTeamsState } from '../state/urlFilterTeamsState';
+import { urlFilterMinUploadDateState } from '../state/urlFilterMinUploadDateState';
+import { urlFilterMaxUploadDateState } from '../state/urlFilterMaxUploadDateState';
 
 const MyTeamSelect = styled(Select)({
   width: "200px",
@@ -40,9 +46,9 @@ export default function Home() {
   const currentPage = useRecoilValue(currentPageState);
 
   // APIリクエストを送る際の値のstate
-  const [urlFilterTeams, setUrlFilterTeams] = useState<string>("")
-  const [urlFilterMinUploadDate, setUrlFilterMinUploadDate] = useState("")
-  const [urlFilterMaxUploadDate, setUrlFilterMaxUploadDate] = useState("")
+  const [urlFilterTeams, setUrlFilterTeams] = useRecoilState(urlFilterTeamsState);
+  const [urlFilterMinUploadDate, setUrlFilterMinUploadDate] = useRecoilState(urlFilterMinUploadDateState)
+  const [urlFilterMaxUploadDate, setUrlFilterMaxUploadDate] = useRecoilState(urlFilterMaxUploadDateState)
 
   // 【チームフィルターの実装】
   // チームフィルターのプルダウンの内容
@@ -58,11 +64,14 @@ export default function Home() {
     "OpTic Gaming",
   ]
   // チームフィルターのプルダウンの値を管理
-  const [teamFilter, setTeamFilter] = useState<string>("すべて");
+  const [teamFilter, setTeamFilter] = useRecoilState(teamFilterState);
+  // const [teamFilter, setTeamFilter] = useState<string>("すべて");
   // チームフィルターのプルダウンを動かすための関数
   const handleChangeTeamFilter = (e:any) => {
     setTeamFilter(e.target.value);
     setTourFilter("すべて");
+    setUrlFilterMinUploadDate("")
+    setUrlFilterMaxUploadDate("")
     if(e.target.value==="すべて"){
       setUrlFilterTeams("");
     } else {
@@ -82,12 +91,13 @@ export default function Home() {
     "vct2022: Champions",
   ]
   // 大会フィルターのプルダウンの内容を管理
-  const [tourFilter, setTourFilter] = useState<string>("すべて")
+  const [tourFilter, setTourFilter] = useRecoilState(tourFilterState);
+  // const [tourFilter, setTourFilter] = useState<string>("すべて")
   // 大会フィルターのプルダウンを動かすための関数
   const handleChangeTourFilter = async(e:any) => {
     await setTourFilter(e.target.value);
     // 日程フィルターも初期値に戻す
-    setDayFilter("すべて")
+    setDayFilter("すべて");
     switch (e.target.value) {
       case "すべて":
         setUrlFilterMinUploadDate("")
@@ -247,7 +257,8 @@ export default function Home() {
   const tourSchedule = getTourSchedule()
 
   // 日程フィルターのプルダウンの値を管理
-  const [dayFilter, setDayFilter] = useState<string>("すべて");
+  const [dayFilter, setDayFilter] = useRecoilState(dayFilterState);
+  // const [dayFilter, setDayFilter] = useState<string>("すべて");
   // 日程フィルターのプルダウンを動かすための関数
   const handleChangeDayFilter = (e:any) => {
     setDayFilter(e.target.value);

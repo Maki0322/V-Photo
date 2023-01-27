@@ -34,7 +34,7 @@ const MyDivider = styled(Divider)({
 })
 
 
-const signup1 = () => {
+const signup_email = () => {
   return (
     <>
       <Head>
@@ -79,4 +79,4 @@ const signup1 = () => {
   )
 }
 
-export default signup1
+export default signup_email

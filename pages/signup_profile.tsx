@@ -38,7 +38,7 @@ const MyDivider = styled(Divider)({
 
 
 
-const signup2 = () => {
+const signup_profile = () => {
   const [value, setValue] = useState<Dayjs | null>();
   const handleChange = (newValue: Dayjs | null) => {
     setValue(newValue);
@@ -90,4 +90,4 @@ const signup2 = () => {
   )
 }
 
-export default signup2
+export default signup_profile

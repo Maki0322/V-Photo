@@ -18,8 +18,8 @@ import { dayFilterState } from '../state/dayFilterState';
 import { tourFilterState } from '../state/tourFilterState';
 import { teamFilterState } from '../state/teamFilterState';
 import { urlFilterTeamsState } from '../state/urlFilterTeamsState';
-import { urlFilterMinUploadDateState } from '../state/urlFilterMinUploadDateState';
-import { urlFilterMaxUploadDateState } from '../state/urlFilterMaxUploadDateState';
+import { urlFilterMinTakenDateState } from '../state/urlFilterMinTakenDateState';
+import { urlFilterMaxTakenDateState } from '../state/urlFilterMaxTakenDateState';
 
 const MyTeamSelect = styled(Select)({
   width: "200px",
@@ -43,12 +43,12 @@ export default function Home() {
   // ページ数のstate
   const [pageCount, setPageCount] = useRecoilState(pageCountState);
   // 現在のページ数のstate
-  const currentPage = useRecoilValue(currentPageState);
+  const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
 
   // APIリクエストを送る際の値のstate
   const [urlFilterTeams, setUrlFilterTeams] = useRecoilState(urlFilterTeamsState);
-  const [urlFilterMinUploadDate, setUrlFilterMinUploadDate] = useRecoilState(urlFilterMinUploadDateState)
-  const [urlFilterMaxUploadDate, setUrlFilterMaxUploadDate] = useRecoilState(urlFilterMaxUploadDateState)
+  const [urlFilterMinTakenDate, setUrlFilterMinTakenDate] = useRecoilState(urlFilterMinTakenDateState)
+  const [urlFilterMaxTakenDate, setUrlFilterMaxTakenDate] = useRecoilState(urlFilterMaxTakenDateState)
 
   // 【チームフィルターの実装】
   // チームフィルターのプルダウンの内容
@@ -70,14 +70,15 @@ export default function Home() {
   const handleChangeTeamFilter = (e:any) => {
     setTeamFilter(e.target.value);
     setTourFilter("すべて");
-    setUrlFilterMinUploadDate("")
-    setUrlFilterMaxUploadDate("")
+    setUrlFilterMinTakenDate("");
+    setUrlFilterMaxTakenDate("");
+    setCurrentPage(1);
     if(e.target.value==="すべて"){
       setUrlFilterTeams("");
     } else {
       setUrlFilterTeams(e.target.value);
-    }
-  }
+    };
+  };
 
   // 【大会フィルターの実装】
   // 大会フィルターのプルダウンの内容
@@ -96,36 +97,37 @@ export default function Home() {
   // 大会フィルターのプルダウンを動かすための関数
   const handleChangeTourFilter = async(e:any) => {
     await setTourFilter(e.target.value);
+    setCurrentPage(1);
     // 日程フィルターも初期値に戻す
     setDayFilter("すべて");
     switch (e.target.value) {
       case "すべて":
-        setUrlFilterMinUploadDate("")
-        setUrlFilterMaxUploadDate("")
+        setUrlFilterMinTakenDate("")
+        setUrlFilterMaxTakenDate("")
         return
       case "vct2021: Stage 2 Masters - Reykjavík":
-        setUrlFilterMinUploadDate("2021-5-10")
-        setUrlFilterMaxUploadDate("2021-6-10")
+        setUrlFilterMinTakenDate("2021-5-10")
+        setUrlFilterMaxTakenDate("2021-6-10")
         return
       case "vct2021: Stage 3 Masters - Berlin":
-        setUrlFilterMinUploadDate("2021-9-1")
-        setUrlFilterMaxUploadDate("2021-9-30")
+        setUrlFilterMinTakenDate("2021-9-1")
+        setUrlFilterMaxTakenDate("2021-9-30")
         return
       case "vct2021: Champions":
-        setUrlFilterMinUploadDate("2021-11-20")
-        setUrlFilterMaxUploadDate("2021-12-20")
+        setUrlFilterMinTakenDate("2021-11-20")
+        setUrlFilterMaxTakenDate("2021-12-20")
         return
       case "vct2022: Stage 1 Masters - Reykjavík":
-        setUrlFilterMinUploadDate("2022-4-1")
-        setUrlFilterMaxUploadDate("2022-4-30")
+        setUrlFilterMinTakenDate("2022-4-1")
+        setUrlFilterMaxTakenDate("2022-4-30")
         return 
       case "vct2022: Stage 2 Masters - Copenhagen":
-        setUrlFilterMinUploadDate("2022-7-1")
-        setUrlFilterMaxUploadDate("2022-7-30")
+        setUrlFilterMinTakenDate("2022-7-1")
+        setUrlFilterMaxTakenDate("2022-7-30")
         return
       case "vct2022: Champions":
-        setUrlFilterMinUploadDate("2022-8-20")
-        setUrlFilterMaxUploadDate("2022-9-30")
+        setUrlFilterMinTakenDate("2022-8-20")
+        setUrlFilterMaxTakenDate("2022-9-30")
         return
     }
   }
@@ -252,9 +254,9 @@ export default function Home() {
         return dayFilterStatusVCT2022Stage2;
       case "vct2022: Champions":
         return dayFilterStatusVCT2022Champions;
-    }
-  }
-  const tourSchedule = getTourSchedule()
+    };
+  };
+  const tourSchedule = getTourSchedule();
 
   // 日程フィルターのプルダウンの値を管理
   const [dayFilter, setDayFilter] = useRecoilState(dayFilterState);
@@ -262,23 +264,24 @@ export default function Home() {
   // 日程フィルターのプルダウンを動かすための関数
   const handleChangeDayFilter = (e:any) => {
     setDayFilter(e.target.value);
-    setUrlFilterMinUploadDate(tourSchedule.find (({schedule}) => schedule === e.target.value).minDate)
-    setUrlFilterMaxUploadDate(tourSchedule.find (({schedule}) => schedule === e.target.value).maxDate)
-  }
+    setCurrentPage(1);
+    setUrlFilterMinTakenDate(tourSchedule.find (({schedule}) => schedule === e.target.value).minDate);
+    setUrlFilterMaxTakenDate(tourSchedule.find (({schedule}) => schedule === e.target.value).maxDate);
+  };
   
   const getApi =async (serchUrl:string) => {
     await flickrApi.get(serchUrl)
       .then((res) => {
-        setCurrentGetPhotos(res.data.photos.photo)
-        setPageCount(res.data.photos.pages)
+        setCurrentGetPhotos(res.data.photos.photo);
+        setPageCount(res.data.photos.pages);
       })
       .catch((error)=>{
-        console.log(error)
-      })
-  }
+        console.log(error);
+      });
+  };
   useEffect(()=> {
-    getApi(`&tags=${urlFilterTeams}`+`&page=${currentPage}`+`&min_upload_date=${urlFilterMinUploadDate}`+`&max_upload_date=${urlFilterMaxUploadDate}`)
-  },[urlFilterTeams,urlFilterMinUploadDate,urlFilterMaxUploadDate,currentPage])
+    getApi(`&tags=${urlFilterTeams}`+`&page=${currentPage}`+`&min_taken_date=${urlFilterMinTakenDate}`+`&max_taken_date=${urlFilterMaxTakenDate}`);
+  },[urlFilterTeams,urlFilterMinTakenDate,urlFilterMaxTakenDate,currentPage]);
 
 
 

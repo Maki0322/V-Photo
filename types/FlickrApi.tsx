@@ -18,4 +18,5 @@ export type FlickrApiType = {
   datetakengranularity: number,
   datetakenunknown: string,
   ownername: string,
+  tags: string,
 }

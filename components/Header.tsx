@@ -6,7 +6,7 @@ import { styled } from '@mui/system';
 
 import { useRouter } from 'next/router';
 import { useRecoilState, useSetRecoilState} from 'recoil';
-import { Button,TextField, FormLabel, Divider } from '@mui/material';
+import { Button } from '@mui/material';
 
 
 import styles from '../styles/header.module.css'
@@ -15,6 +15,7 @@ import Vphotologo from '../public/Vphotologo.svg'
 import { signOut } from 'firebase/auth';
 import { auth } from '../firestore/firebase';
 import { userAuthState } from '../state/userAuthState';
+import Link from 'next/link';
 
 // FavoriteBorderIconのcss
 const MyFavoriteBorderIcon = styled(FavoriteBorderIcon)({
@@ -54,19 +55,21 @@ const Header = () => {
     router.push("/login")
   };
 
-  console.log(auth.currentUser);
 
   return (
     <header>
       <div className={styles.header}>
         <div className={styles.logo}>
-          <Vphotologo width="65px" height="auto" cursor="pointer"/>
+          <Link href={"/"}>
+            <Vphotologo width="65px" height="auto" cursor="pointer"/>
+          </Link>
         </div>
 
         {/* 仮で作成 */}
         <Button onClick={handleLogout}>ログアウト</Button>
-
-        <MyFavoriteBorderIcon />
+        <Link href={"/favorite"}>
+          <MyFavoriteBorderIcon />
+        </Link>
         <MyPersonIcon />
       </div>
     </header>

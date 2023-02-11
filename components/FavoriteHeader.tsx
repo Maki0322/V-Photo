@@ -6,6 +6,7 @@ import { styled } from '@mui/system';
 import styles from '../styles/header.module.css'
 
 import Vphotologo from '../public/Vphotologo.svg'
+import Link from 'next/link';
 
 // FavoriteBorderIconのcss
 const MyFavoriteBorderIcon = styled(FavoriteBorderIcon)({
@@ -36,7 +37,9 @@ const FavoriteHeader = () => {
       <header>
         <div  className={styles.header}>
           <div className={styles.logo}>
-            <Vphotologo width="65px" height="auto" cursor="pointer"/>
+            <Link href={"/"}>
+              <Vphotologo width="65px" height="auto" cursor="pointer"/>
+            </Link>
           </div>
           <MyFavoriteBorderIcon />
           <MyPersonIcon />

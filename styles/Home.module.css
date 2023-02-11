@@ -21,6 +21,7 @@
 .img {
   border-radius: 20px;  
   width: 100%;
+  z-index: 10;
 }
 
 .pagination {

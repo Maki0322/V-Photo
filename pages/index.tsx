@@ -283,8 +283,6 @@ export default function Home() {
     getApi(`&tags=${urlFilterTeams}`+`&page=${currentPage}`+`&min_taken_date=${urlFilterMinTakenDate}`+`&max_taken_date=${urlFilterMaxTakenDate}`);
   },[urlFilterTeams,urlFilterMinTakenDate,urlFilterMaxTakenDate,currentPage]);
 
-
-
   return (
     <>
       <Head>

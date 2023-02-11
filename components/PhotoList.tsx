@@ -1,30 +1,11 @@
 import React from 'react'
-import { useRecoilState, useRecoilValue } from 'recoil'
-
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { styled } from '@mui/system';
-
-import styles from '../styles/Home.module.css'
-import { currentGetPhotosState } from '../state/currentGetPhotosState';
-import { filterPhotosState } from '../state/filterPhotosState';
+import { useRecoilValue } from 'recoil'
 import Link from 'next/link';
 
+import FavoriteIcon from './FavoriteIcon';
+import styles from '../styles/Home.module.css'
+import { currentGetPhotosState } from '../state/currentGetPhotosState';
 
-// FavoriteBorderIconのcss
-const MyFavoriteBorderIcon = styled(FavoriteBorderIcon)({
-  cursor: "pointer",
-  padding: "7px",
-  fontSize: "32px",
-  borderRadius: "18px",
-  position: "absolute",
-  bottom: "20px",
-  right: "20px",
-  color:"white",
-  zIndex:"10",
-  "&:hover": {
-    color:"red",
-  }
-})
 
 const PhotoList = () => {
   // 表示される写真
@@ -34,13 +15,21 @@ const PhotoList = () => {
     <>
       {currentGetPhotos.map((data) => (
         <div className={styles.photos} key={data.id}>
+          <FavoriteIcon 
+            id={data.id}
+            tags={data.tags}
+            url_m={data.url_m}
+            url_l={data.url_l}
+            datetaken={data.datetaken}
+            ownername={data.ownername}
+            title={data.title}
+          />
           <Link href={{pathname:"/detail", query:data}}>
             <img 
               className={styles.img} 
               src={data.url_m} 
               alt="#"
             />
-            <MyFavoriteBorderIcon />
           </Link>
         </div>
       ))}

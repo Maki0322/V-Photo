@@ -1,14 +1,12 @@
 import { atom } from "recoil";
+import { ProfileType } from "../types/ProfileType";
 
-type Profile = {
-  userName: string,
-  userBirthday: string,
-}
-
-export const profileState = atom<Profile>({
+export const profileState = atom<ProfileType>({
   key: "profileState",
   default: {
     userName: "なまえ",
-    userBirthday:"よろしく。",
+    userMemo: "",
+    userPickUpPhoto: "",
+    userPickUpDescription: "",
   },
 })

@@ -16,6 +16,8 @@ import { signOut } from 'firebase/auth';
 import { auth } from '../firestore/firebase';
 import { userAuthState } from '../state/userAuthState';
 import Link from 'next/link';
+import { modalShowState } from '../state/modalShowState';
+import HeaderModal from './HeaderModal';
 
 // FavoriteBorderIconのcss
 const MyFavoriteBorderIcon = styled(FavoriteBorderIcon)({
@@ -48,6 +50,9 @@ const Header = () => {
   const router = useRouter();
   const setUserAuth = useSetRecoilState(userAuthState);
 
+  // ヘッダーのモーダルの値をrecoilで管理
+  const [modalShow, setModalShow] = useRecoilState(modalShowState);
+
   // ログアウトする関数
   const handleLogout = async () => {
     await signOut(auth)
@@ -70,7 +75,8 @@ const Header = () => {
         <Link href={"/favorite"}>
           <MyFavoriteBorderIcon />
         </Link>
-        <MyPersonIcon />
+        <MyPersonIcon  onClick={() => setModalShow(!modalShow)}/>
+        <HeaderModal />
       </div>
     </header>
   )

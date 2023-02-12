@@ -5,3 +5,78 @@
   margin-right: auto;
   margin-left: 12px;
 }
+
+/* 以下モーダルウィンドウのCSS */
+#profile_modal {
+  /*　画面全体を覆う設定　*/
+  position:fixed;
+  top:40px;
+  right:10px;
+  width:150px;
+  height:auto;
+  z-index:99;
+
+  /*　画面の中央に要素を表示させる設定　*/
+  display: flex;
+  /* align-items: center; */
+  justify-content: right;
+}
+
+#profile_modal_content {
+  background-color: white;
+  z-index:100;
+  width:100%;
+  padding: 6px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px  rgba(0, 0, 0, 0.3);
+  transition: 0.5s;
+}
+.profile {
+  display: flex;
+  border-bottom: solid 1px rgb(220, 220, 220);
+  padding: 5px 4px;
+  font-weight: bolder;
+  align-items: center;
+}
+.profile_icon {
+ height: auto;
+ padding-right: 10px; 
+}
+.profile_name{
+  font-size: 16px;
+  line-height: 16px;
+  text-align: center;
+  padding-bottom: 5.81px;
+}
+.mypage {
+  border-bottom: solid 1px rgb(220, 220, 220);
+  padding: 5px 4px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+.mypage:hover {
+  background-color: rgba(206, 255, 0, 0.5);
+  transition: 0.2s;
+}
+.mypage_p {
+  color: black;
+}
+.logout {
+  padding: 5px 4px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+.logout:hover {
+  background-color: rgba(206, 255, 0, 0.5);
+  transition: 0.2s;
+}
+.logout_p {
+  color: black;
+}
+.logout_icon{
+  color: rgb(80, 80, 80);
+  padding-right: 5px;
+}

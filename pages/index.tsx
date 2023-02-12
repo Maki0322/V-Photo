@@ -20,6 +20,8 @@ import { teamFilterState } from '../state/teamFilterState';
 import { urlFilterTeamsState } from '../state/urlFilterTeamsState';
 import { urlFilterMinTakenDateState } from '../state/urlFilterMinTakenDateState';
 import { urlFilterMaxTakenDateState } from '../state/urlFilterMaxTakenDateState';
+import { modalShowState } from '../state/modalShowState';
+import { headerModalShowState } from '../state/headerModalShowState';
 
 const MyTeamSelect = styled(Select)({
   width: "200px",
@@ -283,6 +285,13 @@ export default function Home() {
     getApi(`&tags=${urlFilterTeams}`+`&page=${currentPage}`+`&min_taken_date=${urlFilterMinTakenDate}`+`&max_taken_date=${urlFilterMaxTakenDate}`);
   },[urlFilterTeams,urlFilterMinTakenDate,urlFilterMaxTakenDate,currentPage]);
 
+  // 別の場所をクリックしてもモーダルウィンドウを閉じる
+  const[headerModalShow, setHeadereModalShow] = useRecoilState(headerModalShowState);
+  const closeModalShow = () => {
+    if(headerModalShow) return setHeadereModalShow(false);
+  }
+
+
   return (
     <>
       <Head>
@@ -291,62 +300,64 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/VPhotoIcon2.ico" />
       </Head>
-      <Header />
-      <div className={styles.sort_area}>
-        <div className={styles.select_box}>
-          <FormControl>
-            <InputLabel shrink>チーム</InputLabel>
-            <MyTeamSelect 
-              defaultValue={'すべて'}
-              label="チーム"
-              notched
-              value={teamFilter}
-              onChange={(e)=>handleChangeTeamFilter(e)}
-            >
-              {teamFilterStatus.map((team) => (
-                <MenuItem key={team} value={team}>{team}</MenuItem>
-              ))}
-            </MyTeamSelect>
-          </FormControl>
+      <div onClick={closeModalShow}>
+        <Header />
+        <div className={styles.sort_area}>
+          <div className={styles.select_box}>
+            <FormControl>
+              <InputLabel shrink>チーム</InputLabel>
+              <MyTeamSelect 
+                defaultValue={'すべて'}
+                label="チーム"
+                notched
+                value={teamFilter}
+                onChange={(e)=>handleChangeTeamFilter(e)}
+              >
+                {teamFilterStatus.map((team) => (
+                  <MenuItem key={team} value={team}>{team}</MenuItem>
+                ))}
+              </MyTeamSelect>
+            </FormControl>
+          </div>
+          <div className={styles.select_box}>
+            <FormControl>
+            <InputLabel shrink>大会</InputLabel>
+              <MytournamentSelect 
+                defaultValue={'すべて'} 
+                label="大会"
+                notched
+                value={tourFilter}
+                onChange={(e)=>handleChangeTourFilter(e)}
+              >
+                {tourFilterStatus.map((tour) => (
+                  <MenuItem key={tour} value={tour}>{tour}</MenuItem>
+                ))}              
+              </MytournamentSelect>
+            </FormControl>
+          </div>
+          <div className={styles.select_box}>
+            <FormControl>
+            <InputLabel shrink>日程</InputLabel>
+              <MyDaySelect 
+                defaultValue={"すべて"} 
+                label="日程"
+                notched
+                value={dayFilter}
+                onChange={(e)=>handleChangeDayFilter(e)}
+              >
+                {tourSchedule.map((day) => (
+                  <MenuItem key={day.schedule} value={day.schedule}>{day.schedule}</MenuItem>
+                ))}  
+              </MyDaySelect>
+            </FormControl>
+          </div>
         </div>
-        <div className={styles.select_box}>
-          <FormControl>
-          <InputLabel shrink>大会</InputLabel>
-            <MytournamentSelect 
-              defaultValue={'すべて'} 
-              label="大会"
-              notched
-              value={tourFilter}
-              onChange={(e)=>handleChangeTourFilter(e)}
-            >
-              {tourFilterStatus.map((tour) => (
-                <MenuItem key={tour} value={tour}>{tour}</MenuItem>
-              ))}              
-            </MytournamentSelect>
-          </FormControl>
+        <div className={styles.container}>
+          <PhotoList />
         </div>
-        <div className={styles.select_box}>
-          <FormControl>
-          <InputLabel shrink>日程</InputLabel>
-            <MyDaySelect 
-              defaultValue={"すべて"} 
-              label="日程"
-              notched
-              value={dayFilter}
-              onChange={(e)=>handleChangeDayFilter(e)}
-            >
-              {tourSchedule.map((day) => (
-                <MenuItem key={day.schedule} value={day.schedule}>{day.schedule}</MenuItem>
-              ))}  
-            </MyDaySelect>
-          </FormControl>
+        <div className={styles.pagination}>
+          <PhotosPagination />
         </div>
-      </div>
-      <div className={styles.container}>
-        <PhotoList />
-      </div>
-      <div className={styles.pagination}>
-        <PhotosPagination />
       </div>
     </>
   )

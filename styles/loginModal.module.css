@@ -1,0 +1,25 @@
+/* 以下モーダルウィンドウのCSS */
+#profile_modal {
+  /*　画面全体を覆う設定　*/
+  position:fixed;
+  top:40px;
+  right:10px;
+  width:150px;
+  height:auto;
+  z-index:99;
+
+  /*　画面の中央に要素を表示させる設定　*/
+  display: flex;
+  /* align-items: center; */
+  justify-content: right;
+}
+
+#profile_modal_content {
+  background-color: white;
+  z-index:100;
+  width:100%;
+  padding: 6px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px  rgba(0, 0, 0, 0.3);
+  transition: 0.5s;
+}

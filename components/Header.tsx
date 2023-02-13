@@ -17,6 +17,15 @@ import { auth } from '../firestore/firebase';
 import { userAuthState } from '../state/userAuthState';
 import Link from 'next/link';
 
+import HeaderModal from './HeaderModal';
+import { headerModalShowState } from '../state/headerModalShowState';
+import LoginModal from './LoginModal';
+import { loginModalShowState } from '../state/loginModalShowState';
+import { logoutModalShowState } from '../state/logoutModalShowState';
+import { MyButton } from '../pages/login';
+import LogoutModal from './LogoutModal';
+import LogoutCompleteModal from './LogoutCompleteModal';
+
 // FavoriteBorderIconのcss
 const MyFavoriteBorderIcon = styled(FavoriteBorderIcon)({
   fontSize:"35px",
@@ -48,6 +57,14 @@ const Header = () => {
   const router = useRouter();
   const setUserAuth = useSetRecoilState(userAuthState);
 
+  // ヘッダーのモーダルの値をrecoilで管理
+  const [headerModalShow, setHeaderModalShow] = useRecoilState(headerModalShowState);
+
+  // ログインモーダルの値をrecoilで管理
+  const [loginModalShow, setLoginModalShow] = useRecoilState(loginModalShowState);
+  // ログアウトモーダルの値をrecoilで管理
+  const [logoutModalShow, setLogoutModalShow] = useRecoilState(logoutModalShowState);
+
   // ログアウトする関数
   const handleLogout = async () => {
     await signOut(auth)
@@ -55,6 +72,15 @@ const Header = () => {
     router.push("/login")
   };
 
+  // ユーザーアイコンをクリックした時に走る関数
+  const handleClickUserIcon = () => {
+    if(auth.currentUser){
+      setLogoutModalShow(false);
+      setHeaderModalShow(true);
+    } else {
+      return setLoginModalShow(true);
+    }
+  }
 
   return (
     <header>
@@ -65,12 +91,14 @@ const Header = () => {
           </Link>
         </div>
 
-        {/* 仮で作成 */}
-        <Button onClick={handleLogout}>ログアウト</Button>
         <Link href={"/favorite"}>
           <MyFavoriteBorderIcon />
         </Link>
-        <MyPersonIcon />
+        <MyPersonIcon  onClick={handleClickUserIcon}/>
+        <HeaderModal />
+        <LoginModal />
+        <LogoutModal />
+        <LogoutCompleteModal />
       </div>
     </header>
   )

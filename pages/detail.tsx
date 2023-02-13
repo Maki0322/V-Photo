@@ -14,6 +14,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import Header from '../components/Header'
 import styles from '../styles/detail.module.css'
+import FavoriteIcon from '../components/FavoriteIcon';
+import DetailPageFavoriteIcon from '../components/DetailPageFavoriteIcon';
 
 
 // // ArrowBackIosNewIconのcss
@@ -64,9 +66,7 @@ const MyFavoriteBorderIcon = styled(FavoriteBorderIcon)({
   fontSize: "30px",
   borderRadius: "18px",
   color: "rgb(255, 255, 255, 0.8)",
-
   zIndex:"10",
-
   "&:hover": {
     color:"red",
   }
@@ -100,7 +100,7 @@ const MyArrowBackIcon = styled(ArrowBackIcon)({
 
 const detail = () => {
   const router = useRouter();
-  
+  if(!router.query.datetaken)return;
   return (
     <>
       <Head>
@@ -119,7 +119,16 @@ const detail = () => {
         </div>
         <div className={styles.icon_area}>
           <div className={styles.photo_like_icon}>
-            <MyFavoriteBorderIcon />
+            {/* <MyFavoriteBorderIcon /> */}
+            <DetailPageFavoriteIcon 
+              id={router.query.id}
+              title={router.query.title}
+              url_m={router.query.url_m}
+              url_l={router.query.url_l}
+              ownername={router.query.ownername}
+              datetaken={router.query.datetaken}
+              tags={router.query.tags}
+            />
           </div>
           <div className={styles.photo_download_icon}>
             <a 

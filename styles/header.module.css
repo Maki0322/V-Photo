@@ -14,7 +14,7 @@
   right:10px;
   width:150px;
   height:auto;
-  z-index:99;
+  z-index:20;
 
   /*　画面の中央に要素を表示させる設定　*/
   display: flex;
@@ -63,17 +63,18 @@
 .mypage_p {
   color: black;
 }
-.logout {
+.logout_modal_show {
   padding: 5px 4px;
   font-size: 14px;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
-.logout:hover {
+.logout_modal_show:hover {
   background-color: rgba(206, 255, 0, 0.5);
   transition: 0.2s;
 }
-.logout_p {
+.logout_modal_show_p {
   color: black;
 }
 .logout_icon{

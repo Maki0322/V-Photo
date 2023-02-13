@@ -20,7 +20,6 @@ import { teamFilterState } from '../state/teamFilterState';
 import { urlFilterTeamsState } from '../state/urlFilterTeamsState';
 import { urlFilterMinTakenDateState } from '../state/urlFilterMinTakenDateState';
 import { urlFilterMaxTakenDateState } from '../state/urlFilterMaxTakenDateState';
-import { modalShowState } from '../state/modalShowState';
 import { headerModalShowState } from '../state/headerModalShowState';
 
 const MyTeamSelect = styled(Select)({

@@ -1,5 +1,5 @@
 /* 以下モーダルウィンドウのCSS */
-#login_modal {
+#logout_modal {
   /*　画面全体を覆う設定　*/
   position:fixed;
   top:0px;
@@ -15,7 +15,7 @@
   justify-content: center;
 }
 
-#login_modal_content {
+#logout_modal_content {
   background-color: white;
   z-index:100;
   width:50%;

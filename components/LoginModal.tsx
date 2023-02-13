@@ -1,48 +1,43 @@
+import Link from 'next/link'
 import React from 'react'
 import { useRecoilState, useSetRecoilState } from 'recoil'
+import { MyButton } from '../pages/login'
 import { loginModalShowState } from '../state/loginModalShowState'
+import styles from '../styles/loginModal.module.css'
+import CloseIcon from '@mui/icons-material/Close';
+import { styled } from '@mui/system';
+
+export const MyCloseIcon = styled(CloseIcon)({
+  cursor: "pointer",
+})
+
 
 const LoginModal = () => {
   // ログインモーダルの値をrecoilで管理
   const [loginModalShow, setLoginModalShow] = useRecoilState(loginModalShowState);
 
+  // モーダルウィンドウを閉じる関数
+  const closeLoginModal = () => {
+    setLoginModalShow(false);
+  };
+
   if(loginModalShow) {
     return (
       <>
-        <div id={styles.profile_modal}>
-          <div id={styles.profile_modal_content}>
-            <div>こんにちは</div>
-            {/* <div className={styles.profile}>
-              <div className={styles.profile_icon}>
-                <PersonIcon 
-                  style={{
-                    backgroundColor: "black", 
-                    color: "white", 
-                    fontSize:"30px", 
-                    borderRadius:"20px"
-                  }}
-                />
-              </div>
-              <div className={styles.profile_name}>
-                {profile.userName}
-              </div>
-            </div>
-            <Link href={"/mypage"} style={{"textDecoration":"none"}} >
-              <div className={styles.mypage} >
-                <MySettingsIcon />
-                <p className={styles.mypage_p}>マイページ</p>
-              </div>
+        <div id={styles.login_modal} onClick={closeLoginModal}>
+          <div id={styles.login_modal_content}>
+            <MyCloseIcon onClick={closeLoginModal}/>
+            <div>この機能を使用するにはログインが必要です。</div>
+            <div>ログインしますか？</div>
+            <Link href={"/login"} style={{textDecoration: "none"}}>
+              <MyButton>ログインページへ</MyButton>
             </Link>
-            <Link href={"/login"} style={{"textDecoration":"none"}}>
-              <div className={styles.logout}  onClick={handleLogout}>
-                <MyLogoutIcon />
-                <p className={styles.logout_p}>ログアウト</p>
-              </div>
-            </Link> */}
           </div>
         </div>
       </>
     )
+  } else {
+    return null;
   }
 }
 

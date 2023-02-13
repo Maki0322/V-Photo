@@ -22,7 +22,7 @@ const MyTextField = styled(TextField)({
   borderRadius:"30px",
   width:"100%",
 })
-const MyButton = styled(Button)({
+export const MyButton = styled(Button)({
   marginBottom:"10px",
   // borderColor:"RGB(237, 242, 247)",
   color:"black",

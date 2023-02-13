@@ -1,5 +1,5 @@
 import { signOut } from 'firebase/auth';
-import { CollectionReference, doc, DocumentSnapshot, getDoc, onSnapshot, QueryDocumentSnapshot, setDoc } from 'firebase/firestore';
+import { CollectionReference, doc, DocumentReference, DocumentSnapshot, getDoc, onSnapshot, QueryDocumentSnapshot, setDoc } from 'firebase/firestore';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
@@ -16,6 +16,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import styles from '../styles/header.module.css'
 import { styled } from '@mui/system';
 import { headerModalShowState } from '../state/headerModalShowState';
+import { logoutModalShowState } from '../state/logoutModalShowState';
+import LogoutModal from './LogoutModal';
 
 
 const MySettingsIcon = styled(SettingsIcon)({
@@ -33,7 +35,8 @@ const HeaderModal = () => {
 
   // ヘッダーのモーダルの値をrecoilで管理
   const [headerModalShow, setHeaderModalShow] = useRecoilState(headerModalShowState);
-  
+  // ログアウトモーダルの値をrecoilで管理
+  const [logoutModalShow, setLogoutModalShow] = useRecoilState(logoutModalShowState);
   // プロフィール情報をuseRecoilで管理
   const [profile, setProfile] = useRecoilState(profileState);
 
@@ -45,8 +48,8 @@ const HeaderModal = () => {
         return
       } 
       // firebaseからユーザー情報を取得
-      const initialProfile = doc(db, "users", auth.currentUser.uid);
-      const snapProfile =  await getDoc<any>(initialProfile);
+      const initialProfile = doc(db, "users", auth.currentUser.uid) as DocumentReference<ProfileType>;
+      const snapProfile =  await getDoc<ProfileType>(initialProfile);
       // 取得に成功した場合
       if (snapProfile.exists()){
         // firebaseのprofile情報をrecoilにセット
@@ -62,9 +65,7 @@ const HeaderModal = () => {
         }
         // 初期値を設定する関数
         const initialProfileValue = async() => {
-          if(auth.currentUser === null){
-            return
-          } 
+          if(auth.currentUser === null) return;
           // firebaseにprofile情報の初期値を送信
           const docRef = doc(db, "users", auth.currentUser.uid)
           await setDoc(docRef, profileExapmle);
@@ -75,7 +76,7 @@ const HeaderModal = () => {
       }
     }
     initialRendering()
-
+    
     console.log(profile.userName)
   },[]);
 
@@ -85,18 +86,18 @@ const HeaderModal = () => {
       return;
     };
     // firebaseからデータを取得
-    const postProfile = doc<ProfileType>(db, "users", auth.currentUser.uid);
+    const postProfile = doc(db, "users", auth.currentUser.uid) as DocumentReference<ProfileType>;
     // リアルタイムでデータを取得
-    onSnapshot(postProfile, (querySnapshot:DocumentSnapshot<ProfileType>) => {
+    onSnapshot<ProfileType>(postProfile, (querySnapshot:DocumentSnapshot<ProfileType>) => {
+      if (!querySnapshot.exists()) return
       setProfile(querySnapshot.data());
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
-  // ログアウトする関数
-  const handleLogout = async () => {
-    await signOut(auth)
-    setUserAuth(false)
-    router.push("/")
+  // ログアウトボタンを押した時に確認のモーダルウィンドウを表示する
+  const handleLogoutModalShow = () => {
+    setLogoutModalShow(true);
   };
 
   if(headerModalShow){
@@ -125,12 +126,12 @@ const HeaderModal = () => {
                 <p className={styles.mypage_p}>マイページ</p>
               </div>
             </Link>
-            <Link href={"/login"} style={{"textDecoration":"none"}}>
-              <div className={styles.logout}  onClick={handleLogout}>
-                <MyLogoutIcon />
-                <p className={styles.logout_p}>ログアウト</p>
-              </div>
-            </Link>
+
+            <div className={styles.logout_modal_show}  onClick={handleLogoutModalShow}>
+              <MyLogoutIcon />
+              <p className={styles.logout_modal_show_p}>ログアウト</p>
+            </div>
+
           </div>
         </div>
       </>

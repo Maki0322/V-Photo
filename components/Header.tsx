@@ -33,6 +33,7 @@ const MyFavoriteBorderIcon = styled(FavoriteBorderIcon)({
   marginTop:"10px",
   borderRadius:"16px",
   padding:"4px",
+  color:"black",
   "&:hover": {
     backgroundColor: "rgba(195,0,0,0.3)",
     color:"white",
@@ -65,11 +66,13 @@ const Header = () => {
   // ログアウトモーダルの値をrecoilで管理
   const [logoutModalShow, setLogoutModalShow] = useRecoilState(logoutModalShowState);
 
-  // ログアウトする関数
-  const handleLogout = async () => {
-    await signOut(auth)
-    setUserAuth(false)
-    router.push("/login")
+  // ログイン済みの場合はfavoriteページを表示し、ログインしていない場合はloginModalを表示する関数
+  const handleClickFavoritePageIcon = async () => {
+    if(!auth.currentUser) {
+      setLoginModalShow(true);
+    } else {
+      router.push("/favorite");
+    }
   };
 
   // ユーザーアイコンをクリックした時に走る関数
@@ -91,9 +94,12 @@ const Header = () => {
           </Link>
         </div>
 
-        <Link href={"/favorite"}>
+
+        <MyFavoriteBorderIcon onClick={handleClickFavoritePageIcon}/>
+
+        {/* <Link href={"/favorite"}>
           <MyFavoriteBorderIcon />
-        </Link>
+        </Link> */}
         <MyPersonIcon  onClick={handleClickUserIcon}/>
         <HeaderModal />
         <LoginModal />

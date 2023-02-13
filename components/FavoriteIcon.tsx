@@ -4,6 +4,8 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { styled } from '@mui/system';
 import { auth, db } from '../firestore/firebase';
 import { collection, CollectionReference, deleteDoc, doc, onSnapshot, setDoc } from "firebase/firestore";
+import { useRecoilState } from 'recoil';
+import { loginModalShowState } from '../state/loginModalShowState';
 
 
 // FavoriteBorderIconのcss
@@ -68,10 +70,13 @@ const FavoriteIcon = ({id,title,url_m,url_l,ownername,datetaken,tags}:Props) => 
     })
   },[])
 
+    // ログインモーダルの値をrecoilで管理
+    const [loginModalShow, setLoginModalShow] = useRecoilState(loginModalShowState);
+
   // いいねボタンを押したときに走る関数
   // いいねする関数
   const handleClickFavoriteIconActive = async() => {
-    if(!auth.currentUser) return;
+    if(!auth.currentUser) return setLoginModalShow(true);
     const docRef = doc(db, "users", auth.currentUser.uid, "photos", id);
     const data = {
       id: id,

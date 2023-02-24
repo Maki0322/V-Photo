@@ -44,9 +44,7 @@ const HeaderModal = () => {
   // firebaseにprofile情報がない場合は、初期値を設定し、firebaseに送信してrecoilにもセットする。
   useEffect(()  => {
     const initialRendering = async() => {
-      if(auth.currentUser === null){
-        return
-      } 
+      if(!auth.currentUser) return;
       // firebaseからユーザー情報を取得
       const initialProfile = doc(db, "users", auth.currentUser.uid) as DocumentReference<ProfileType>;
       const snapProfile =  await getDoc<ProfileType>(initialProfile);
@@ -58,10 +56,11 @@ const HeaderModal = () => {
       } else {
         // profileの初期値を設定
         const profileExapmle = {
-          userName: "No Name",
-          userMemo: "",
+          userName: "なまえ",
+          userMemo: "よろしくお願いします。",
           userPickUpPhoto: "",
           userPickUpDescription: "",
+          userIcon: "https://firebasestorage.googleapis.com/v0/b/v-photo.appspot.com/o/image%2Ficon3.png?alt=media&token=433d387c-2bcb-4f25-9593-a05b5d4dcb84",
         }
         // 初期値を設定する関数
         const initialProfileValue = async() => {
@@ -70,14 +69,12 @@ const HeaderModal = () => {
           const docRef = doc(db, "users", auth.currentUser.uid)
           await setDoc(docRef, profileExapmle);
           // recoilにも初期値をセット
-          await setProfile(profileExapmle)
+          await setProfile(profileExapmle);
         }
         initialProfileValue()
       }
     }
     initialRendering()
-    
-    console.log(profile.userName)
   },[]);
 
   // レンダリング時に走る関数
@@ -107,6 +104,7 @@ const HeaderModal = () => {
           <div id={styles.profile_modal_content}>
             <div className={styles.profile}>
               <div className={styles.profile_icon}>
+
                 <PersonIcon 
                   style={{
                     backgroundColor: "black", 

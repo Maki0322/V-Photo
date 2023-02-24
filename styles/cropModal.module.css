@@ -1,0 +1,46 @@
+/* 以下モーダルウィンドウのCSS */
+#crop_modal {
+  /*　画面全体を覆う設定　*/
+  position:fixed;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  z-index:99;
+  background-color:rgba(0,0,0,0.5);
+
+  /*　画面の中央に要素を表示させる設定　*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#crop_modal_content {
+  background-color: white;
+  z-index:100;
+  width:420px;
+  height: 550px;
+  padding: 1em;
+  border-radius: 10px;
+  box-shadow: 0 0 8px  rgba(0, 0, 0, 0.3);
+  transition: 0.5s;
+}
+/* モーダルここまで */
+.crop_container_outline{
+  width: 420px;
+  height: 420px;
+  display: flex;
+  flex-flow: column;
+  border-radius: 0px 0px 10px 10px;
+  justify-content: center;
+  background-color: white;
+}
+.crop_container {
+  height: 400px;
+  position: relative;
+  border-radius: 10px 10px 0px 0px;
+  background-color: #f4f7fb;
+}
+.slider{ 
+  width: 90%;
+  margin: 0 auto;
+}

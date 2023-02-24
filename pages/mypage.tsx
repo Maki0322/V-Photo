@@ -1,16 +1,37 @@
 import Head from 'next/head'
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import PersonIcon from '@mui/icons-material/Person';
 import { styled } from '@mui/system';
+import { Button, Slider } from '@mui/material';
+
+import { Area, MediaSize } from 'react-easy-crop';
 
 import Header from '../components/Header'
+import CropModal from '../components/CropModal';
+
+import getCroppedImg from '../const/getCroppedImg';
+
+import { cropModalShowState } from '../state/cropModalShowState';
+import { imgSrcState } from '../state/reactEasyCropState';
+
 import styles from '../styles/mypage.module.css'
-import { Button } from '@mui/material';
+
+import { collection, doc, DocumentData, DocumentSnapshot, getDoc, onSnapshot, QueryDocumentSnapshot, setDoc } from 'firebase/firestore';
+import { auth, db, storage } from '../firestore/firebase';
+import { profileState } from '../state/profileState';
+import { ProfileType } from '../types/ProfileType';
+import { ref, uploadBytes } from 'firebase/storage';
+
+import Vphotologo from '../public/Vphotologo.svg'
+
+import no_image_icon from '../public/no_image_icon.png'
+import EditProfileModal from '../components/EditProfileModal';
 
 
 // PersonIconのcss
-const MyPersonIcon = styled(PersonIcon)({
+export const MyPersonIcon = styled(PersonIcon)({
   cursor: "pointer",
   color:"white",
   fontSize:"120px",
@@ -33,7 +54,97 @@ const MyButton = styled(Button)({
   }
 })
 
+export const CROP_WIDTH = 400;
+export const ASPECT_RATIO = 1;
+
 const mypage = () => {
+  // クロップモーダルの値をrecoilで管理
+  const setCropModalShow = useSetRecoilState(cropModalShowState);
+
+
+  const profile = useRecoilValue(profileState);
+
+
+  // editProfileモーダルの値をstateで管理
+  const [editProfileModal, setEditProfileModal] = useState(false);
+  // モーダルウィンドウを開閉する関数
+  const toggleEditProfileModal = ():void => setEditProfileModal(!editProfileModal);
+  // モーダルウィンドウを閉じる関数
+  const closeEditProfileModal = () => {
+    setEditProfileModal(false);
+  };
+
+
+  /**
+   * ファイルアップロード後
+   * 画像ファイルのURLをセットしモーダルを表示する
+   */
+  const onFileChange = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files && e.target.files.length > 0) {
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+          if (reader.result) {
+            setImgSrc(reader.result.toString() || "");
+            setCropModalShow(true);
+          }
+        });
+        reader.readAsDataURL(e.target.files[0]);
+      }
+    },
+    []
+  );
+  const [imgSrc, setImgSrc] = useRecoilState(imgSrcState);
+
+  const [crop, setCrop] = useState({ x: 0, y: 0 })
+  const [zoom, setZoom] = useState(1)
+  /** 画像拡大縮小の最小値 */
+  const [minZoom, setMinZoom] = useState(1);
+  /** 切り取る領域の情報 */
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area>();
+  const [croppedImgSrc, setCroppedImgSrc] = useState<any>();
+
+  
+  const onCropComplete = useCallback(
+    (croppedArea: Area, croppedAreaPixels: Area) => {
+      setCroppedAreaPixels(croppedAreaPixels);
+    },
+    []
+  );
+
+  const onMediaLoaded = useCallback((mediaSize: MediaSize) => {
+    const { width, height } = mediaSize;
+    const mediaAspectRadio = width / height;
+    if (mediaAspectRadio > ASPECT_RATIO) {
+      // 縦幅に合わせてZoomを指定
+      const result = CROP_WIDTH / ASPECT_RATIO / height;
+      setZoom(result);
+      setMinZoom(result);
+      return;
+    }
+    // 横幅に合わせてZoomを指定
+    const result = CROP_WIDTH / width;
+    setZoom(result);
+    setMinZoom(result);
+  }, []);
+  
+  /**
+   * 切り取り後の画像を生成し画面に表示
+  */
+ const showCroppedImage = useCallback(async () => {
+   if (!croppedAreaPixels) return;
+   try {
+     const croppedImage = await getCroppedImg(imgSrc, croppedAreaPixels);
+     await setCroppedImgSrc(croppedImage);
+    } catch (e) {
+      console.error(e);
+    }
+  }, [croppedAreaPixels, imgSrc]);
+
+
+
+
+   
   return (
     <>
       <Head>
@@ -47,23 +158,48 @@ const mypage = () => {
         <section>
           <div className={styles.user_profile}>
             <div className={styles.user_icon}>
-              <MyPersonIcon />
+              {/* <MyPersonIcon /> */}
+              <img src={profile.userIcon} alt="user icon" className={styles.icon}/>
             </div>
             <div className={styles.user_info}>
-              <div className={styles.user_name}>taso</div>
-              <div className={styles.user_birthdate}>1996/3/22</div>
-              <div className={styles.user_memo}>ZETA DIVISIONのファンです。ZETA以外のチームも応援しています。JPリージョンの配信試合は基本的に全部見ています。海外チームだと、DRX、PRX、FNCが好きです。</div>
+              <div className={styles.user_name}>{profile.userName}</div>
+              <div className={styles.user_memo}>{profile.userMemo}</div>
             </div>
           </div>
           <div className={styles.edit_area}>
             <div className={styles.edit_profile_button}>
-              <MyButton>プロフィールを編集</MyButton>
+              <MyButton onClick={toggleEditProfileModal}>プロフィールを編集</MyButton>
             </div>
+            <EditProfileModal 
+              editProfileModal={editProfileModal}
+              toggleEditProfileModal={toggleEditProfileModal}
+              closeEditProfileModal={closeEditProfileModal}
+            />
+            <CropModal 
+              crop={crop}
+              setCrop={setCrop}
+              zoom={zoom}
+              setZoom={setZoom}
+              onCropComplete={onCropComplete}
+              imgSrc={imgSrc}
+              showCroppedImage={showCroppedImage}
+              onMediaLoaded={onMediaLoaded}
+              minZoom={minZoom}
+            />
+
+
             <div className={styles.edit_pickup_button}>
               <MyButton>ピックアップを編集</MyButton>
             </div>
           </div>
         </section>
+
+
+
+        <div>
+          <input type="file" accept="image/*" onChange={onFileChange} />
+        </div>
+
         <section className={styles.pickup_section}>
           <h1 className={styles.pickup_title}>
             ピックアップ

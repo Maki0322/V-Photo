@@ -3,4 +3,5 @@ export type ProfileType = {
   userMemo: string,
   userPickUpPhoto: string,
   userPickUpDescription: string,
+  userIcon: string,
 };

@@ -1,3 +1,12 @@
+.slider {
+  width: 200px;
+}
+
+.react_crop{
+  max-width: 90% !important;
+  width: 300px;
+}
+
 .main {
   max-width: 1080px;
   margin: 0 auto;
@@ -6,6 +15,13 @@
 .user_icon {
   display: flex;
 	justify-content: center;
+}
+.icon {
+  width: 120px;
+  height: 120px;
+  border-radius: 120px;
+  /* border: solid 2px rgb(156, 156, 156); */
+
 }
 .user_info {
   width: 80%;

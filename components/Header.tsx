@@ -97,9 +97,6 @@ const Header = () => {
 
         <MyFavoriteBorderIcon onClick={handleClickFavoritePageIcon}/>
 
-        {/* <Link href={"/favorite"}>
-          <MyFavoriteBorderIcon />
-        </Link> */}
         <MyPersonIcon  onClick={handleClickUserIcon}/>
         <HeaderModal />
         <LoginModal />

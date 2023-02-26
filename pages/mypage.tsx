@@ -200,11 +200,6 @@ const mypage = () => {
         </section>
 
 
-
-        <div>
-          <input type="file" accept="image/*" onChange={onFileChange} />
-        </div>
-
         <section className={styles.pickup_section}>
           <h1 className={styles.pickup_title}>
             ピックアップ

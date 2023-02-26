@@ -12,10 +12,11 @@ import getCroppedImg from '../const/getCroppedImg';
 type Props = {
   editProfileModal:boolean;
   toggleEditProfileModal: () => void;
+  openEditProfileModal: () => void;
   closeEditProfileModal: () => void;
 }
 
-const EditProfileModal = ({editProfileModal,toggleEditProfileModal,closeEditProfileModal}:Props) => {
+const EditProfileModal = ({editProfileModal,toggleEditProfileModal,openEditProfileModal,closeEditProfileModal}:Props) => {
 
   // クロップモーダルの値をrecoilで管理
   const setCropModalShow = useSetRecoilState(cropModalShowState);
@@ -24,21 +25,28 @@ const EditProfileModal = ({editProfileModal,toggleEditProfileModal,closeEditProf
    * ファイルアップロード後
    * 画像ファイルのURLをセットしモーダルを表示する
    */
-  const onFileChange = useCallback(
+  const reader = new FileReader();
+  const onFileChange = 
     async (e: React.ChangeEvent<HTMLInputElement>) => {
+
+      await console.log("0");
+
       if (e.target.files && e.target.files.length > 0) {
-        const reader = new FileReader();
-        reader.addEventListener("load", () => {
+        await openEditProfileModal()
+        await reader.addEventListener("load", () => {
+          // reader.onload =() => {
           if (reader.result) {
             setImgSrc(reader.result.toString() || "");
             setCropModalShow(true);
           }
+        // };
         });
-        await reader.readAsDataURL(e.target.files[0]);
+        reader.readAsDataURL(e.target.files[0]);
+        closeEditProfileModal()
       }
-    },
-    []
-  );
+    }
+    
+  ;
   const [imgSrc, setImgSrc] = useRecoilState(imgSrcState);
 
   const [crop, setCrop] = useState({ x: 0, y: 0 })
@@ -94,7 +102,7 @@ const EditProfileModal = ({editProfileModal,toggleEditProfileModal,closeEditProf
   if(editProfileModal){
     return (
       <>
-        <div id={styles.edit_profile_modal} onClick={closeEditProfileModal} >
+        <div id={styles.edit_profile_modal} >
           <div id={styles.edit_profile_modal_content}>
             <MyCloseIcon onClick={closeEditProfileModal} />
             <div>モーダル</div>

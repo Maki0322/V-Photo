@@ -69,6 +69,10 @@ const mypage = () => {
   const [editProfileModal, setEditProfileModal] = useState(false);
   // モーダルウィンドウを開閉する関数
   const toggleEditProfileModal = ():void => setEditProfileModal(!editProfileModal);
+  // モーダルウィンドウを開く関数
+  const openEditProfileModal = () => {
+    setEditProfileModal(true);
+  };
   // モーダルウィンドウを閉じる関数
   const closeEditProfileModal = () => {
     setEditProfileModal(false);
@@ -173,6 +177,7 @@ const mypage = () => {
             <EditProfileModal 
               editProfileModal={editProfileModal}
               toggleEditProfileModal={toggleEditProfileModal}
+              openEditProfileModal={openEditProfileModal}
               closeEditProfileModal={closeEditProfileModal}
             />
             <CropModal 

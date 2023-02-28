@@ -9,6 +9,7 @@ import { cropModalShowState } from '../state/cropModalShowState';
 import styles from '../styles/cropModal.module.css'
 import { MyButton } from '../pages/login';
 import { ASPECT_RATIO, CROP_WIDTH } from '../pages/mypage';
+import { MyMuiRoundButton } from './atoms/buttons/MyMuiRoundButton';
 
 
 type Props = {
@@ -91,12 +92,12 @@ const CropModal = ({
                 }}
               />
             </div>
-            <MyButton 
+            <MyMuiRoundButton 
               onClick={() => {
                 showCroppedImage();
                 closeCropModal();
               }}
-            >OK</MyButton>
+            >OK</MyMuiRoundButton>
           </div>
         </div>
       </>

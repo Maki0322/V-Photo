@@ -12,6 +12,8 @@ import styles from '../styles/login.module.css'
 import FormHeader from '../components/FormHeader'
 import { userAuthState } from '../state/userAuthState';
 import { firebaseApp } from '../firestore/firebase';
+import { MyMuiButton } from '../components/atoms/MyMuiButton';
+import { MyMuiSquareButton } from '../components/atoms/buttons/MyMuiSquareButton';
 
 const MyFormLabel = styled(FormLabel)({
   display:"block",
@@ -145,13 +147,13 @@ const login = () => {
             />
           </div>
  
-          <MyButton 
+          <MyMuiSquareButton
             variant="contained" 
             fullWidth={true} 
             onClick={handleEmailLogin}
           >
             ログイン
-          </MyButton>
+          </MyMuiSquareButton>
 
         </form>
         <div  className={styles.signup_link_area}>
@@ -164,13 +166,13 @@ const login = () => {
           から
         </div>
         <MyDivider>または</MyDivider>
-        <MyButton 
+        <MyMuiSquareButton 
           variant="contained" 
           onClick={handleGoogleLogin}  
           fullWidth={true}
         >
           Googleでログイン
-        </MyButton>
+        </MyMuiSquareButton>
 
       </div>
     </>

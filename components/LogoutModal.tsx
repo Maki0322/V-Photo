@@ -10,6 +10,8 @@ import { MyCloseIcon } from './LoginModal';
 import { useRouter } from 'next/router';
 import { userAuthState } from '../state/userAuthState';
 import { logoutCompleteModalShowState } from '../state/logoutCompleteModalShowState';
+import { MyMuiRoundButton } from './atoms/buttons/MyMuiRoundButton';
+import { MyMuiSquareButton } from './atoms/buttons/MyMuiSquareButton';
 
 const LogoutModal = () => {
   const router = useRouter();
@@ -41,7 +43,12 @@ const LogoutModal = () => {
             <MyCloseIcon onClick={closeLogoutModal}/>
             <div>ログアウトしますか？</div>
             <Link href={"/"} style={{textDecoration: "none"}}>
-              <MyButton onClick={handleLogout}>ログアウト</MyButton>
+              <MyMuiSquareButton
+                onClick={handleLogout}
+                sx={{width:"150px"}}
+              >
+                ログアウト
+              </MyMuiSquareButton>
             </Link>
           </div>
         </div>

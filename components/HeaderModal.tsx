@@ -18,6 +18,7 @@ import { styled } from '@mui/system';
 import { headerModalShowState } from '../state/headerModalShowState';
 import { logoutModalShowState } from '../state/logoutModalShowState';
 import LogoutModal from './LogoutModal';
+import { selectPickUpPhotoState } from '../state/selectPickUpPhotoState';
 
 
 const MySettingsIcon = styled(SettingsIcon)({
@@ -32,6 +33,9 @@ const MyLogoutIcon = styled(LogoutIcon)({
 const HeaderModal = () => {
   const router = useRouter();
   const setUserAuth = useSetRecoilState(userAuthState);
+
+  // mypageの仮選択のピックアップフォトの値をuseRecoilで管理
+  const [selectPickUpPhoto, setSelectPickUpPhoto] = useRecoilState(selectPickUpPhotoState);
 
   // ヘッダーのモーダルの値をrecoilで管理
   const [headerModalShow, setHeaderModalShow] = useRecoilState(headerModalShowState);
@@ -51,14 +55,15 @@ const HeaderModal = () => {
       // 取得に成功した場合
       if (snapProfile.exists()){
         // firebaseのprofile情報をrecoilにセット
-        setProfile(snapProfile.data())
+        await setProfile(snapProfile.data());
+        await setSelectPickUpPhoto(snapProfile.data().userPickUpPhoto);
       // 取得できなかった(データが入っていなかった)場合
       } else {
         // profileの初期値を設定
         const profileExapmle = {
-          userName: "なまえ",
+          userName: "No Name",
           userMemo: "よろしくお願いします。",
-          userPickUpPhoto: "",
+          userPickUpPhoto: "https://firebasestorage.googleapis.com/v0/b/v-photo.appspot.com/o/image%2Fno_image.png?alt=media&token=bf785fef-6b0a-4640-9a22-4be838549468",
           userPickUpDescription: "",
           userIcon: "https://firebasestorage.googleapis.com/v0/b/v-photo.appspot.com/o/image%2Ficon3.png?alt=media&token=433d387c-2bcb-4f25-9593-a05b5d4dcb84",
         }
@@ -70,6 +75,7 @@ const HeaderModal = () => {
           await setDoc(docRef, profileExapmle);
           // recoilにも初期値をセット
           await setProfile(profileExapmle);
+          await setSelectPickUpPhoto(profileExapmle.userPickUpPhoto)
         }
         initialProfileValue()
       }

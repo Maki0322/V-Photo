@@ -1,0 +1,136 @@
+/* 以下モーダルウィンドウのCSS */
+#edit_user_pick_up_photo_modal {
+  /*　画面全体を覆う設定　*/
+  position:fixed;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  z-index:99;
+  background-color:rgba(0,0,0,0.5);
+
+  /*　画面の中央に要素を表示させる設定　*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#edit_user_pick_up_photo_modal_content {
+  background-color: white;
+  z-index:100;
+  width:95%;
+  padding: 1em;
+  border-radius: 10px;
+  box-shadow: 0 0 8px  rgba(0, 0, 0, 0.3);
+  transition: 0.5s;
+}
+
+
+
+
+.container {
+  padding: 20px;
+  padding-top: 0;
+  margin: 0 auto;
+}
+.photos {
+  padding:10px;
+  position: relative;
+  /* z-index: 0; */
+}
+.img {
+  border-radius: 20px;  
+  width: 100%;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.pagination {
+  text-align:center;
+}
+
+@media ( min-width: 600px ) {
+  .container {
+    column-count: 2;
+    margin: 0 auto;
+    padding: 30px;
+    padding-top: 0;
+  }
+  .photos {
+    break-inside: avoid; /* こいつが肝 */
+    padding:10px;
+    position: relative;
+  }
+  .img {
+    border-radius: 20px;  
+  }
+}
+
+@media ( min-width: 850px ) {
+  .sort_area {
+    padding-left: 30px;
+  }
+  .select_box {
+    margin: 5px;
+  }
+  .container {
+    column-count: 3;
+    margin: 0 auto;
+    padding: 30px;
+    padding-top: 0;
+  }
+  .photos {
+    break-inside: avoid; /* こいつが肝 */
+    padding:10px;
+    position: relative;
+  }
+  .img {
+    border-radius: 20px;  
+  }
+}
+
+@media ( min-width: 1150px ) {
+  .sort_area {
+    padding-left: 30px;
+  }
+  .select_box {
+    margin: 5px;
+  }
+  .container {
+    column-count: 4;
+
+    margin: 0 auto;
+    padding: 30px;
+    padding-top: 0;
+  }
+  .photos {
+    break-inside: avoid; /* こいつが肝 */
+    padding:10px;
+    position: relative;
+  }
+  .img {
+    border-radius: 20px;  
+  }
+}
+@media ( min-width: 1500px ) {
+  .sort_area {
+    padding-left: 30px;
+  }
+  .select_box {
+    margin: 5px;
+  }
+  .container {
+    column-count: 5;
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 30px;
+    padding-top: 0;
+  }
+  .photos {
+    break-inside: avoid; /* こいつが肝 */
+    padding:10px;
+    position: relative;
+  }
+  .img {
+    border-radius: 20px;  
+  }
+}

@@ -13,6 +13,7 @@ import FormHeader from '../components/FormHeader'
 import { Button,TextField, FormLabel, Divider } from '@mui/material';
 import { db, firebaseApp } from '../firestore/firebase'
 import { doc, setDoc } from 'firebase/firestore'
+import { MyMuiSquareButton } from '../components/atoms/buttons/MyMuiSquareButton'
 
 const MyFormLabel = styled(FormLabel)({
   display:"block",
@@ -106,9 +107,9 @@ const signup_email = () => {
           <MyFormLabel>Password</MyFormLabel>
           <MyTextField placeholder="Password" variant="outlined" size='small' onChange={(e) => handlePasswordChange(e)}/>
         </div>
-        <MyButton variant="contained" fullWidth={true} onClick={signupWithEmail}>
+        <MyMuiSquareButton variant="contained" fullWidth={true} onClick={signupWithEmail}>
           登録
-        </MyButton>
+        </MyMuiSquareButton>
         {/* <MyButton variant="contained" fullWidth={true} onClick={signupWithEmail}>
           次へ
         </MyButton> */}

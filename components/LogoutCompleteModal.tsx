@@ -5,6 +5,7 @@ import { MyButton } from '../pages/login';
 import { logoutCompleteModalShowState } from '../state/logoutCompleteModalShowState';
 import { MyCloseIcon } from './LoginModal';
 import styles from '../styles/LogoutCompleteModal.module.css';
+import { MyMuiSquareButton } from './atoms/buttons/MyMuiSquareButton';
 
 const LogoutCompleteModal = () => {
   // ログアウト完了モーダルの値をrecoilで管理
@@ -20,7 +21,11 @@ const LogoutCompleteModal = () => {
           <div id={styles.logout_complete_modal_content}>
             <MyCloseIcon onClick={closeLogoutCompleteModal}/>
             <div>ログアウトしました。</div>
-            <MyButton onClick={closeLogoutCompleteModal}>OK</MyButton>
+            <MyMuiSquareButton 
+              onClick={closeLogoutCompleteModal}
+            >
+              OK
+            </MyMuiSquareButton>
           </div>
         </div>
       </>

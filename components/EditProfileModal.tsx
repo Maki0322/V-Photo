@@ -8,14 +8,27 @@ import CropModal from './CropModal';
 import { MyCloseIcon } from './LoginModal';
 import { ASPECT_RATIO, CROP_WIDTH } from '../pages/mypage';
 import getCroppedImg from '../const/getCroppedImg';
+import {TextField} from './atoms/MyMuiTextField';
+import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
+import { color } from '@mui/system';
+import { MyMuiRoundButton } from './atoms/buttons/MyMuiRoundButton';
+import { styled } from '@mui/material';
+import { profileState } from '../state/profileState';
+import { auth, db } from '../firestore/firebase';
+import { doc, updateDoc } from 'firebase/firestore';
+
 
 type Props = {
   editProfileModal:boolean;
   toggleEditProfileModal: () => void;
+  openEditProfileModal: () => void;
   closeEditProfileModal: () => void;
 }
 
-const EditProfileModal = ({editProfileModal,toggleEditProfileModal,closeEditProfileModal}:Props) => {
+const EditProfileModal = ({editProfileModal,toggleEditProfileModal,openEditProfileModal,closeEditProfileModal}:Props) => {
+  // プロフィール情報をuseRecoilで管理
+  const [profile, setProfile] = useRecoilState(profileState);
+
 
   // クロップモーダルの値をrecoilで管理
   const setCropModalShow = useSetRecoilState(cropModalShowState);
@@ -24,21 +37,22 @@ const EditProfileModal = ({editProfileModal,toggleEditProfileModal,closeEditProf
    * ファイルアップロード後
    * 画像ファイルのURLをセットしモーダルを表示する
    */
-  const onFileChange = useCallback(
+  const reader = new FileReader();
+  const onFileChange = 
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files.length > 0) {
-        const reader = new FileReader();
-        reader.addEventListener("load", () => {
-          if (reader.result) {
-            setImgSrc(reader.result.toString() || "");
-            setCropModalShow(true);
-          }
+        await openEditProfileModal()
+        await reader.addEventListener("load", () => {
+        if (reader.result) {
+          setImgSrc(reader.result.toString() || "");
+          setCropModalShow(true);
+        }
         });
-        await reader.readAsDataURL(e.target.files[0]);
+        reader.readAsDataURL(e.target.files[0]);
+        closeEditProfileModal()
       }
-    },
-    []
-  );
+    };
+
   const [imgSrc, setImgSrc] = useRecoilState(imgSrcState);
 
   const [crop, setCrop] = useState({ x: 0, y: 0 })
@@ -88,19 +102,42 @@ const EditProfileModal = ({editProfileModal,toggleEditProfileModal,closeEditProf
   }, [croppedAreaPixels, imgSrc]);
 
 
+  const [ editUserName, setEditUserName ] = useState(profile.userName);
+  const [ editUserMemo, setEditUserMemo ] = useState(profile.userMemo);
 
-
+  // 編集したプロフールをfirebaseに送信する
+  const sendEditProfile = async(e: React.MouseEvent<HTMLInputElement>) => {
+    if(!auth.currentUser)return; 
+    // ブラウザ上で記入したprofileをfirebaseに送信
+    const profileEdit = doc(db, "users", auth.currentUser.uid);
+    await updateDoc(profileEdit, {
+      userName:editUserName,
+      userMemo:editUserMemo,
+    })
+    closeEditProfileModal();
+  };
 
   if(editProfileModal){
     return (
       <>
-        <div id={styles.edit_profile_modal} onClick={closeEditProfileModal} >
+        <div id={styles.edit_profile_modal} >
           <div id={styles.edit_profile_modal_content}>
-            <MyCloseIcon onClick={closeEditProfileModal} />
-            <div>モーダル</div>
             <div>
-              <input type="file" accept="image/*" onChange={onFileChange} />
+              <MyCloseIcon onClick={closeEditProfileModal} />
             </div>
+            <label>
+              <div style={{position:"relative"}}>
+                <AddAPhotoOutlinedIcon sx={{color:"white",position:"absolute",top:"50%",left:"50%",transform: "translate(-50%,-50%)", fontSize:"35px", cursor:"pointer"}}/>
+                <img src={profile.userIcon} alt="user icon" style={{borderRadius:"50px", width:"100px", cursor:"pointer", display:"block",margin:"0 auto"}}/>
+                <input
+                  accept="image/*" 
+                  multiple 
+                  type="file" 
+                  style={{ display: "none" }}
+                  onChange={onFileChange} 
+                />
+              </div>
+            </label>
             <CropModal 
               crop={crop}
               setCrop={setCrop}
@@ -113,6 +150,30 @@ const EditProfileModal = ({editProfileModal,toggleEditProfileModal,closeEditProf
               minZoom={minZoom}
             />
 
+            <TextField 
+              label="名前"
+              fullWidth={true}
+              variant="outlined"
+              disabled={false}
+              size="small"
+              margin="normal"
+              onChange={(e) => setEditUserName(e.target.value)}
+              defaultValue={profile.userName}
+            />
+            <TextField 
+              label="ひとこと"
+              fullWidth={true}
+              variant="outlined"
+              disabled={false}
+              size="small"
+              margin="normal"
+              onChange={(e) => setEditUserMemo(e.target.value)}
+              multiline
+              rows={3}
+              defaultValue={profile.userMemo}
+
+            />
+            <MyMuiRoundButton onClick={sendEditProfile}>保存</MyMuiRoundButton>
 
 
 

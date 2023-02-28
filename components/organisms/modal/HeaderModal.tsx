@@ -109,12 +109,14 @@ const HeaderModal = () => {
           <div id={styles.profile_modal_content}>
             <div className={styles.profile}>
               <div className={styles.profile_icon}>
-                <PersonIcon 
+                <img 
+                  src={profile.userIcon} 
+                  alt="user icon" 
                   style={{
-                    backgroundColor: "black", 
-                    color: "white", 
-                    fontSize:"30px", 
-                    borderRadius:"20px"
+                    width:"30px",
+                    height:"30px",
+                    borderRadius:"15px",
+                    marginLeft:"2px"
                   }}
                 />
               </div>

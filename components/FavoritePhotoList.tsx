@@ -13,8 +13,7 @@ const FavoritePhotoList = () => {
 
   // firebaseからいいねボタンを押した写真の情報を取得
   useEffect(() => {
-    // if(!auth.currentUser) return;
-    if(!auth.currentUser) console.log("ユーザー情報がありません");
+    if(!auth.currentUser) return;
     // データの取得
     const postData = collection(db, "users", auth.currentUser.uid, "photos") as CollectionReference<FavoritePhotosType>;
     // リアルタイムでデータを取得する

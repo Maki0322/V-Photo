@@ -1,24 +1,20 @@
-import { signOut } from 'firebase/auth';
-import { CollectionReference, doc, DocumentReference, DocumentSnapshot, getDoc, onSnapshot, QueryDocumentSnapshot, setDoc } from 'firebase/firestore';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
+import Link from 'next/link';
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { auth, db } from '../firestore/firebase';
-import { profileState } from '../state/profileState'
-import { userAuthState } from '../state/userAuthState';
-import { ProfileType } from '../types/ProfileType';
+import { doc, DocumentReference, DocumentSnapshot, getDoc, onSnapshot, QueryDocumentSnapshot, setDoc } from 'firebase/firestore';
 
+import { styled } from '@mui/system';
 import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-import styles from '../styles/header.module.css'
-import { styled } from '@mui/system';
-import { headerModalShowState } from '../state/headerModalShowState';
-import { logoutModalShowState } from '../state/logoutModalShowState';
-import LogoutModal from './LogoutModal';
-import { selectPickUpPhotoState } from '../state/selectPickUpPhotoState';
+import { auth, db } from '../../../firestore/firebase';
+import { profileState } from '../../../state/profileState'
+import { headerModalShowState } from '../../../state/headerModalShowState';
+import { logoutModalShowState } from '../../../state/logoutModalShowState';
+import { selectPickUpPhotoState } from '../../../state/selectPickUpPhotoState';
+import { ProfileType } from '../../../types/ProfileType';
+import styles from '../../../styles/header.module.css'
 
 
 const MySettingsIcon = styled(SettingsIcon)({
@@ -31,16 +27,14 @@ const MyLogoutIcon = styled(LogoutIcon)({
 })
 
 const HeaderModal = () => {
-  const router = useRouter();
-  const setUserAuth = useSetRecoilState(userAuthState);
 
   // mypageの仮選択のピックアップフォトの値をuseRecoilで管理
-  const [selectPickUpPhoto, setSelectPickUpPhoto] = useRecoilState(selectPickUpPhotoState);
+  const setSelectPickUpPhoto = useSetRecoilState(selectPickUpPhotoState);
 
   // ヘッダーのモーダルの値をrecoilで管理
   const [headerModalShow, setHeaderModalShow] = useRecoilState(headerModalShowState);
   // ログアウトモーダルの値をrecoilで管理
-  const [logoutModalShow, setLogoutModalShow] = useRecoilState(logoutModalShowState);
+  const setLogoutModalShow = useSetRecoilState(logoutModalShowState);
   // プロフィール情報をuseRecoilで管理
   const [profile, setProfile] = useRecoilState(profileState);
 
@@ -115,7 +109,6 @@ const HeaderModal = () => {
           <div id={styles.profile_modal_content}>
             <div className={styles.profile}>
               <div className={styles.profile_icon}>
-
                 <PersonIcon 
                   style={{
                     backgroundColor: "black", 
@@ -135,12 +128,10 @@ const HeaderModal = () => {
                 <p className={styles.mypage_p}>マイページ</p>
               </div>
             </Link>
-
             <div className={styles.logout_modal_show}  onClick={handleLogoutModalShow}>
               <MyLogoutIcon />
               <p className={styles.logout_modal_show_p}>ログアウト</p>
             </div>
-
           </div>
         </div>
       </>
@@ -150,4 +141,4 @@ const HeaderModal = () => {
   }
 }
 
-export default HeaderModal
+export default HeaderModal;

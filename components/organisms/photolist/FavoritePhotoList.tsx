@@ -1,12 +1,13 @@
-import { collection, CollectionReference, onSnapshot } from 'firebase/firestore';
+import React, { useEffect } from 'react'
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react'
+import { useRecoilState } from 'recoil'
+import { collection, CollectionReference, onSnapshot } from 'firebase/firestore';
 
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { auth, db } from '../firestore/firebase';
-import { favoritePhotosState } from '../state/favoritePhotosState'
-import FavoriteIcon, { FavoritePhotosType } from './FavoriteIcon';
-import styles from '../styles/Home.module.css'
+import styles from '../../../styles/Home.module.css'
+import { favoritePhotosState } from '../../../state/favoritePhotosState';
+import { auth, db } from '../../../firestore/firebase';
+import { FavoritePhotosType } from '../../../types/FavoritePhotosType';
+import FavoriteIcon from '../../atoms/icons/FavoriteIcon';
 
 const FavoritePhotoList = () => {
   const [favoritePhotos, setFavoritePhotos] = useRecoilState(favoritePhotosState);
@@ -48,4 +49,4 @@ const FavoritePhotoList = () => {
   )
 }
 
-export default FavoritePhotoList
+export default FavoritePhotoList;

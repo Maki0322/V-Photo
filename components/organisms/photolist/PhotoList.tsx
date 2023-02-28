@@ -2,9 +2,9 @@ import React from 'react'
 import { useRecoilValue } from 'recoil'
 import Link from 'next/link';
 
-import FavoriteIcon from './FavoriteIcon';
-import styles from '../styles/Home.module.css'
-import { currentGetPhotosState } from '../state/currentGetPhotosState';
+import { currentGetPhotosState } from '../../../state/currentGetPhotosState';
+import FavoriteIcon from '../../atoms/icons/FavoriteIcon';
+import styles from '../../../styles/Home.module.css'
 
 
 const PhotoList = () => {

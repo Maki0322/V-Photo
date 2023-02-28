@@ -1,13 +1,13 @@
 import Head from 'next/head'
-import { useState, useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useEffect } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { styled } from '@mui/system';
 import { Select, FormControl, MenuItem, InputLabel } from '@mui/material';
 
-import Header from '../components/Header'
-import PhotoList from '../components/PhotoList';
-import PhotosPagination from '../components/PhotosPagination';
+import Header from '../components/organisms/header/Header'
+import PhotoList from '../components/organisms/photolist/PhotoList';
+import PhotosPagination from '../components/organisms/PhotosPagination';
 import { currentPageState } from '../state/currentPageState';
 import { pageCountState } from '../state/pageCountState';
 
@@ -40,12 +40,11 @@ const MyDaySelect = styled(Select)({
 
 export default function Home() {
   // 取得した写真のstate
-  const [currentGetPhotos, setCurrentGetPhotos] = useRecoilState(currentGetPhotosState);
+  const setCurrentGetPhotos = useSetRecoilState(currentGetPhotosState);
   // ページ数のstate
-  const [pageCount, setPageCount] = useRecoilState(pageCountState);
+  const setPageCount = useSetRecoilState(pageCountState);
   // 現在のページ数のstate
   const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
-
   // APIリクエストを送る際の値のstate
   const [urlFilterTeams, setUrlFilterTeams] = useRecoilState(urlFilterTeamsState);
   const [urlFilterMinTakenDate, setUrlFilterMinTakenDate] = useRecoilState(urlFilterMinTakenDateState)

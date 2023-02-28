@@ -1,7 +1,7 @@
-import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { RecoilRoot } from "recoil";
 import { useAuth } from '../firestore/useAuth';
+import '../styles/globals.css'
 
 type Props = {
   children: JSX.Element;

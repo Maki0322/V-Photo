@@ -1,26 +1,21 @@
-import React, { useEffect, useState } from 'react'
-
-import styles from '../styles/editUserPickUpPhotoModal.module.css'
-import { MyMuiCloseIcon } from './atoms/icons/MyMuiCloseIcon'
-
-
+import React, { useEffect } from 'react'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import { collection, CollectionReference, onSnapshot } from 'firebase/firestore';
-import Link from 'next/link';
 
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { auth, db } from '../firestore/firebase';
-import { favoritePhotosState } from '../state/favoritePhotosState'
-import FavoriteIcon, { FavoritePhotosType } from './FavoriteIcon';
-import { selectPickUpPhotoState } from '../state/selectPickUpPhotoState';
+import styles from '../../../styles/editUserPickUpPhotoModal.module.css'
+import { favoritePhotosState } from '../../../state/favoritePhotosState';
+import { FavoritePhotosType } from '../../../types/FavoritePhotosType';
+import { auth, db } from '../../../firestore/firebase';
+import { selectPickUpPhotoState } from '../../../state/selectPickUpPhotoState';
+import { MyMuiCloseIcon } from '../../atoms/icons/MyMuiCloseIcon';
 
 type Props = {
   editUserPickUpPhotoModal:boolean, 
-  openEditUserPickUpPhotoModal:() => void, 
   closeEditUserPickUpPhotoModal:() => void,
   openEditPickUpPhotoModal:() => void,
 }
 
-const EditUserPickUpPhotoModal = ({editUserPickUpPhotoModal, openEditUserPickUpPhotoModal, closeEditUserPickUpPhotoModal,openEditPickUpPhotoModal}:Props) => {
+const EditUserPickUpPhotoModal = ({editUserPickUpPhotoModal, closeEditUserPickUpPhotoModal,openEditPickUpPhotoModal}:Props) => {
 
   const [favoritePhotos, setFavoritePhotos] = useRecoilState(favoritePhotosState);
 
@@ -55,15 +50,6 @@ const EditUserPickUpPhotoModal = ({editUserPickUpPhotoModal, openEditUserPickUpP
               <div className={styles.container}>
                 {favoritePhotos.map((data) => (
                   <div className={styles.photos} key={data.id}>
-                    {/* <FavoriteIcon 
-                      id={data.id}
-                      tags={data.tags}
-                      url_m={data.url_m}
-                      url_l={data.url_l}
-                      datetaken={data.datetaken}
-                      ownername={data.ownername}
-                      title={data.title}
-                    /> */}
                     <img 
                       className={styles.img} 
                       src={data.url_m} 
@@ -72,7 +58,6 @@ const EditUserPickUpPhotoModal = ({editUserPickUpPhotoModal, openEditUserPickUpP
                     />
                   </div>
                 ))}
-
             </div>
             </div>
           </div>

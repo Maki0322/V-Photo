@@ -1,76 +1,18 @@
-import Head from 'next/head'
 import React from 'react'
 import { useRouter } from 'next/router';
+import Head from 'next/head'
 
 import { styled } from '@mui/system';
-// import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-// import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-// import ArrowLeftSharpIcon from '@mui/icons-material/ArrowLeftSharp';
-// import ArrowRightSharpIcon from '@mui/icons-material/ArrowRightSharp';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
 import DownloadSharpIcon from '@mui/icons-material/DownloadSharp';
 import LaunchSharpIcon from '@mui/icons-material/LaunchSharp';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-import Header from '../components/Header'
+import Header from '../components/organisms/header/Header'
 import styles from '../styles/detail.module.css'
-import FavoriteIcon from '../components/FavoriteIcon';
-import DetailPageFavoriteIcon from '../components/DetailPageFavoriteIcon';
+import DetailPageFavoriteIcon from '../components/atoms/icons/DetailPageFavoriteIcon';
 
 
-// // ArrowBackIosNewIconのcss
-// const MYArrowBackIosNewIcon = styled(ArrowBackIosNewIcon)({
-//   cursor: "pointer",
-//   fontSize: "40px",
-//   margin: "10px",
-//   color: "rgb(110, 110, 110)",
-//   "&:hover": {
-//     color:"rgb(170, 170, 170)",
-//   }
-// })
-// // ArrowForwardIosIconのcss
-// const MYArrowForwardIosIcon = styled(ArrowForwardIosIcon)({
-//   cursor: "pointer",
-//   fontSize: "40px",
-//   margin: "10px",
-//   color: "rgb(110, 110, 110)",
-//   "&:hover": {
-//     color:"rgb(170, 170, 170)",
-//   }
-// })
-// // ArrowLeftSharpIconのcss
-// const MYArrowLeftSharpIcon = styled(ArrowLeftSharpIcon)({
-//   cursor: "pointer",
-//   fontSize: "30px",
-//   backgroundColor: "rgba(255, 255, 255, 0.6)",
-//   color: "black",
-//   borderRadius: "30px",
-//   "&:hover": {
-//     backgroundColor: "rgba(255, 255, 255, 0.8)",
-//   }
-// })
-// // ArrowRightSharpIconのcss
-// const MYArrowRightSharpIcon = styled(ArrowRightSharpIcon)({
-//   cursor: "pointer",
-//   fontSize: "30px",
-//   backgroundColor: "rgba(255, 255, 255, 0.6)",
-//   color: "black",
-//   borderRadius: "30px",
-//   "&:hover": {
-//     backgroundColor: "rgba(255, 255, 255, 0.8)",
-//   }
-// })
-// FavoriteBorderIconのcss
-const MyFavoriteBorderIcon = styled(FavoriteBorderIcon)({
-  cursor: "pointer",
-  fontSize: "30px",
-  borderRadius: "18px",
-  color: "rgb(255, 255, 255, 0.8)",
-  zIndex:"10",
-  "&:hover": {
-    color:"red",
-  }
-})
 // DownloadSharpIconのcss
 const MyDownloadSharpIcon = styled(DownloadSharpIcon)({
   cursor: "pointer",
@@ -119,7 +61,6 @@ const detail = () => {
         </div>
         <div className={styles.icon_area}>
           <div className={styles.photo_like_icon}>
-            {/* <MyFavoriteBorderIcon /> */}
             <DetailPageFavoriteIcon 
               id={router.query.id}
               title={router.query.title}
@@ -142,7 +83,6 @@ const detail = () => {
           </div>
         </div>
       </div>
-
       <div className={styles.description_area}>
         <div className={styles.shooting_date_area}>
           <p className={styles.shooting_date_index}>撮影日</p>
@@ -170,5 +110,4 @@ const detail = () => {
   )
 }
 
-
-export default detail
+export default detail;

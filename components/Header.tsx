@@ -5,7 +5,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import { styled } from '@mui/system';
 
 import { useRouter } from 'next/router';
-import { useRecoilState, useSetRecoilState} from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import { Button } from '@mui/material';
 
 
@@ -25,6 +25,7 @@ import { logoutModalShowState } from '../state/logoutModalShowState';
 import { MyButton } from '../pages/login';
 import LogoutModal from './LogoutModal';
 import LogoutCompleteModal from './LogoutCompleteModal';
+import { profileState } from '../state/profileState';
 
 // FavoriteBorderIconのcss
 const MyFavoriteBorderIcon = styled(FavoriteBorderIcon)({
@@ -79,11 +80,14 @@ const Header = () => {
   const handleClickUserIcon = () => {
     if(auth.currentUser){
       setLogoutModalShow(false);
-      setHeaderModalShow(true);
+      setHeaderModalShow(!headerModalShow);
     } else {
       return setLoginModalShow(true);
     }
   }
+
+  // プロフィールの情報をuseRecoilから取得
+  const profile = useRecoilValue(profileState);
 
   return (
     <header>
@@ -93,11 +97,10 @@ const Header = () => {
             <Vphotologo width="65px" height="auto" cursor="pointer"/>
           </Link>
         </div>
-
-
-        <MyFavoriteBorderIcon onClick={handleClickFavoritePageIcon}/>
-
-        <MyPersonIcon  onClick={handleClickUserIcon}/>
+        <div>
+          <MyFavoriteBorderIcon onClick={handleClickFavoritePageIcon}/>
+        </div>
+        <img className={styles.user_icon} src={profile.userIcon} alt="user icon" onClick={handleClickUserIcon} style={{width:"35px", height:"35px", borderRadius:"20px", cursor:"pointer"}}/>
         <HeaderModal />
         <LoginModal />
         <LogoutModal />

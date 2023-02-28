@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import { collection, CollectionReference, deleteDoc, doc, onSnapshot, setDoc } from "firebase/firestore";
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { styled } from '@mui/system';
-import { auth, db } from '../firestore/firebase';
-import { collection, CollectionReference, deleteDoc, doc, onSnapshot, setDoc } from "firebase/firestore";
+
+import { FavoritePhotosType } from '../../../types/FavoritePhotosType';
+import { auth, db } from '../../../firestore/firebase';
 
 
 // FavoriteBorderIconのcss
@@ -34,16 +36,6 @@ interface Props {
   url_m: string,
   tags: string,
 }
-export type FavoritePhotosType = {
-  id: string,
-  title: string,
-  ownername: string,
-  datetaken: string,
-  url_l: string,
-  url_m: string,
-  tags: string,
-  favorite: boolean,
-  }
 
 const DetailPageFavoriteIcon = ({id,title,url_m,url_l,ownername,datetaken,tags}:Props) => {
   const photoId = id;

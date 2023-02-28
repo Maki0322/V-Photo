@@ -1,15 +1,14 @@
-import { useRef,memo, useState, useCallback } from 'react';
 import { useRecoilState } from 'recoil';
-
 import Cropper,{ Area, MediaSize } from 'react-easy-crop';
+
 import Slider from '@mui/material/Slider';
 
-import { MyCloseIcon } from './LoginModal';
-import { cropModalShowState } from '../state/cropModalShowState';
-import styles from '../styles/cropModal.module.css'
-import { MyButton } from '../pages/login';
-import { ASPECT_RATIO, CROP_WIDTH } from '../pages/mypage';
-import { MyMuiRoundButton } from './atoms/buttons/MyMuiRoundButton';
+import styles from '../../../styles/cropModal.module.css'
+import { cropModalShowState } from '../../../state/cropModalShowState';
+import { MyMuiCloseIcon } from '../../atoms/icons/MyMuiCloseIcon';
+import { ASPECT_RATIO, CROP_WIDTH } from '../../../const/cropValue';
+import { MyMuiRoundButton } from '../../atoms/buttons/MyMuiRoundButton';
+
 
 
 type Props = {
@@ -52,7 +51,7 @@ const CropModal = ({
       <>
         <div id={styles.crop_modal}>
           <div id={styles.crop_modal_content}>
-            <MyCloseIcon onClick={closeCropModal}/>
+            <MyMuiCloseIcon onClick={closeCropModal}/>
             <div className={styles.crop_container_outline}>
               <div className={styles.crop_container}>
                 <div >

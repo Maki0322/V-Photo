@@ -1,34 +1,27 @@
+import React, { useCallback, useState } from 'react'
 import Head from 'next/head'
-import React, { useCallback, useEffect, useState } from 'react'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { Area, MediaSize } from 'react-easy-crop';
 
 import PersonIcon from '@mui/icons-material/Person';
 import { styled } from '@mui/system';
-// import { Button, Slider } from '@mui/material';
-
-import { Area, MediaSize } from 'react-easy-crop';
-
-import Header from '../components/Header'
-import CropModal from '../components/CropModal';
 
 import getCroppedImg from '../const/getCroppedImg';
+import { ASPECT_RATIO, CROP_WIDTH } from '../const/cropValue';
+
+import Header from '../components/organisms/header/Header'
+import CropModal from '../components/organisms/modal/CropModal';
+import EditProfileModal from '../components/organisms/modal/EditProfileModal';
+import { MyMuiRoundButton } from '../components/atoms/buttons/MyMuiRoundButton';
+import EditPickUpPhotoModal from '../components/organisms/modal/EditPickUpPhotoModal';
+import EditUserPickUpPhotoModal from '../components/organisms/modal/EditUserPickUpPhotoModal';
 
 import { cropModalShowState } from '../state/cropModalShowState';
 import { imgSrcState } from '../state/reactEasyCropState';
+import { profileState } from '../state/profileState';
 
 import styles from '../styles/mypage.module.css'
 
-import { collection, doc, DocumentData, DocumentSnapshot, getDoc, onSnapshot, QueryDocumentSnapshot, setDoc } from 'firebase/firestore';
-import { auth, db, storage } from '../firestore/firebase';
-import { profileState } from '../state/profileState';
-import { ProfileType } from '../types/ProfileType';
-import { ref, uploadBytes } from 'firebase/storage';
-
-import EditProfileModal from '../components/EditProfileModal';
-
-import { MyMuiRoundButton } from '../components/atoms/buttons/MyMuiRoundButton';
-import EditPickUpPhotoModal from '../components/EditPickUpPhotoModal';
-import EditUserPickUpPhotoModal from '../components/EditUserPickUpPhotoModal';
 
 // PersonIconのcss
 export const MyPersonIcon = styled(PersonIcon)({
@@ -41,21 +34,17 @@ export const MyPersonIcon = styled(PersonIcon)({
   margin:"15px 5px 5px 5px",
 })
 
-export const CROP_WIDTH = 400;
-export const ASPECT_RATIO = 1;
+
 
 const mypage = () => {
   // クロップモーダルの値をrecoilで管理
   const setCropModalShow = useSetRecoilState(cropModalShowState);
 
-
   const profile = useRecoilValue(profileState);
-
 
   // EditProfileモーダルの値をstateで管理
   const [editProfileModal, setEditProfileModal] = useState(false);
-  // モーダルウィンドウを開閉する関数
-  const toggleEditProfileModal = ():void => setEditProfileModal(!editProfileModal);
+
   // モーダルウィンドウを開く関数
   const openEditProfileModal = () => {
     setEditProfileModal(true);
@@ -87,26 +76,7 @@ const mypage = () => {
     setEditUserPickUpPhotoModal(false);
   };
 
-  /**
-   * ファイルアップロード後
-   * 画像ファイルのURLをセットしモーダルを表示する
-   */
-  const onFileChange = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (e.target.files && e.target.files.length > 0) {
-        const reader = new FileReader();
-        reader.addEventListener("load", () => {
-          if (reader.result) {
-            setImgSrc(reader.result.toString() || "");
-            setCropModalShow(true);
-          }
-        });
-        reader.readAsDataURL(e.target.files[0]);
-      }
-    },
-    []
-  );
-  const [imgSrc, setImgSrc] = useRecoilState(imgSrcState);
+  const imgSrc = useRecoilValue(imgSrcState);
 
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
@@ -116,7 +86,6 @@ const mypage = () => {
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area>();
   const [croppedImgSrc, setCroppedImgSrc] = useState<any>();
 
-  
   const onCropComplete = useCallback(
     (croppedArea: Area, croppedAreaPixels: Area) => {
       setCroppedAreaPixels(croppedAreaPixels);
@@ -153,9 +122,6 @@ const mypage = () => {
     }
   }, [croppedAreaPixels, imgSrc]);
 
-
-
-
    
   return (
     <>
@@ -188,7 +154,6 @@ const mypage = () => {
             </div>
             <EditProfileModal 
               editProfileModal={editProfileModal}
-              toggleEditProfileModal={toggleEditProfileModal}
               openEditProfileModal={openEditProfileModal}
               closeEditProfileModal={closeEditProfileModal}
             />
@@ -215,20 +180,16 @@ const mypage = () => {
             </div>
             <EditPickUpPhotoModal 
               editPickUpPhotoModal={editPickUpPhotoModal}
-              openEditPickUpPhotoModal={openEditPickUpPhotoModal}
               closeEditPickUpPhotoModal={closeEditPickUpPhotoModal}
               openEditUserPickUpPhotoModal={openEditUserPickUpPhotoModal}
             />
             <EditUserPickUpPhotoModal 
               editUserPickUpPhotoModal={editUserPickUpPhotoModal}
-              openEditUserPickUpPhotoModal={openEditUserPickUpPhotoModal}
               closeEditUserPickUpPhotoModal={closeEditUserPickUpPhotoModal}
               openEditPickUpPhotoModal={openEditPickUpPhotoModal}
             />
           </div>
         </section>
-
-
         <section className={styles.pickup_section}>
           <h1 className={styles.pickup_title}>
             ピックアップ
@@ -243,4 +204,4 @@ const mypage = () => {
   )
 }
 
-export default mypage
+export default mypage;

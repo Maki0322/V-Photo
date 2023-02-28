@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { styled } from '@mui/system';
-import { auth, db } from '../firestore/firebase';
+import { useSetRecoilState } from 'recoil';
 import { collection, CollectionReference, deleteDoc, doc, onSnapshot, setDoc } from "firebase/firestore";
-import { useRecoilState } from 'recoil';
-import { loginModalShowState } from '../state/loginModalShowState';
+
+import { styled } from '@mui/system';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
+import { FavoritePhotosType } from '../../../types/FavoritePhotosType';
+import { auth, db } from '../../../firestore/firebase';
+import { loginModalShowState } from '../../../state/loginModalShowState';
 
 
 // FavoriteBorderIconのcss
@@ -35,7 +37,7 @@ const MyFavoriteBorderIconRed = styled(FavoriteBorderIcon)({
   zIndex:"20",
 })
 
-interface Props {
+type Props = {
   id :string;
   title: string,
   ownername: string,
@@ -44,16 +46,7 @@ interface Props {
   url_m: string,
   tags: string,
 }
-export type FavoritePhotosType = {
-  id: string,
-  title: string,
-  ownername: string,
-  datetaken: string,
-  url_l: string,
-  url_m: string,
-  tags: string,
-  favorite: boolean,
-  }
+
 
 const FavoriteIcon = ({id,title,url_m,url_l,ownername,datetaken,tags}:Props) => {
   const photoId = id;
@@ -71,7 +64,7 @@ const FavoriteIcon = ({id,title,url_m,url_l,ownername,datetaken,tags}:Props) => 
   },[])
 
     // ログインモーダルの値をrecoilで管理
-    const [loginModalShow, setLoginModalShow] = useRecoilState(loginModalShowState);
+    const setLoginModalShow = useSetRecoilState(loginModalShowState);
 
   // いいねボタンを押したときに走る関数
   // いいねする関数

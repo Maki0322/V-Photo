@@ -1,35 +1,32 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { cropModalShowState } from '../state/cropModalShowState';
-import { imgSrcState } from '../state/reactEasyCropState';
-import { Area, MediaSize } from 'react-easy-crop';
-import styles from '../styles/editProfileModal.module.css'
-import CropModal from './CropModal';
-import { MyCloseIcon } from './LoginModal';
-import { ASPECT_RATIO, CROP_WIDTH } from '../pages/mypage';
-import getCroppedImg from '../const/getCroppedImg';
-import {TextField} from './atoms/MyMuiTextField';
-import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
-import { color } from '@mui/system';
-import { MyMuiRoundButton } from './atoms/buttons/MyMuiRoundButton';
-import { styled } from '@mui/material';
-import { profileState } from '../state/profileState';
-import { auth, db } from '../firestore/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
+import { Area, MediaSize } from 'react-easy-crop';
+import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
+
+import { auth, db } from '../../../firestore/firebase';
+import CropModal from './CropModal';
+import { cropModalShowState } from '../../../state/cropModalShowState';
+import { profileState } from '../../../state/profileState';
+import { imgSrcState } from '../../../state/reactEasyCropState';
+import getCroppedImg from '../../../const/getCroppedImg';
+import {TextField} from '../../atoms/MyMuiTextField';
+import { MyMuiRoundButton } from '../../atoms/buttons/MyMuiRoundButton';
+import { MyMuiCloseIcon } from '../../atoms/icons/MyMuiCloseIcon';
+import styles from '../../../styles/editProfileModal.module.css'
+import { ASPECT_RATIO, CROP_WIDTH } from '../../../const/cropValue';
 
 
 type Props = {
   editProfileModal:boolean;
-  toggleEditProfileModal: () => void;
   openEditProfileModal: () => void;
   closeEditProfileModal: () => void;
 }
 
-const EditProfileModal = ({editProfileModal,toggleEditProfileModal,openEditProfileModal,closeEditProfileModal}:Props) => {
+
+const EditProfileModal = ({editProfileModal,openEditProfileModal,closeEditProfileModal}:Props) => {
   // プロフィール情報をuseRecoilで管理
-  const [profile, setProfile] = useRecoilState(profileState);
-
-
+  const profile = useRecoilValue(profileState);
   // クロップモーダルの値をrecoilで管理
   const setCropModalShow = useSetRecoilState(cropModalShowState);
 
@@ -91,7 +88,7 @@ const EditProfileModal = ({editProfileModal,toggleEditProfileModal,openEditProfi
   /**
    * 切り取り後の画像を生成し画面に表示
   */
- const showCroppedImage = useCallback(async () => {
+  const showCroppedImage = useCallback(async () => {
    if (!croppedAreaPixels) return;
    try {
      const croppedImage = await getCroppedImg(imgSrc, croppedAreaPixels);
@@ -101,12 +98,11 @@ const EditProfileModal = ({editProfileModal,toggleEditProfileModal,openEditProfi
     }
   }, [croppedAreaPixels, imgSrc]);
 
-
   const [ editUserName, setEditUserName ] = useState(profile.userName);
   const [ editUserMemo, setEditUserMemo ] = useState(profile.userMemo);
 
   // 編集したプロフールをfirebaseに送信する
-  const sendEditProfile = async(e: React.MouseEvent<HTMLInputElement>) => {
+  const sendEditProfile = async() => {
     if(!auth.currentUser)return; 
     // ブラウザ上で記入したprofileをfirebaseに送信
     const profileEdit = doc(db, "users", auth.currentUser.uid);
@@ -123,7 +119,7 @@ const EditProfileModal = ({editProfileModal,toggleEditProfileModal,openEditProfi
         <div id={styles.edit_profile_modal} >
           <div id={styles.edit_profile_modal_content}>
             <div>
-              <MyCloseIcon onClick={closeEditProfileModal} />
+              <MyMuiCloseIcon onClick={closeEditProfileModal} />
             </div>
             <label>
               <div style={{position:"relative"}}>
@@ -149,7 +145,6 @@ const EditProfileModal = ({editProfileModal,toggleEditProfileModal,openEditProfi
               onMediaLoaded={onMediaLoaded}
               minZoom={minZoom}
             />
-
             <TextField 
               label="名前"
               fullWidth={true}
@@ -171,12 +166,8 @@ const EditProfileModal = ({editProfileModal,toggleEditProfileModal,openEditProfi
               multiline
               rows={3}
               defaultValue={profile.userMemo}
-
             />
             <MyMuiRoundButton onClick={sendEditProfile}>保存</MyMuiRoundButton>
-
-
-
           </div>
         </div>
       </>
@@ -184,4 +175,4 @@ const EditProfileModal = ({editProfileModal,toggleEditProfileModal,openEditProfi
   } else return null;
 }
 
-export default EditProfileModal
+export default EditProfileModal;

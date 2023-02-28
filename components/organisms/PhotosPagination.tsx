@@ -4,9 +4,9 @@ import { useRecoilState,useRecoilValue } from 'recoil'
 import { Pagination } from '@mui/material';
 import { styled } from '@mui/system';
 
-import { currentPageState } from '../state/currentPageState';
-import { pageCountState } from '../state/pageCountState';
-import { currentGetPhotosState } from '../state/currentGetPhotosState';
+import { currentPageState } from '../../state/currentPageState';
+import { pageCountState } from '../../state/pageCountState';
+import { currentGetPhotosState } from '../../state/currentGetPhotosState';
 
 // ページネーションのcss
 const MyPagination = styled(Pagination)({
@@ -24,7 +24,7 @@ const PhotosPagination = () => {
   const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
 
   // ページネーションをクリックした時に走る関数
-  const handlePageClick = async(e,index) => {
+  const handlePageClick = async({e,index}:any) => {
     setCurrentGetPhotos([])
     setCurrentPage(index)
     window.scrollTo({top:0,behavior: "smooth",});
@@ -42,4 +42,4 @@ const PhotosPagination = () => {
   )
 }
 
-export default PhotosPagination
+export default PhotosPagination;

@@ -1,7 +1,7 @@
 import React from 'react'
-import Vphotologo from '../public/Vphotologo.svg'
 import Link from 'next/link';
-import styles from '../styles/header.module.css'
+import Vphotologo from '../../../public/vphotologo.svg'
+import styles from '../../../styles/header.module.css'
 
 const FormHeader = () => {
   return (
@@ -12,7 +12,6 @@ const FormHeader = () => {
             <Vphotologo width="65px" height="auto" cursor="pointer"/>
           </Link>
         </div>
-
       </header>
     </>
   )

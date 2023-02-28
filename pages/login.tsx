@@ -2,43 +2,29 @@ import React, { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router';
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import { useSetRecoilState } from 'recoil'
 import { getAuth, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 
-import { Button,TextField, FormLabel, Divider } from '@mui/material';
+import { FormLabel, Divider } from '@mui/material';
 import { styled } from '@mui/system';
 
 import styles from '../styles/login.module.css'
-import FormHeader from '../components/FormHeader'
-import { userAuthState } from '../state/userAuthState';
 import { firebaseApp } from '../firestore/firebase';
-import { MyMuiButton } from '../components/atoms/MyMuiButton';
+import { userAuthState } from '../state/userAuthState';
+import FormHeader from '../components/organisms/header/FormHeader'
 import { MyMuiSquareButton } from '../components/atoms/buttons/MyMuiSquareButton';
+import { TextField } from '../components/atoms/MyMuiTextField';
+
 
 const MyFormLabel = styled(FormLabel)({
   display:"block",
   fontWeight:"bold",
   paddingBottom:"4px",
 })
-const MyTextField = styled(TextField)({
-  borderRadius:"30px",
-  width:"100%",
-})
-export const MyButton = styled(Button)({
-  marginBottom:"10px",
-  // borderColor:"RGB(237, 242, 247)",
-  color:"black",
-  fontWeight:"bold",
-  backgroundColor:"RGB(210, 210, 210)",
-  "&:hover": {
-    backgroundColor:"RGB(62, 140, 236)",
-    color:"white",
-  }
-})
+
 const MyDivider = styled(Divider)({
   marginBottom:"10px",
 })
-
 
 const login = () => {
   const router = useRouter();
@@ -60,10 +46,10 @@ const login = () => {
     }
   },[]);
 
-  const handleEmailChange = (e) => {
+  const handleEmailChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setEmail(e.target.value)
   }
-  const handlePasswordChange = (e) => {
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setPassword(e.target.value)
   }
   // emailでログインするための関数
@@ -128,21 +114,24 @@ const login = () => {
           </text>
         </div>
         <form>
+          
           <div className={styles.email_area}>
             <MyFormLabel>Email address</MyFormLabel>
-            <MyTextField 
+            <TextField
               placeholder='Email address' 
               variant="outlined" 
               size='small' 
+              fullWidth={true}
               onChange={(e)=> handleEmailChange(e)}
             />
           </div>
           <div className={styles.password_area}>
             <MyFormLabel>Password</MyFormLabel>
-            <MyTextField 
+            <TextField
               placeholder="Password" 
               variant="outlined" 
               size='small' 
+              fullWidth={true}
               onChange={(e) => handlePasswordChange(e)}
             />
           </div>
@@ -158,7 +147,7 @@ const login = () => {
         </form>
         <div  className={styles.signup_link_area}>
           ユーザー登録は
-            <Link href={"/signup_email"} style={{textDecoration:"none"}}>
+            <Link href={"/signup"} style={{textDecoration:"none"}}>
               <span className={styles.signup_link}>
                 こちら
               </span>

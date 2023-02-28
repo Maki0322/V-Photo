@@ -1,30 +1,30 @@
-import { signOut } from 'firebase/auth';
-import Link from 'next/link';
 import React from 'react'
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { auth } from '../firestore/firebase';
-import { MyButton } from '../pages/login';
-import { logoutModalShowState } from '../state/logoutModalShowState';
-import styles from '../styles/logoutModal.module.css'
-import { MyCloseIcon } from './LoginModal';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { userAuthState } from '../state/userAuthState';
-import { logoutCompleteModalShowState } from '../state/logoutCompleteModalShowState';
-import { MyMuiRoundButton } from './atoms/buttons/MyMuiRoundButton';
-import { MyMuiSquareButton } from './atoms/buttons/MyMuiSquareButton';
-import { profileState } from '../state/profileState';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { signOut } from 'firebase/auth';
+
+import { auth } from '../../../firestore/firebase';
+import { logoutModalShowState } from '../../../state/logoutModalShowState';
+import { userAuthState } from '../../../state/userAuthState';
+import { profileState } from '../../../state/profileState';
+import { logoutCompleteModalShowState } from '../../../state/logoutCompleteModalShowState';
+import styles from '../../../styles/logoutModal.module.css'
+import { MyMuiRoundButton } from '../../atoms/buttons/MyMuiRoundButton';
+import { MyMuiCloseIcon } from '../../atoms/icons/MyMuiCloseIcon';
+
 
 const LogoutModal = () => {
   const router = useRouter();
   const setUserAuth = useSetRecoilState(userAuthState);
 
   // プロフィール情報をuseRecoilで管理
-  const [profile, setProfile] = useRecoilState(profileState);
+  const setProfile = useSetRecoilState(profileState);
 
   // ログアウトモーダルの値をrecoilで管理
   const [logoutModalShow, setLogoutModalShow] = useRecoilState(logoutModalShowState);
   // ログアウト完了モーダルの値をrecoilで管理
-  const [logouCompletetModalShow, setLogoutCompleteModalShow] = useRecoilState(logoutCompleteModalShowState);
+  const setLogoutCompleteModalShow = useSetRecoilState(logoutCompleteModalShowState);
   // モーダルウィンドウを閉じる関数
   const closeLogoutModal = () => {
     setLogoutModalShow(false);
@@ -46,13 +46,12 @@ const LogoutModal = () => {
   };
 
 
-
   if(logoutModalShow) {
     return (
       <>
         <div id={styles.logout_modal} onClick={closeLogoutModal}>
           <div id={styles.logout_modal_content}>
-            <MyCloseIcon onClick={closeLogoutModal}/>
+            <MyMuiCloseIcon onClick={closeLogoutModal}/>
             <div>ログアウトしますか？</div>
             <Link href={"/"} style={{textDecoration: "none"}}>
               <MyMuiRoundButton
@@ -71,4 +70,4 @@ const LogoutModal = () => {
   }
 }
 
-export default LogoutModal
+export default LogoutModal;

@@ -98,9 +98,14 @@ const HeaderModal = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
-  // ログアウトボタンを押した時に確認のモーダルウィンドウを表示する
+  // ログアウトボタンを押した時にヘッダーモーダルを閉じて、確認のモーダルウィンドウを表示する
   const handleLogoutModalShow = () => {
+    setHeaderModalShow(false);
     setLogoutModalShow(true);
+  };
+  // クリックしたときにモーダルを閉じる
+  const closeHeaderModal = () => {
+    setHeaderModalShow(false);
   };
 
   if(headerModalShow){
@@ -125,7 +130,7 @@ const HeaderModal = () => {
               </div>
             </div>
             <Link href={"/mypage"} style={{"textDecoration":"none"}} >
-              <div className={styles.mypage} >
+              <div className={styles.mypage} onClick={closeHeaderModal}>
                 <MySettingsIcon />
                 <p className={styles.mypage_p}>マイページ</p>
               </div>

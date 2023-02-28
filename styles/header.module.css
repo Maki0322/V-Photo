@@ -1,10 +1,13 @@
 .header {
   display: flex;
+  align-items: center;
 }
 .logo {
   margin-right: auto;
   margin-left: 12px;
 }
+
+
 
 /* 以下モーダルウィンドウのCSS */
 #profile_modal {
@@ -57,7 +60,7 @@
   text-decoration: none;
 }
 .mypage:hover {
-  background-color: rgba(206, 255, 0, 0.5);
+  background-color: rgba(62, 140, 236, 0.5);
   transition: 0.2s;
 }
 .mypage_p {
@@ -71,7 +74,7 @@
   cursor: pointer;
 }
 .logout_modal_show:hover {
-  background-color: rgba(206, 255, 0, 0.5);
+  background-color: rgba(62, 140, 236, 0.5);
   transition: 0.2s;
 }
 .logout_modal_show_p {

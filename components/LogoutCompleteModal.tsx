@@ -1,11 +1,9 @@
-import Link from 'next/link';
 import React from 'react'
 import { useRecoilState } from 'recoil';
-import { MyButton } from '../pages/login';
 import { logoutCompleteModalShowState } from '../state/logoutCompleteModalShowState';
 import { MyCloseIcon } from './LoginModal';
 import styles from '../styles/LogoutCompleteModal.module.css';
-import { MyMuiSquareButton } from './atoms/buttons/MyMuiSquareButton';
+import { MyMuiRoundButton } from './atoms/buttons/MyMuiRoundButton';
 
 const LogoutCompleteModal = () => {
   // ログアウト完了モーダルの値をrecoilで管理
@@ -21,11 +19,11 @@ const LogoutCompleteModal = () => {
           <div id={styles.logout_complete_modal_content}>
             <MyCloseIcon onClick={closeLogoutCompleteModal}/>
             <div>ログアウトしました。</div>
-            <MyMuiSquareButton 
+            <MyMuiRoundButton
               onClick={closeLogoutCompleteModal}
             >
               OK
-            </MyMuiSquareButton>
+            </MyMuiRoundButton>
           </div>
         </div>
       </>

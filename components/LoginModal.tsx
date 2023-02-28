@@ -6,6 +6,7 @@ import { loginModalShowState } from '../state/loginModalShowState'
 import styles from '../styles/loginModal.module.css'
 import CloseIcon from '@mui/icons-material/Close';
 import { styled } from '@mui/system';
+import { MyMuiRoundButton } from './atoms/buttons/MyMuiRoundButton'
 
 export const MyCloseIcon = styled(CloseIcon)({
   cursor: "pointer",
@@ -30,7 +31,7 @@ const LoginModal = () => {
             <div>この機能を使用するにはログインが必要です。</div>
             <div>ログインしますか？</div>
             <Link href={"/login"} style={{textDecoration: "none"}}>
-              <MyButton>ログインページへ</MyButton>
+              <MyMuiRoundButton>ログインページへ</MyMuiRoundButton>
             </Link>
           </div>
         </div>

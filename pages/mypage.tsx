@@ -4,7 +4,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 import PersonIcon from '@mui/icons-material/Person';
 import { styled } from '@mui/system';
-import { Button, Slider } from '@mui/material';
+// import { Button, Slider } from '@mui/material';
 
 import { Area, MediaSize } from 'react-easy-crop';
 
@@ -24,11 +24,11 @@ import { profileState } from '../state/profileState';
 import { ProfileType } from '../types/ProfileType';
 import { ref, uploadBytes } from 'firebase/storage';
 
-import Vphotologo from '../public/Vphotologo.svg'
-
-import no_image_icon from '../public/no_image_icon.png'
 import EditProfileModal from '../components/EditProfileModal';
 
+import { MyMuiRoundButton } from '../components/atoms/buttons/MyMuiRoundButton';
+import EditPickUpPhotoModal from '../components/EditPickUpPhotoModal';
+import EditUserPickUpPhotoModal from '../components/EditUserPickUpPhotoModal';
 
 // PersonIconのcss
 export const MyPersonIcon = styled(PersonIcon)({
@@ -39,19 +39,6 @@ export const MyPersonIcon = styled(PersonIcon)({
   backgroundColor:"black",
   borderRadius: "120px",
   margin:"15px 5px 5px 5px",
-})
-
-const MyButton = styled(Button)({
-  marginBottom:"10px",
-  borderRadius: "50px",
-  // borderColor:"RGB(237, 242, 247)",
-  color:"black",
-  fontWeight:"bold",
-  backgroundColor:"RGB(210, 210, 210)",
-  "&:hover": {
-    backgroundColor:"RGB(62, 140, 236)",
-    color:"white",
-  }
 })
 
 export const CROP_WIDTH = 400;
@@ -65,7 +52,7 @@ const mypage = () => {
   const profile = useRecoilValue(profileState);
 
 
-  // editProfileモーダルの値をstateで管理
+  // EditProfileモーダルの値をstateで管理
   const [editProfileModal, setEditProfileModal] = useState(false);
   // モーダルウィンドウを開閉する関数
   const toggleEditProfileModal = ():void => setEditProfileModal(!editProfileModal);
@@ -78,6 +65,27 @@ const mypage = () => {
     setEditProfileModal(false);
   };
 
+  // EditPickUpPhotoModalのモーダルの値をstateで管理
+  const [editPickUpPhotoModal, setEditPickUpPhotoModal] = useState(false);
+   // EditPickUpPhotoModalを開く関数
+   const openEditPickUpPhotoModal = () => {
+    setEditPickUpPhotoModal(true);
+  };
+  // EditPickUpPhotoModalを閉じる関数
+  const closeEditPickUpPhotoModal = () => {
+    setEditPickUpPhotoModal(false);
+  };
+
+  // EditUserPickUpPhotoModalのモーダルの値をstateで管理
+  const [editUserPickUpPhotoModal, setEditUserPickUpPhotoModal] = useState(false);
+   // EditUserPickUpPhotoModalを開く関数
+   const openEditUserPickUpPhotoModal = () => {
+    setEditUserPickUpPhotoModal(true);
+  };
+  // EditUserPickUpPhotoModalを閉じる関数
+  const closeEditUserPickUpPhotoModal = () => {
+    setEditUserPickUpPhotoModal(false);
+  };
 
   /**
    * ファイルアップロード後
@@ -162,7 +170,6 @@ const mypage = () => {
         <section>
           <div className={styles.user_profile}>
             <div className={styles.user_icon}>
-              {/* <MyPersonIcon /> */}
               <img src={profile.userIcon} alt="user icon" className={styles.icon}/>
             </div>
             <div className={styles.user_info}>
@@ -172,7 +179,12 @@ const mypage = () => {
           </div>
           <div className={styles.edit_area}>
             <div className={styles.edit_profile_button}>
-              <MyButton onClick={toggleEditProfileModal}>プロフィールを編集</MyButton>
+              <MyMuiRoundButton 
+                onClick={openEditProfileModal}
+                sx={{width:"170px"}}
+              >
+                プロフィールを編集
+              </MyMuiRoundButton>
             </div>
             <EditProfileModal 
               editProfileModal={editProfileModal}
@@ -194,8 +206,25 @@ const mypage = () => {
 
 
             <div className={styles.edit_pickup_button}>
-              <MyButton>ピックアップを編集</MyButton>
+              <MyMuiRoundButton
+                sx={{width:"170px"}}
+                onClick={openEditPickUpPhotoModal}
+              >
+                ピックアップを編集
+              </MyMuiRoundButton>
             </div>
+            <EditPickUpPhotoModal 
+              editPickUpPhotoModal={editPickUpPhotoModal}
+              openEditPickUpPhotoModal={openEditPickUpPhotoModal}
+              closeEditPickUpPhotoModal={closeEditPickUpPhotoModal}
+              openEditUserPickUpPhotoModal={openEditUserPickUpPhotoModal}
+            />
+            <EditUserPickUpPhotoModal 
+              editUserPickUpPhotoModal={editUserPickUpPhotoModal}
+              openEditUserPickUpPhotoModal={openEditUserPickUpPhotoModal}
+              closeEditUserPickUpPhotoModal={closeEditUserPickUpPhotoModal}
+              openEditPickUpPhotoModal={openEditPickUpPhotoModal}
+            />
           </div>
         </section>
 
@@ -205,8 +234,8 @@ const mypage = () => {
             ピックアップ
           </h1>
           <div className={styles.pickup_area}>
-            <img className={styles.pickup_photo} src="https://live.staticflickr.com/65535/52003190498_9e6fb8be4e_b.jpg" alt="#"/>
-            <p className={styles.pickup_memo}>ZETAが日本初のプレーオフ進出を決めた際の写真です。</p>
+            <img className={styles.pickup_photo} src={profile.userPickUpPhoto} alt="#"/>
+            <p className={styles.pickup_memo}>{profile.userPickUpDescription}</p>
           </div>
         </section>
       </main>

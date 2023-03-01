@@ -28,7 +28,7 @@ const MyFavoriteBorderIconRed = styled(FavoriteBorderIcon)({
 })
 
 interface Props {
-  id :string;
+  id :string,
   title: string,
   ownername: string,
   datetaken: string,

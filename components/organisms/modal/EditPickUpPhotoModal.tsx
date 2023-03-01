@@ -84,7 +84,7 @@ const EditPickUpPhotoModal = ({editPickUpPhotoModal,closeEditPickUpPhotoModal,op
         </div>
       </>
     )
-  } else null;
+  } else return <></>;
 }
 
 export default EditPickUpPhotoModal;

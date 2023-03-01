@@ -1,7 +1,8 @@
 import React from 'react'
 import { useRecoilState } from 'recoil';
+
 import { logoutCompleteModalShowState } from '../../../state/logoutCompleteModalShowState';
-import styles from '../../../styles/LogoutCompleteModal.module.css';
+import styles from '../../../styles/logoutCompleteModal.module.css';
 import { MyMuiRoundButton } from '../../atoms/buttons/MyMuiRoundButton';
 import { MyMuiCloseIcon } from '../../atoms/icons/MyMuiCloseIcon';
 

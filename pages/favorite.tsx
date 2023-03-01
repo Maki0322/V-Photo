@@ -5,7 +5,7 @@ import FavoriteHeader from '../components/organisms/header/FavoriteHeader';
 import FavoritePhotoList from '../components/organisms/photolist/FavoritePhotoList';
 import styles from '../styles/Home.module.css'
 
-const favorite = () => {
+const Favorite = () => {
   return (
     <>
       <Head>
@@ -22,4 +22,4 @@ const favorite = () => {
   )
 }
 
-export default favorite
+export default Favorite;

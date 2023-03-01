@@ -93,7 +93,6 @@ export default function Home() {
   ]
   // 大会フィルターのプルダウンの内容を管理
   const [tourFilter, setTourFilter] = useRecoilState(tourFilterState);
-  // const [tourFilter, setTourFilter] = useState<string>("すべて")
   // 大会フィルターのプルダウンを動かすための関数
   const handleChangeTourFilter = async(e:any) => {
     await setTourFilter(e.target.value);
@@ -254,19 +253,22 @@ export default function Home() {
         return dayFilterStatusVCT2022Stage2;
       case "vct2022: Champions":
         return dayFilterStatusVCT2022Champions;
+      default:
+        return notSelectedTour;
     };
   };
-  const tourSchedule = getTourSchedule();
+  const tourSchedule:any = getTourSchedule();
 
   // 日程フィルターのプルダウンの値を管理
   const [dayFilter, setDayFilter] = useRecoilState(dayFilterState);
   // const [dayFilter, setDayFilter] = useState<string>("すべて");
   // 日程フィルターのプルダウンを動かすための関数
   const handleChangeDayFilter = (e:any) => {
+    if(tourSchedule.length<0 && tourSchedule===undefined) return;
     setDayFilter(e.target.value);
     setCurrentPage(1);
-    setUrlFilterMinTakenDate(tourSchedule.find (({schedule}) => schedule === e.target.value).minDate);
-    setUrlFilterMaxTakenDate(tourSchedule.find (({schedule}) => schedule === e.target.value).maxDate);
+    setUrlFilterMinTakenDate(tourSchedule.find (({schedule}:any) => schedule === e.target.value).minDate);
+    setUrlFilterMaxTakenDate(tourSchedule.find (({schedule}:any) => schedule === e.target.value).maxDate);
   };
   
   const getApi =async (serchUrl:string) => {
@@ -343,7 +345,7 @@ export default function Home() {
                 value={dayFilter}
                 onChange={(e)=>handleChangeDayFilter(e)}
               >
-                {tourSchedule.map((day) => (
+                {tourSchedule.map((day:any) => (
                   <MenuItem key={day.schedule} value={day.schedule}>{day.schedule}</MenuItem>
                 ))}  
               </MyDaySelect>

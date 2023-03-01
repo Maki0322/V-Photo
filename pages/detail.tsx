@@ -40,7 +40,7 @@ const MyArrowBackIcon = styled(ArrowBackIcon)({
   fontSize: "30px",
 })
 
-const detail = () => {
+const Detail = () => {
   const router = useRouter();
   if(!router.query.datetaken)return;
   return (
@@ -57,18 +57,18 @@ const detail = () => {
           <MyArrowBackIcon onClick={() => router.back()}/>
         </div>
         <div className={styles.photo_area}>
-          <img className={styles.photo} src={router.query.url_l} alt='#' />
+          <img className={styles.photo} src={router.query.url_l as string} alt='#' />
         </div>
         <div className={styles.icon_area}>
           <div className={styles.photo_like_icon}>
             <DetailPageFavoriteIcon 
-              id={router.query.id}
-              title={router.query.title}
-              url_m={router.query.url_m}
-              url_l={router.query.url_l}
-              ownername={router.query.ownername}
-              datetaken={router.query.datetaken}
-              tags={router.query.tags}
+              id={router.query.id as string}
+              title={router.query.title as string}
+              url_m={router.query.url_m as string}
+              url_l={router.query.url_l as string}
+              ownername={router.query.ownername as string}
+              datetaken={router.query.datetaken as string}
+              tags={router.query.tags as string}
             />
           </div>
           <div className={styles.photo_download_icon}>
@@ -110,4 +110,4 @@ const detail = () => {
   )
 }
 
-export default detail;
+export default Detail;

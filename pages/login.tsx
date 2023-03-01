@@ -26,7 +26,7 @@ const MyDivider = styled(Divider)({
   marginBottom:"10px",
 })
 
-const login = () => {
+const Login = () => {
   const router = useRouter();
   const auth = getAuth(firebaseApp)
 
@@ -168,4 +168,4 @@ const login = () => {
   )
 }
 
-export default login
+export default Login;

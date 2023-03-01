@@ -36,7 +36,7 @@ export const MyPersonIcon = styled(PersonIcon)({
 
 
 
-const mypage = () => {
+const Mypage = () => {
   // クロップモーダルの値をrecoilで管理
   const setCropModalShow = useSetRecoilState(cropModalShowState);
 
@@ -178,15 +178,15 @@ const mypage = () => {
                 ピックアップを編集
               </MyMuiRoundButton>
             </div>
-            <EditPickUpPhotoModal 
-              editPickUpPhotoModal={editPickUpPhotoModal}
-              closeEditPickUpPhotoModal={closeEditPickUpPhotoModal}
-              openEditUserPickUpPhotoModal={openEditUserPickUpPhotoModal}
-            />
             <EditUserPickUpPhotoModal 
               editUserPickUpPhotoModal={editUserPickUpPhotoModal}
               closeEditUserPickUpPhotoModal={closeEditUserPickUpPhotoModal}
               openEditPickUpPhotoModal={openEditPickUpPhotoModal}
+            />
+            <EditPickUpPhotoModal 
+              editPickUpPhotoModal={editPickUpPhotoModal}
+              closeEditPickUpPhotoModal={closeEditPickUpPhotoModal}
+              openEditUserPickUpPhotoModal={openEditUserPickUpPhotoModal}
             />
           </div>
         </section>
@@ -204,4 +204,4 @@ const mypage = () => {
   )
 }
 
-export default mypage;
+export default Mypage;

@@ -19,7 +19,7 @@ const MyFormLabel = styled(FormLabel)({
   paddingBottom:"4px",
 })
 
-const signup_email = () => {
+const Signup = () => {
   const auth = getAuth(firebaseApp);
   const router = useRouter();
 
@@ -107,4 +107,4 @@ const signup_email = () => {
   )
 }
 
-export default signup_email
+export default Signup;

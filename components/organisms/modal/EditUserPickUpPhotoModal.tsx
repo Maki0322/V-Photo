@@ -8,6 +8,7 @@ import { FavoritePhotosType } from '../../../types/FavoritePhotosType';
 import { auth, db } from '../../../firestore/firebase';
 import { selectPickUpPhotoState } from '../../../state/selectPickUpPhotoState';
 import { MyMuiCloseIcon } from '../../atoms/icons/MyMuiCloseIcon';
+import RightAligned from '../../molecules/RightAligned';
 
 type Props = {
   editUserPickUpPhotoModal:boolean, 
@@ -46,7 +47,9 @@ const EditUserPickUpPhotoModal = ({editUserPickUpPhotoModal, closeEditUserPickUp
         <div id={styles.edit_user_pick_up_photo_modal}>
           <div id={styles.edit_user_pick_up_photo_modal_content}>
             <div>
-              <MyMuiCloseIcon onClick={closeEditUserPickUpPhotoModal}/>
+              <RightAligned>
+                <MyMuiCloseIcon onClick={closeEditUserPickUpPhotoModal}/>
+              </RightAligned>
               <div className={styles.container}>
                 {favoritePhotos.map((data) => (
                   <div className={styles.photos} key={data.id}>

@@ -12,6 +12,7 @@ import { logoutCompleteModalShowState } from '../../../state/logoutCompleteModal
 import styles from '../../../styles/logoutModal.module.css'
 import { MyMuiRoundButton } from '../../atoms/buttons/MyMuiRoundButton';
 import { MyMuiCloseIcon } from '../../atoms/icons/MyMuiCloseIcon';
+import RightAligned from '../../molecules/RightAligned';
 
 
 const LogoutModal = () => {
@@ -51,15 +52,19 @@ const LogoutModal = () => {
       <>
         <div id={styles.logout_modal} onClick={closeLogoutModal}>
           <div id={styles.logout_modal_content}>
-            <MyMuiCloseIcon onClick={closeLogoutModal}/>
+            <RightAligned>
+              <MyMuiCloseIcon onClick={closeLogoutModal}/>
+            </RightAligned>
             <div>ログアウトしますか？</div>
             <Link href={"/"} style={{textDecoration: "none"}}>
-              <MyMuiRoundButton
-                onClick={handleLogout}
-                sx={{width:"150px"}}
-              >
-                ログアウト
-              </MyMuiRoundButton>
+              <RightAligned>
+                <MyMuiRoundButton
+                  onClick={handleLogout}
+                  sx={{width:"150px"}}
+                >
+                  ログアウト
+                </MyMuiRoundButton>
+              </RightAligned>
             </Link>
           </div>
         </div>

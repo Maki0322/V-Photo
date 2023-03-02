@@ -9,6 +9,7 @@ import { selectPickUpPhotoState } from '../../../state/selectPickUpPhotoState';
 import { MyMuiRoundButton } from '../../atoms/buttons/MyMuiRoundButton';
 import { MyMuiCloseIcon } from '../../atoms/icons/MyMuiCloseIcon';
 import { TextField } from '../../atoms/MyMuiTextField';
+import RightAligned from '../../molecules/RightAligned';
 
 
 type Props = {
@@ -53,7 +54,9 @@ const EditPickUpPhotoModal = ({editPickUpPhotoModal,closeEditPickUpPhotoModal,op
       <>
         <div id={styles.edit_pick_up_photo_modal}>
           <div id={styles.edit_pick_up_photo_modal_content}>
-            <MyMuiCloseIcon onClick={clickCloseEditPickUpPhotoModalIcon}/>
+            <RightAligned>
+              <MyMuiCloseIcon onClick={clickCloseEditPickUpPhotoModalIcon}/>
+            </RightAligned>
             <img 
               onClick={clickUserPickUpPhoto} 
               src={selectPickUpPhoto} 
@@ -77,9 +80,11 @@ const EditPickUpPhotoModal = ({editPickUpPhotoModal,closeEditPickUpPhotoModal,op
               onChange={(e) => setEditUserPickUpDescription(e.target.value)}
               defaultValue={profile.userPickUpDescription}
             />
-            <MyMuiRoundButton onClick={sendEditPickUpPhoto}>
-              保存
-            </MyMuiRoundButton>
+            <RightAligned>
+              <MyMuiRoundButton onClick={sendEditPickUpPhoto}>
+                保存
+              </MyMuiRoundButton>
+            </RightAligned>
           </div>
         </div>
       </>

@@ -5,6 +5,7 @@ import { logoutCompleteModalShowState } from '../../../state/logoutCompleteModal
 import styles from '../../../styles/logoutCompleteModal.module.css';
 import { MyMuiRoundButton } from '../../atoms/buttons/MyMuiRoundButton';
 import { MyMuiCloseIcon } from '../../atoms/icons/MyMuiCloseIcon';
+import RightAligned from '../../molecules/RightAligned';
 
 const LogoutCompleteModal = () => {
   // ログアウト完了モーダルの値をrecoilで管理
@@ -19,13 +20,17 @@ const LogoutCompleteModal = () => {
       <>
         <div id={styles.logout_complete_modal} onClick={closeLogoutCompleteModal}>
           <div id={styles.logout_complete_modal_content}>
-            <MyMuiCloseIcon onClick={closeLogoutCompleteModal}/>
+            <RightAligned>
+              <MyMuiCloseIcon onClick={closeLogoutCompleteModal}/>
+            </RightAligned>
             <div>ログアウトしました。</div>
-            <MyMuiRoundButton
-              onClick={closeLogoutCompleteModal}
-            >
-              OK
-            </MyMuiRoundButton>
+            <RightAligned>
+              <MyMuiRoundButton
+                onClick={closeLogoutCompleteModal}
+              >
+                OK
+              </MyMuiRoundButton>
+            </RightAligned>
           </div>
         </div>
       </>

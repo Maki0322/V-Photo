@@ -44,6 +44,7 @@ const Login = () => {
       console.log("auth.currentUser",auth.currentUser)
       return
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {

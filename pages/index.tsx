@@ -284,6 +284,7 @@ export default function Home() {
   };
   useEffect(()=> {
     getApi(`&tags=${urlFilterTeams}`+`&page=${currentPage}`+`&min_taken_date=${urlFilterMinTakenDate}`+`&max_taken_date=${urlFilterMaxTakenDate}`);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[urlFilterTeams,urlFilterMinTakenDate,urlFilterMaxTakenDate,currentPage]);
 
   // 別の場所をクリックしてもモーダルウィンドウを閉じる

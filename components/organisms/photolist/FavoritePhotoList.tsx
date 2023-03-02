@@ -21,6 +21,7 @@ const FavoritePhotoList = () => {
     onSnapshot(postData, (favos)=> {
       setFavoritePhotos(favos.docs.map((favo) => ({...favo.data()})));
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   return (

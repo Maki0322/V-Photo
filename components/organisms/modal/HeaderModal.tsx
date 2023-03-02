@@ -75,6 +75,7 @@ const HeaderModal = () => {
       }
     }
     initialRendering()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   // レンダリング時に走る関数

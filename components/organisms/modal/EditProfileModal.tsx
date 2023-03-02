@@ -15,6 +15,7 @@ import { MyMuiRoundButton } from '../../atoms/buttons/MyMuiRoundButton';
 import { MyMuiCloseIcon } from '../../atoms/icons/MyMuiCloseIcon';
 import styles from '../../../styles/editProfileModal.module.css'
 import { ASPECT_RATIO, CROP_WIDTH } from '../../../const/cropValue';
+import RightAligned from '../../molecules/RightAligned';
 
 
 type Props = {
@@ -118,9 +119,9 @@ const EditProfileModal = ({editProfileModal,openEditProfileModal,closeEditProfil
       <>
         <div id={styles.edit_profile_modal} >
           <div id={styles.edit_profile_modal_content}>
-            <div>
+            <RightAligned>
               <MyMuiCloseIcon onClick={closeEditProfileModal} />
-            </div>
+            </RightAligned>
             <label>
               <div style={{position:"relative"}}>
                 <AddAPhotoOutlinedIcon sx={{color:"white",position:"absolute",top:"50%",left:"50%",transform: "translate(-50%,-50%)", fontSize:"35px", cursor:"pointer"}}/>
@@ -167,7 +168,9 @@ const EditProfileModal = ({editProfileModal,openEditProfileModal,closeEditProfil
               rows={3}
               defaultValue={profile.userMemo}
             />
-            <MyMuiRoundButton onClick={sendEditProfile}>保存</MyMuiRoundButton>
+            <RightAligned>
+              <MyMuiRoundButton onClick={sendEditProfile}>保存</MyMuiRoundButton>
+            </RightAligned>
           </div>
         </div>
       </>

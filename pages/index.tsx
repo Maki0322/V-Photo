@@ -261,14 +261,15 @@ export default function Home() {
 
   // 日程フィルターのプルダウンの値を管理
   const [dayFilter, setDayFilter] = useRecoilState(dayFilterState);
-  // const [dayFilter, setDayFilter] = useState<string>("すべて");
   // 日程フィルターのプルダウンを動かすための関数
   const handleChangeDayFilter = (e:any) => {
     if(tourSchedule.length<0 && tourSchedule===undefined) return;
     setDayFilter(e.target.value);
     setCurrentPage(1);
-    setUrlFilterMinTakenDate(tourSchedule.find (({schedule}:any) => schedule === e.target.value).minDate);
-    setUrlFilterMaxTakenDate(tourSchedule.find (({schedule}:any) => schedule === e.target.value).maxDate);
+    const schedule = tourSchedule.find(({sc}:any) => sc === e.target.value);
+    if (schedule === undefined) return;
+    setUrlFilterMinTakenDate(schedule.minDate);
+    setUrlFilterMaxTakenDate(schedule.maxDate);
   };
   
   const getApi =async (serchUrl:string) => {

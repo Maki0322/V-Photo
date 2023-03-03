@@ -55,7 +55,7 @@ const LogoutModal = () => {
             <RightAligned>
               <MyMuiCloseIcon onClick={closeLogoutModal}/>
             </RightAligned>
-            <div>ログアウトしますか？</div>
+            <div className={styles.modal_content}>ログアウトしますか？</div>
             <Link href={"/"} style={{textDecoration: "none"}}>
               <RightAligned>
                 <MyMuiRoundButton

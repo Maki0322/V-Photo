@@ -8,19 +8,28 @@
   height:100%;
   z-index:99;
   background-color:rgba(0,0,0,0.5);
-
   /*　画面の中央に要素を表示させる設定　*/
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 #login_modal_content {
   background-color: white;
   z-index:100;
-  width:50%;
-  padding: 1em;
+  width:100%;
+  padding: 16px 24px;
   border-radius: 10px;
   box-shadow: 0 0 8px  rgba(0, 0, 0, 0.3);
   transition: 0.5s;
+}
+.modal_content {
+  padding: 24px 0;
+}
+.modal_content_sentence {
+  padding-bottom: 5px;
+}
+@media ( min-width: 450px ) {
+  #login_modal_content {
+    width:350px;
+  }
 }

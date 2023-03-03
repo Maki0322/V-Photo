@@ -25,8 +25,10 @@ const LoginModal = () => {
             <RightAligned>
               <MyMuiCloseIcon onClick={closeLoginModal}/>
             </RightAligned>
-            <div>この機能を使用するにはログインが必要です。</div>
-            <div>ログインしますか？</div>
+            <div className={styles.modal_content}>
+              <div className={styles.modal_content_sentence}>この機能を使用するにはログインが必要です。</div>
+              <div>ログインしますか？</div>
+            </div>
             <Link href={"/login"} style={{textDecoration: "none"}}>
               <RightAligned>
                 <MyMuiRoundButton>ログインページへ</MyMuiRoundButton>

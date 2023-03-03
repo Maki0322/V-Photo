@@ -23,7 +23,7 @@ const LogoutCompleteModal = () => {
             <RightAligned>
               <MyMuiCloseIcon onClick={closeLogoutCompleteModal}/>
             </RightAligned>
-            <div>ログアウトしました。</div>
+            <div className={styles.modal_content}>ログアウトしました。</div>
             <RightAligned>
               <MyMuiRoundButton
                 onClick={closeLogoutCompleteModal}

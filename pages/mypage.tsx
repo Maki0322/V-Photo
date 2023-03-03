@@ -195,7 +195,9 @@ const Mypage = () => {
             ピックアップ
           </h1>
           <div className={styles.pickup_area}>
-            <img className={styles.pickup_photo} src={profile.userPickUpPhoto} alt="#"/>
+            <div className={styles.pickup_photo_container}>
+              <img className={styles.pickup_photo} src={profile.userPickUpPhoto} alt="#"/>
+            </div>
             <p className={styles.pickup_memo}>{profile.userPickUpDescription}</p>
           </div>
         </section>

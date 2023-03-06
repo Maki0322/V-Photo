@@ -1,10 +1,7 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
+import { ReactNodeType } from '../../types/ReactNodeType'
 
-type Props = {
-  children: ReactNode,
-}
-
-const RightAligned = ({children}:Props) => {
+const RightAligned = ({children}:ReactNodeType) => {
   return (
     <>
       <div style={{display:"flex", justifyContent:"flex-end"}}>

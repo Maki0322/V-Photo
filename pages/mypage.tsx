@@ -3,6 +3,7 @@ import Head from 'next/head'
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Area, MediaSize } from 'react-easy-crop';
 
+import { Box, Container } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import { styled } from '@mui/system';
 
@@ -21,6 +22,8 @@ import { imgSrcState } from '../state/reactEasyCropState';
 import { profileState } from '../state/profileState';
 
 import styles from '../styles/mypage.module.css'
+import Flex from '../components/molecules/Flex';
+import RightAligned from '../components/molecules/RightAligned';
 
 
 // PersonIconのcss
@@ -37,9 +40,6 @@ export const MyPersonIcon = styled(PersonIcon)({
 
 
 const Mypage = () => {
-  // クロップモーダルの値をrecoilで管理
-  const setCropModalShow = useSetRecoilState(cropModalShowState);
-
   const profile = useRecoilValue(profileState);
 
   // EditProfileモーダルの値をstateで管理
@@ -134,68 +134,75 @@ const Mypage = () => {
       <Header />
       <main className={styles.main}>
         <section>
-          <div className={styles.user_profile}>
-            <div className={styles.user_icon}>
-              <img src={profile.userIcon} alt="user icon" className={styles.icon}/>
-            </div>
-            <div className={styles.user_info}>
-              <div className={styles.user_name}>{profile.userName}</div>
-              <div className={styles.user_memo}>{profile.userMemo}</div>
-            </div>
-          </div>
-          <div className={styles.edit_area}>
-            <div className={styles.edit_profile_button}>
-              <MyMuiRoundButton 
-                onClick={openEditProfileModal}
-                sx={{width:"170px"}}
-              >
-                プロフィールを編集
-              </MyMuiRoundButton>
-            </div>
-            <EditProfileModal 
-              editProfileModal={editProfileModal}
-              openEditProfileModal={openEditProfileModal}
-              closeEditProfileModal={closeEditProfileModal}
-            />
-            <CropModal 
-              crop={crop}
-              setCrop={setCrop}
-              zoom={zoom}
-              setZoom={setZoom}
-              onCropComplete={onCropComplete}
-              imgSrc={imgSrc}
-              showCroppedImage={showCroppedImage}
-              onMediaLoaded={onMediaLoaded}
-              minZoom={minZoom}
-            />
+          <Box width={{xs:"90%",sm:"70%",md:"50%"}} margin="0 auto">
+            <Flex flexDirection={{xs:'column', md:'row'}}>
+              <div className={styles.user_icon}>
+                <img src={profile.userIcon} alt="user icon" className={styles.icon}/>
+              </div>
+              <div>
+                <Flex justifyContent="space-between" sx={{marginTop:{xs:"30px",md:"0px"}}}>
+                  <div className={styles.user_name}>{profile.userName}</div>
+                  <RightAligned>
+                  <div className={styles.edit_profile_button}>
+                    <MyMuiRoundButton 
+                      onClick={openEditProfileModal}
+                      sx={{width:"50px"}}
+                    >
+                      編集
+                    </MyMuiRoundButton>
+                  </div>
 
-
-            <div className={styles.edit_pickup_button}>
-              <MyMuiRoundButton
-                sx={{width:"170px"}}
-                onClick={openEditPickUpPhotoModal}
-              >
-                ピックアップを編集
-              </MyMuiRoundButton>
-            </div>
-            <EditUserPickUpPhotoModal 
-              editUserPickUpPhotoModal={editUserPickUpPhotoModal}
-              closeEditUserPickUpPhotoModal={closeEditUserPickUpPhotoModal}
-              openEditPickUpPhotoModal={openEditPickUpPhotoModal}
-            />
-            <EditPickUpPhotoModal 
-              editPickUpPhotoModal={editPickUpPhotoModal}
-              closeEditPickUpPhotoModal={closeEditPickUpPhotoModal}
-              openEditUserPickUpPhotoModal={openEditUserPickUpPhotoModal}
-            />
-          </div>
+                  </RightAligned>
+                  </Flex>
+                  <EditProfileModal 
+                    editProfileModal={editProfileModal}
+                    openEditProfileModal={openEditProfileModal}
+                    closeEditProfileModal={closeEditProfileModal}
+                  />
+                  <CropModal 
+                    crop={crop}
+                    setCrop={setCrop}
+                    zoom={zoom}
+                    setZoom={setZoom}
+                    onCropComplete={onCropComplete}
+                    imgSrc={imgSrc}
+                    showCroppedImage={showCroppedImage}
+                    onMediaLoaded={onMediaLoaded}
+                    minZoom={minZoom}
+                  />
+                <div className={styles.user_memo}>{profile.userMemo}</div>
+              </div>
+            </Flex>
+          </Box>
         </section>
         <section className={styles.pickup_section}>
-          <h1 className={styles.pickup_title}>
-            ピックアップ
-          </h1>
+          <Flex justifyContent="space-between">
+            <h1 className={styles.pickup_title}>
+              ピックアップ
+            </h1>
+            <div className={styles.edit_pickup_button}>
+              <MyMuiRoundButton
+                sx={{width:"50px", margin:"20px"}}
+                onClick={openEditPickUpPhotoModal}
+              >
+                編集
+              </MyMuiRoundButton>
+            </div>
+          </Flex>
+          <EditUserPickUpPhotoModal 
+            editUserPickUpPhotoModal={editUserPickUpPhotoModal}
+            closeEditUserPickUpPhotoModal={closeEditUserPickUpPhotoModal}
+            openEditPickUpPhotoModal={openEditPickUpPhotoModal}
+          />
+          <EditPickUpPhotoModal 
+            editPickUpPhotoModal={editPickUpPhotoModal}
+            closeEditPickUpPhotoModal={closeEditPickUpPhotoModal}
+            openEditUserPickUpPhotoModal={openEditUserPickUpPhotoModal}
+          />
           <div className={styles.pickup_area}>
-            <img className={styles.pickup_photo} src={profile.userPickUpPhoto} alt="#"/>
+            <div className={styles.pickup_photo_container}>
+              <img className={styles.pickup_photo} src={profile.userPickUpPhoto} alt="#"/>
+            </div>
             <p className={styles.pickup_memo}>{profile.userPickUpDescription}</p>
           </div>
         </section>

@@ -7,9 +7,7 @@ VALORANT（PC上で遊ぶFPSゲーム）競技シーンのファンのための�
 ### PC版
 |  Main  |  Favorite  |  Mypage  |
 | ---- | ---- | ---- |
-|![スクリーンショット (445)](https://user-images.githubusercontent.com/109948082/223426292-aa342420-a5a0-4670-91ae-b1903f222ba2.png)
-|![スクリーンショット (446)](https://user-images.githubusercontent.com/109948082/223426404-1df0394e-cfbf-4bcb-918c-c9f5c458c23c.png)
-|![スクリーンショット (447)](https://user-images.githubusercontent.com/109948082/223426477-a55e4f1c-2885-4990-8a21-514683ec35c1.png)|
+|![スクリーンショット (445)](https://user-images.githubusercontent.com/109948082/223426292-aa342420-a5a0-4670-91ae-b1903f222ba2.png)|![スクリーンショット (446)](https://user-images.githubusercontent.com/109948082/223426404-1df0394e-cfbf-4bcb-918c-c9f5c458c23c.png)|![スクリーンショット (447)](https://user-images.githubusercontent.com/109948082/223426477-a55e4f1c-2885-4990-8a21-514683ec35c1.png)|
 
 
 ## Demo

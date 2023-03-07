@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useRecoilState, useSetRecoilState} from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import { doc, DocumentReference, getDoc, setDoc } from 'firebase/firestore';
 
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -20,6 +20,7 @@ import LoginModal from '../modal/LoginModal';
 import LogoutModal from '../modal/LogoutModal';
 import LogoutCompleteModal from '../modal/LogoutCompleteModal';
 import { ProfileType } from '../../../types/ProfileType';
+import { userAuthState } from '../../../state/userAuthState';
 
 
 // FavoriteBorderIconのcss
@@ -49,7 +50,8 @@ const Header = () => {
   const [profile, setProfile] = useRecoilState(profileState);
   // mypageの仮選択のピックアップフォトの値をuseRecoilで管理
   const setSelectPickUpPhoto = useSetRecoilState(selectPickUpPhotoState);
-
+  // authの状態を管理
+  const userAuth = useRecoilValue(userAuthState);
    // profileの初期値を設定
    const profileExapmle = {
     userName: "No Name",
@@ -64,34 +66,31 @@ const Header = () => {
   useEffect(()  => {
     const initialRendering = async() => {
       // ログインしていない場合はプロフィールにprofileExapmleを設定
-      if(!auth.currentUser) return setProfile(profileExapmle);
+      if(!auth.currentUser || !userAuth) return setProfile(profileExapmle);
       // firebaseからユーザー情報を取得
-      const initialProfile = await doc(db, "users", auth.currentUser.uid) as DocumentReference<ProfileType>;
+      const initialProfile = doc(db, "users", auth.currentUser.uid) as DocumentReference<ProfileType>;
       const snapProfile =  await getDoc<ProfileType>(initialProfile);
       // 取得に成功した場合
       if (snapProfile.exists()){
         // firebaseのprofile情報をrecoilにセット
-        await setProfile(snapProfile.data());
-        await setSelectPickUpPhoto(snapProfile.data().userPickUpPhoto);
+        setProfile(snapProfile.data());
+        setSelectPickUpPhoto(snapProfile.data().userPickUpPhoto);
       // 取得できなかった(データが入っていなかった)場合
       } else {
-      
         // 初期値を設定する関数
         const initialProfileValue = async() => {
-          if(auth.currentUser === null) return;
           // firebaseにprofile情報の初期値を送信
-          const docRef = doc(db, "users", auth.currentUser.uid)
-          await setDoc(docRef, profileExapmle);
+          await setDoc(initialProfile, profileExapmle);
           // recoilにも初期値をセット
-          await setProfile(profileExapmle);
-          await setSelectPickUpPhoto(profileExapmle.userPickUpPhoto)
+          setProfile(profileExapmle);
+          setSelectPickUpPhoto(profileExapmle.userPickUpPhoto)
         }
         initialProfileValue()
       }
     }
     initialRendering()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
+  },[userAuth]);
 
   // ログイン済みの場合はfavoriteページを表示し、ログインしていない場合はloginModalを表示する関数
   const handleClickFavoritePageIcon = async () => {

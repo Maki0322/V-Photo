@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useEffect,ReactNode } from 'react';
+import { useEffect } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { styled } from '@mui/system';

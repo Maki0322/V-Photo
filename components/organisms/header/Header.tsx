@@ -116,7 +116,7 @@ const Header = () => {
       <div className={styles.header}>
         <div className={styles.logo}>
           <Link href={"/"}>
-            <Vphotologo width="65px" height="auto" cursor="pointer"/>
+            <Vphotologo width="65px" height="45.94px" cursor="pointer"/>
           </Link>
         </div>
         <div>

@@ -267,7 +267,7 @@ export default function Home() {
     if(tourSchedule.length<0 && tourSchedule===undefined) return;
     setDayFilter(e.target.value);
     setCurrentPage(1);
-    const schedule = tourSchedule.find((sc) => sc.schedule === e.target.value);
+    const schedule = tourSchedule.find((sc:any) => sc.schedule === e.target.value);
     if (schedule === undefined) return;
     setUrlFilterMinTakenDate(schedule.minDate);
     setUrlFilterMaxTakenDate(schedule.maxDate);
@@ -346,7 +346,7 @@ export default function Home() {
                 label="日程"
                 notched
                 value={dayFilter}
-                onChange={(e)=>handleChangeDayFilter(e)}
+                onChange={(e)=>handleChangeDayFilter(e as SelectChangeEvent<string>)}
               >
                 {tourSchedule.map((day:any) => (
                   <MenuItem key={day.schedule} value={day.schedule}>{day.schedule}</MenuItem>

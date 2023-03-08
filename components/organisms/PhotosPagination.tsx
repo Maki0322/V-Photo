@@ -24,9 +24,8 @@ const PhotosPagination = () => {
   const [currentPage, setCurrentPage] = useRecoilState(currentPageState);
 
   // ページネーションをクリックした時に走る関数
-  const handlePageClick = async({e,index}:any) => {
+  const handlePageClick = () => {
     setCurrentGetPhotos([])
-    setCurrentPage(index)
     window.scrollTo({top:0,behavior: "smooth",});
   }
   
@@ -35,7 +34,8 @@ const PhotosPagination = () => {
       <MyPagination 
         variant="outlined" 
         count={pageCount}
-        onChange={handlePageClick}
+        onChange={(e,page)=>setCurrentPage(page)}
+        onClick={handlePageClick}
         page={currentPage} 
       />
     </>

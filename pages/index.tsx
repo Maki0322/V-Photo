@@ -4,6 +4,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { styled } from '@mui/system';
 import { Select, FormControl, MenuItem, InputLabel } from '@mui/material';
+import { SelectChangeEvent} from "@mui/material";
 
 import Header from '../components/organisms/header/Header'
 import PhotoList from '../components/organisms/photolist/PhotoList';
@@ -253,8 +254,8 @@ export default function Home() {
         return dayFilterStatusVCT2022Stage2;
       case "vct2022: Champions":
         return dayFilterStatusVCT2022Champions;
-      default:
-        return notSelectedTour;
+      // default:
+      //   return notSelectedTour;
     };
   };
   const tourSchedule:any = getTourSchedule();
@@ -262,11 +263,11 @@ export default function Home() {
   // 日程フィルターのプルダウンの値を管理
   const [dayFilter, setDayFilter] = useRecoilState(dayFilterState);
   // 日程フィルターのプルダウンを動かすための関数
-  const handleChangeDayFilter = (e:any) => {
+  const handleChangeDayFilter = (e: SelectChangeEvent<string>) => {
     if(tourSchedule.length<0 && tourSchedule===undefined) return;
     setDayFilter(e.target.value);
     setCurrentPage(1);
-    const schedule = tourSchedule.find(({sc}:any) => sc === e.target.value);
+    const schedule = tourSchedule.find((sc:any) => sc.schedule === e.target.value);
     if (schedule === undefined) return;
     setUrlFilterMinTakenDate(schedule.minDate);
     setUrlFilterMaxTakenDate(schedule.maxDate);
@@ -345,7 +346,7 @@ export default function Home() {
                 label="日程"
                 notched
                 value={dayFilter}
-                onChange={(e)=>handleChangeDayFilter(e)}
+                onChange={(e)=>handleChangeDayFilter(e as SelectChangeEvent<string>)}
               >
                 {tourSchedule.map((day:any) => (
                   <MenuItem key={day.schedule} value={day.schedule}>{day.schedule}</MenuItem>
